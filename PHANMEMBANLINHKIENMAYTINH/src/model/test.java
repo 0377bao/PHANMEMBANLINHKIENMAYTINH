@@ -2,6 +2,7 @@ package model;
 
 import java.time.LocalDate;
 
+
 public class test {
     public static void main(String[] args) {
 		SanPham sp = new SanPham("001", "Máy May", 1000f, 10, "Trường Sơn", LocalDate.of(2020, 1, 12), 12, 500f, 10);
@@ -18,5 +19,13 @@ public class test {
 		System.out.println(ps1);
 		System.out.println(cs1);
 		System.out.println(r1);
+		
+		DSSanPham ds = new DSSanPham();
+		ds.themSanPham(r1);
+		ds.themSanPham(cs1);
+		
+		for(SanPham d:ds.getDSCase()) {
+			System.out.println(d.toString());
+		};
 	}
 }
