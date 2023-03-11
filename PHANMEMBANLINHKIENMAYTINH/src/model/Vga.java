@@ -44,10 +44,12 @@ public class Vga extends SanPham {
 	public void setCudaCores(int cudaCores) {
 		this.cudaCores = cudaCores;
 	}
-    
+
 	@Override
 	public String toString() {
 		String str = String.format(" %10d %10d %10d", getTienTrinh(), getTDP(), getCudaCores());
 		return super.toString() + str;
 	}
+    
+	
 }
