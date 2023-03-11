@@ -3,8 +3,6 @@ package model;
 import java.util.ArrayList;
 
 public class DSSanPham {
-	enum loaiSanPham{CPU, MAIN, VGA, PSU, CASE, RAM};
-	public static loaiSanPham loai;
     private ArrayList<SanPham> ds;
     
     // Tạo danh sách sản phẩm

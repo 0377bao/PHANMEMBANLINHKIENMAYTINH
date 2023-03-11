@@ -2,12 +2,9 @@ package model;
 
 import java.time.LocalDate;
 
-import model.DSSanPham.loaiSanPham;
 
 public class test {
     public static void main(String[] args) {
-    	enum loaiSanPham{CPU, MAIN, VGA, PSU, CASE, RAM};
-    	loaiSanPham k;
 		SanPham sp = new SanPham("001", "Máy May", 1000f, 10, "Trường Sơn", LocalDate.of(2020, 1, 12), 12, 500f, 10);
 		Cpu cp1 = new Cpu("002", "Intel i3-1105g7", 8000f, 20, "Trung Quốc", LocalDate.of(2020,1,29), 12, 7000f, 5, 2, 4, 2.5, 3.0, 6, 8);
 		Main ma1 = new Main("001", "b360", 10000f, 50, "Trung Quốc", LocalDate.of(2022, 3, 15), 12, 8000f, 5, "gahg", "KingTon", "i3-1155g2", "DirectX12", "SSD");
