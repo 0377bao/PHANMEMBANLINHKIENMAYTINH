@@ -20,7 +20,7 @@ public class test {
 		System.out.println(cs1);
 		System.out.println(r1);
 		
-		DSSanPham ds = new DSSanPham();
+		DanhSachSanPham ds = new DanhSachSanPham();
 		ds.themSanPham(r1);
 		ds.themSanPham(cs1);
 		
