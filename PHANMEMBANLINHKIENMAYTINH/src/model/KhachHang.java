@@ -18,6 +18,9 @@ public double getDiemTichLuy() {
 public void setDiemTichLuy(double diemTichLuy) {
 	this.diemTichLuy = diemTichLuy;
 }
+
+
+
 @Override
 public String toString() {
 	return "KhachHang [diemTichLuy=" + diemTichLuy + "]"
