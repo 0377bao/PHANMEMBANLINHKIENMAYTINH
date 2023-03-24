@@ -1,5 +1,7 @@
 package model;
 
+import java.util.Objects;
+
 public class ConNguoi {
 private String ma;
 private String ten;
@@ -56,6 +58,23 @@ public String getDiaChi() {
 public void setDiaChi(String diaChi) {
 	this.diaChi = diaChi;
 }
+@Override
+public int hashCode() {
+	return Objects.hash(ma);
+}
+
+@Override
+public boolean equals(Object obj) {
+	if (this == obj)
+		return true;
+	if (obj == null)
+		return false;
+	if (getClass() != obj.getClass())
+		return false;
+	ConNguoi other = (ConNguoi) obj;
+	return Objects.equals(ma, other.ma);
+}
+
 @Override
 public String toString() {
 	return "ConNguoi [ma=" + ma + ", ten=" + ten + ", SDT=" + SDT + ", gioiTinh=" + gioiTinh + ", email=" + email

@@ -6,11 +6,11 @@ import java.util.Collections;
 import java.util.Comparator;
 import java.util.List;
 
-public class DanhSachKhanhHang {
-	ArrayList<KhachHang> dsKhachHang = new ArrayList<KhachHang>();
+public class DanhSachKhachHang {
+	ArrayList<KhachHang> dsKhachHang;
 
-	public DanhSachKhanhHang(ArrayList<KhachHang> dsKhachHang) {
-		this.dsKhachHang = dsKhachHang;
+	public DanhSachKhachHang() {
+		this.dsKhachHang = new ArrayList<KhachHang>();
 	}
 
 public boolean themKhachHang(KhachHang kH) {
