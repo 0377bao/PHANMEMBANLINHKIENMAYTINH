@@ -16,7 +16,12 @@ public class NhanVien extends ConNguoi{
         this.taikhoan = taikhoan;
         this.matkhau = matkhau;
     }
-    public String getName() {
+    
+    public NhanVien(String ma) {
+		super(ma);
+	}
+
+	public String getName() {
         return name;
     }
 
