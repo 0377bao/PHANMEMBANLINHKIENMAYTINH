@@ -48,7 +48,7 @@ public class ViewDangNhap extends JFrame implements ActionListener{
 		
 		
 		//xét hình nền cho giao diện
-		ImageIcon logoFrame = new ImageIcon(new ImageIcon("Image\\logoFrame.png").getImage().getScaledInstance(25, 25, Image.SCALE_SMOOTH));
+		ImageIcon logoFrame = new ImageIcon(new ImageIcon("Image\\logodangnhap\\logoFrame.png").getImage().getScaledInstance(25, 25, Image.SCALE_SMOOTH));
 		this.setIconImage(logoFrame.getImage());
 		JPanel jpnTitle = new JPanel();
 		
@@ -73,7 +73,7 @@ public class ViewDangNhap extends JFrame implements ActionListener{
 		jpnTitle.add(btnExit);
 		this.add(jpnTitle);
 		
-		ImageIcon logoLogin = new ImageIcon(new ImageIcon("Image\\logoLogin.png").getImage().getScaledInstance(128, 128, Image.SCALE_SMOOTH));
+		ImageIcon logoLogin = new ImageIcon(new ImageIcon("Image\\logodangnhap\\logoLogin.png").getImage().getScaledInstance(128, 128, Image.SCALE_SMOOTH));
 		JLabel lblImgLogion = new JLabel();
 		lblImgLogion.setBounds(130, 60, 128, 128);
 		lblImgLogion.setIcon(logoLogin);
@@ -106,7 +106,7 @@ public class ViewDangNhap extends JFrame implements ActionListener{
 		btnDangNhap.setFocusPainted(false);
 		btnDangNhap.setBorder(null);
 		btnDangNhap.setFont(new Font("arial", Font.BOLD, 14));
-		btnDangNhap.setForeground(Color.white);
+		btnDangNhap.setForeground(mauNenLoGin);
 		btnDangNhap.setBackground(mauChuDao);
 		
 		//xét màu nền cho form login 
