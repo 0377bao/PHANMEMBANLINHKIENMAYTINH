@@ -21,20 +21,38 @@ import javax.swing.Box;
 import javax.swing.BoxLayout;
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
+import javax.swing.JComboBox;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
+import javax.swing.JScrollPane;
+import javax.swing.JTable;
+import javax.swing.plaf.basic.BasicComboBoxUI;
+import javax.swing.table.DefaultTableModel;
 
+import model.MauCacDongTrongBang;
 import model.MyButton;
+import model.MyCombobox;
+import model.MyTable;
 
 public class ViewTrangChu extends JFrame{
+	//PHẦN KHAI BÁO BIẾN LOCAL
 	public Color mauChuDao = new ViewDangNhap().mauChuDao;
-	// component phần control
+	// COMPONENT PHẦN CONTROL
 	private ImageIcon iconHinhNen;
 	private JLabel lblControlTen, lblHinhNenAvt;
 	private MyButton btnControlMuaHang, btnControlSanPham, btnControlHoaDon, btnControlKhuyenMai, btnControlNhanVien, btnControlKhachHang,
 	btnControlThongKe, btnControlThoat;
+	// COMPONENT PHẦN MUA HÀNG
+	// COMPONENT PHẦN SẢN PHẨM
+	// COMPONENT PHẦN HÓA ĐƠN
+	// COMPONENT PHẦN KHUYẾN MÃI
+	// COMPONENT PHẦN NHÂN VIÊN
+	// COMPONENT PHẦN KHÁCH HÀNG
+	// COMPONENT PHẦN THỐNG KÊ
 	
+	//CONSTRUCTER
 	public ViewTrangChu() {
 		// phần init trang chủ
 		this.setTitle("PHẦN MỀM QUẢN LÝ LINH KIỆN MÁY TÍNH");
@@ -46,11 +64,18 @@ public class ViewTrangChu extends JFrame{
 		// xét logo
 		ImageIcon logoFrame = new ImageIcon(new ImageIcon("Image\\logodangnhap\\logoFrame.png").getImage().getScaledInstance(25, 25, Image.SCALE_SMOOTH));
 		this.setIconImage(logoFrame.getImage());
-		this.GUI();
+		this.GUIControl();
+		this.GUIMuaHang();
+		this.GUISanPham();
+		this.GUIHoaDon();
+		this.GUIKhuyenMai();
+		this.GUINhanVien();
+		this.GUIKhachHang();
+		this.GUIThongKe();
 	}
-	
-	public void GUI() {
-		// phần control
+
+	// PHẦN VIẾT GUI CHO CONTROL VÀ THÔNG TIN NHÂN VIÊN
+	public void GUIControl() {
 		JPanel pnlWest = new JPanel();
 		pnlWest.setPreferredSize(new Dimension(200, 0));
 		pnlWest.setBackground(mauChuDao);
@@ -97,9 +122,32 @@ public class ViewTrangChu extends JFrame{
 		
 		pnlWest.add(pnlWestbtn);
 		this.add(pnlWest, BorderLayout.WEST);
-		
+		//test
+		JPanel pnlcbb = new JPanel();
+		MyCombobox cbbbox = new MyCombobox();
+		cbbbox.addItem("Huỳnh Quốc Bảo");
+		cbbbox.addItem("Huỳnh Quốc Bảo");
+		cbbbox.addItem("Huỳnh Quốc Bảo");
+		cbbbox.setPreferredSize(new Dimension(150, 25));
+		pnlcbb.add(cbbbox);
+		this.add(pnlcbb);
 	}
+	//PHẦN VIẾT GUI CHO MUA HÀNG
+	public void GUIMuaHang() {}
+	//PHẦN VIẾT GUI CHO SẢN PHẨM
+	public void GUISanPham() {}
+	//PHẦN VIẾT GUI CHO HÓA ĐƠN
+	public void GUIHoaDon() {}
+	//PHẦN VIẾT GUI CHO KHUYẾN MÃI
+	public void GUIKhuyenMai() {}
+	//PHẦN VIẾT GUI CHO NHÂN VIÊN
+	public void GUINhanVien() {}
+	//PHẦN VIẾT GUI CHO KHÁCH HÀNG
+	public void GUIKhachHang() {}
+	//PHẦN VIẾT GUI CHO THỐNG KÊ
+	public void GUIThongKe() {}
 	
+	//Hàm chuyển ảnh thành hình tròn để làm avt
 	public static ImageIcon taoHinhTronAvt(ImageIcon icon) {
         int diameter = Math.min(icon.getIconWidth(), icon.getIconHeight());
         BufferedImage bi = new BufferedImage(diameter, diameter, BufferedImage.TYPE_INT_ARGB);
@@ -114,6 +162,7 @@ public class ViewTrangChu extends JFrame{
         return iconfinal;
     }
 	
+	// HÀM MAIN
 	public static void main(String[] args) {
 		new ViewTrangChu().setVisible(true);
 	}
