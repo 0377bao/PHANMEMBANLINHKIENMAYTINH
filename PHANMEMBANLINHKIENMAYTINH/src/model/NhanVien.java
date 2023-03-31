@@ -6,14 +6,12 @@ public class NhanVien extends ConNguoi{
     private String name;
     private String position;
     private String cmnd;
-    private String taikhoan;
     private String matkhau;
 
-    public NhanVien(String ma, String ten, String sDT, Boolean gioiTinh, String email, String diaChi, String position, String cmnd, String taikhoan, String matkhau) {
+    public NhanVien(String ma, String ten, String sDT, Boolean gioiTinh, String email, String diaChi, String position, String cmnd, String matkhau) {
         super(ma, ten, sDT, gioiTinh, email, diaChi);
         this.position = position;
         this.cmnd = cmnd;
-        this.taikhoan = taikhoan;
         this.matkhau = matkhau;
     }
     
@@ -33,9 +31,6 @@ public class NhanVien extends ConNguoi{
         return cmnd;
     }
 
-    public String getTaikhoan() {
-        return taikhoan;
-    }
 
     public String getMatkhau() {
         return matkhau;

@@ -1,6 +1,8 @@
 package model;
 
 import java.awt.Color;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 
@@ -9,7 +11,8 @@ import javax.swing.JButton;
 
 import view.ViewDangNhap;
 
-public class MyButton extends JButton implements MouseListener{
+public class MyButton extends JButton implements MouseListener,ActionListener{
+	private int count =0;
 	public MyButton(String title) {
 		super(title);
 		this.setBackground(new ViewDangNhap().mauChuDao);
@@ -21,6 +24,7 @@ public class MyButton extends JButton implements MouseListener{
 	@Override
 	public void mouseClicked(MouseEvent e) {
 		// TODO Auto-generated method stub
+	
 		
 	}
 
@@ -46,5 +50,12 @@ public class MyButton extends JButton implements MouseListener{
 	public void mouseExited(MouseEvent e) {
 		this.setBackground(new ViewDangNhap().mauChuDao);
 		this.setBorder(null);
+		
+	}
+
+	@Override
+	public void actionPerformed(ActionEvent e) {
+		// TODO Auto-generated method stub
+		
 	}
 }
