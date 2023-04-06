@@ -40,7 +40,7 @@ public class MyButton extends JButton implements MouseListener{
 	@Override
 	public void mouseEntered(MouseEvent e) {
 		this.setBackground(new Color(255,165,0));
-		//this.setBorder(BorderFactory.createMatteBorder(1, 0, 1, 0, new ViewDangNhap().mauNenLoGin));
+//		this.setBorder(BorderFactory.createMatteBorder(1, 0, 1, 0, new ViewDangNhap().mauNenLoGin));
 	}
 
 	@Override
