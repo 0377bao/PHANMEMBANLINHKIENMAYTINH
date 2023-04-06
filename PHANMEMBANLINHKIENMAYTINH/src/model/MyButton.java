@@ -1,8 +1,6 @@
 package model;
 
 import java.awt.Color;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 
@@ -11,20 +9,19 @@ import javax.swing.JButton;
 
 import view.ViewDangNhap;
 
-public class MyButton extends JButton implements MouseListener,ActionListener{
-	private int count =0;
+public class MyButton extends JButton implements MouseListener{
 	public MyButton(String title) {
 		super(title);
 		this.setBackground(new ViewDangNhap().mauChuDao);
 		this.setFocusPainted(false);
 		this.setBorder(null);
 		this.addMouseListener(this);
+		this.setBorder(BorderFactory.createRaisedBevelBorder());
 	}
 
 	@Override
 	public void mouseClicked(MouseEvent e) {
 		// TODO Auto-generated method stub
-	
 		
 	}
 
@@ -43,19 +40,12 @@ public class MyButton extends JButton implements MouseListener,ActionListener{
 	@Override
 	public void mouseEntered(MouseEvent e) {
 		this.setBackground(new Color(255,165,0));
-		this.setBorder(BorderFactory.createMatteBorder(1, 0, 1, 0, new ViewDangNhap().mauNenLoGin));
+		//this.setBorder(BorderFactory.createMatteBorder(1, 0, 1, 0, new ViewDangNhap().mauNenLoGin));
 	}
 
 	@Override
 	public void mouseExited(MouseEvent e) {
 		this.setBackground(new ViewDangNhap().mauChuDao);
-		this.setBorder(null);
-		
-	}
-
-	@Override
-	public void actionPerformed(ActionEvent e) {
-		// TODO Auto-generated method stub
-		
+//		this.setBorder(null);
 	}
 }

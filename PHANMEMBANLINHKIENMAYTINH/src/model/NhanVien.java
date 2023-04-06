@@ -3,14 +3,13 @@ package model;
 import java.util.Objects;
 
 public class NhanVien extends ConNguoi{
-    private String name;
-    private String position;
+    private String chucVu;
     private String cmnd;
     private String matkhau;
 
     public NhanVien(String ma, String ten, String sDT, Boolean gioiTinh, String email, String diaChi, String position, String cmnd, String matkhau) {
         super(ma, ten, sDT, gioiTinh, email, diaChi);
-        this.position = position;
+        this.chucVu = position;
         this.cmnd = cmnd;
         this.matkhau = matkhau;
     }
@@ -19,19 +18,9 @@ public class NhanVien extends ConNguoi{
 		super(ma);
 	}
 
-	public String getName() {
-        return name;
-    }
-
-    public String getPosition() {
-        return position;
-    }
-
     public String getCmnd() {
         return cmnd;
     }
-
-
     public String getMatkhau() {
         return matkhau;
     }
@@ -39,9 +28,20 @@ public class NhanVien extends ConNguoi{
     public void setMatkhau(String matkhau) {
         this.matkhau = matkhau;
     }
-
     
-    @Override
+    public String getChucVu() {
+		return chucVu;
+	}
+
+	public void setChucVu(String chucVu) {
+		this.chucVu = chucVu;
+	}
+
+	public void setCmnd(String cmnd) {
+		this.cmnd = cmnd;
+	}
+
+	@Override
     public boolean equals(Object obj) {
         if (obj == null || !(obj instanceof NhanVien)) {
             return false;
