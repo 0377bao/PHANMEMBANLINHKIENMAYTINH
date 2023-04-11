@@ -6,6 +6,7 @@ import java.awt.event.MouseListener;
 
 import javax.swing.BorderFactory;
 import javax.swing.JButton;
+import javax.swing.UIManager;
 
 import view.ViewDangNhap;
 
@@ -27,23 +28,19 @@ public class MyButton extends JButton implements MouseListener{
 
 	@Override
 	public void mousePressed(MouseEvent e) {
-		// TODO Auto-generated method stub
-		
 	}
 
 	@Override
 	public void mouseReleased(MouseEvent e) {
-		// TODO Auto-generated method stub
-		
 	}
 
 	@Override
 	public void mouseEntered(MouseEvent e) {
-		this.setBackground(new Color(255,165,0));
+//		this.setBackground(new Color(255,165,0));
 	}
 
 	@Override
 	public void mouseExited(MouseEvent e) {
-		this.setBackground(new ViewDangNhap().mauChuDao);
+//		this.setBackground(new ViewDangNhap().mauChuDao);
 	}
 }
