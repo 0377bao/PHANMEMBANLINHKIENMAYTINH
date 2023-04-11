@@ -5,6 +5,9 @@ import java.awt.Color;
 import javax.swing.BorderFactory;
 import javax.swing.JButton;
 import javax.swing.JComboBox;
+import javax.swing.border.BevelBorder;
+import javax.swing.border.Border;
+import javax.swing.border.CompoundBorder;
 import javax.swing.plaf.basic.BasicComboBoxUI;
 
 public class MyCombobox extends JComboBox{

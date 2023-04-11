@@ -7,7 +7,7 @@ public class NhanVien extends ConNguoi{
     private String cmnd;
     private String matkhau;
 
-    public NhanVien(String ma, String ten, String sDT, Boolean gioiTinh, String email, String diaChi, String position, String cmnd, String taikhoan, String matkhau) {
+    public NhanVien(String ma, String ten, String sDT, Boolean gioiTinh, String email, String diaChi, String position, String cmnd, String matkhau) {
         super(ma, ten, sDT, gioiTinh, email, diaChi);
         this.chucVu = position;
         this.cmnd = cmnd;
@@ -21,7 +21,6 @@ public class NhanVien extends ConNguoi{
     public String getCmnd() {
         return cmnd;
     }
-
     public String getMatkhau() {
         return matkhau;
     }
