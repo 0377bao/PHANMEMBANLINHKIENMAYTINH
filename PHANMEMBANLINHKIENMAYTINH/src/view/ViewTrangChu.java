@@ -17,6 +17,7 @@ import java.awt.event.ComponentEvent;
 import java.awt.event.ComponentListener;
 import java.awt.geom.Ellipse2D;
 import java.awt.image.BufferedImage;
+import java.sql.SQLException;
 import java.util.Iterator;
 
 import javax.swing.BorderFactory;
@@ -34,15 +35,19 @@ import javax.swing.JScrollPane;
 import javax.swing.JTable;
 import javax.swing.JTextArea;
 import javax.swing.JTextField;
+import javax.swing.border.TitledBorder;
 import javax.swing.plaf.basic.BasicComboBoxUI;
 import javax.swing.table.DefaultTableModel;
 import javax.swing.text.TableView.TableCell;
 
+import DAO.NhanVien_DAO;
+import connectDB.ConnectDB;
 import controller.LocTheoDanhMuc;
 import model.MauCacDongTrongBang;
 import model.MyButton;
 import model.MyCombobox;
 import model.MyTable;
+import model.NhanVien;
 import model.Vga;
 
 public class ViewTrangChu extends JFrame{
@@ -51,7 +56,7 @@ public class ViewTrangChu extends JFrame{
 	// COMPONENT PHẦN CONTROL
 	private ImageIcon iconHinhNen;
 	private JLabel lblControlTen, lblHinhNenAvt;
-	private MyButton btnControlMuaHang, btnControlSanPham, btnControlHoaDon, btnControlKhuyenMai, btnControlNhanVien, btnControlKhachHang,
+	private MyButton btnControlTrangChu,btnControlMuaHang, btnControlSanPham, btnControlHoaDon, btnControlNhanVien, btnControlKhachHang,
 	btnControlThongKe, btnControlThoat;
 	// COMPONENT PHẦN MUA HÀNG
 	private JPanel pnlMuaHang;
@@ -125,6 +130,14 @@ public class ViewTrangChu extends JFrame{
 		this.GUINhanVien();
 		this.GUIKhachHang();
 		this.GUIThongKe();
+		
+		// khởi tạo kết nối đến CSDL
+		try {
+			ConnectDB.getInstance().connect();
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 	}
 
 	// PHẦN VIẾT GUI CHO CONTROL VÀ THÔNG TIN NHÂN VIÊN
@@ -148,6 +161,9 @@ public class ViewTrangChu extends JFrame{
 		pnlWestbtn.setBackground(mauChuDao);
 		Font fontControlBtn = new Font("Futura", Font.BOLD, 15);
 		pnlWestbtn.setLayout(new GridLayout(9, 1));
+		pnlWestbtn.add(btnControlTrangChu = new MyButton("Trang Chủ"));
+		btnControlTrangChu.setIcon(new ImageIcon("Image\\iconcontrolbtntrangchu\\icontrangchu.png"));
+		btnControlTrangChu.setFont(fontControlBtn);
 		pnlWestbtn.add(btnControlMuaHang = new MyButton("Mua Hàng"));
 		btnControlMuaHang.setIcon(new ImageIcon("Image\\iconcontrolbtntrangchu\\iconmuahang.png"));
 		btnControlMuaHang.setFont(fontControlBtn);
@@ -157,9 +173,6 @@ public class ViewTrangChu extends JFrame{
 		pnlWestbtn.add(btnControlHoaDon = new MyButton("Hóa Đơn"));
 		btnControlHoaDon.setIcon(new ImageIcon("Image\\iconcontrolbtntrangchu\\iconhoadon.png"));
 		btnControlHoaDon.setFont(fontControlBtn);
-		pnlWestbtn.add(btnControlKhuyenMai = new MyButton("Khuyến Mãi"));
-		btnControlKhuyenMai.setIcon(new ImageIcon("Image\\iconcontrolbtntrangchu\\iconkhuyenmai.png"));
-		btnControlKhuyenMai.setFont(fontControlBtn);
 		pnlWestbtn.add(btnControlNhanVien = new MyButton("Nhân Viên"));
 		btnControlNhanVien.setIcon(new ImageIcon("Image\\iconcontrolbtntrangchu\\iconnhanvien.png"));
 		btnControlNhanVien.setFont(fontControlBtn);
@@ -179,10 +192,10 @@ public class ViewTrangChu extends JFrame{
 	
 	// bỏ border cho thanh tiêu đề
 	public void boBorderChoButtonThanhNavbar() {
+		btnControlTrangChu.setBorder(null);
 		btnControlMuaHang.setBorder(null);
 		btnControlSanPham.setBorder(null);
 		btnControlHoaDon.setBorder(null);
-		btnControlKhuyenMai.setBorder(null);
 		btnControlThongKe.setBorder(null);
 		btnControlThoat.setBorder(null);
 		btnControlKhachHang.setBorder(null);
@@ -325,10 +338,12 @@ public class ViewTrangChu extends JFrame{
 		pnlMuaHangSP.add(pnlMHSanPham);
 		
 		// phần panel hóa đơn (330 x 700)
-		pnlMuaHangHD.setBackground(Color.white);
-		pnlMuaHangHD.setBorder(BorderFactory.createTitledBorder("Hóa đơn"));
+		TitledBorder titleHoaDon = BorderFactory.createTitledBorder("Hóa đơn");
+		titleHoaDon.setBorder(BorderFactory.createLoweredBevelBorder());
+		pnlMuaHangHD.setBorder(titleHoaDon);
 		pnlMuaHangHD.setLayout(null);
 		Font fontHd = new Font("Arial", Font.PLAIN, 11);
+		Font fontMoney = new Font("Arial", Font.PLAIN, 16);
 		
 		JPanel pnlMHKhachHang = new JPanel();
 		pnlMHKhachHang.setBounds(15, 25, 300, 80);
@@ -358,54 +373,63 @@ public class ViewTrangChu extends JFrame{
 		int xhd = 15, yhd = 120, width = 130;
 		JLabel lblMHHDMahd = new JLabel("Mã hóa đơn: ");
 		lblMHHDMahd.setBounds(xhd, yhd, width, 25);
-		lblMHHDMahds = new JLabel("0");
+		lblMHHDMahds = new JLabel("HD01");
 		lblMHHDMahds.setBounds(xhd + width, yhd, 200, 25);
+		lblMHHDMahds.setFont(fontMoney);
+		lblMHHDMahds.setForeground(mauChuDao);
 		
 		yhd += 45;
 		JLabel lblMHHDTongtien = new JLabel("Tổng tiền: ");
 		lblMHHDTongtien.setBounds(xhd, yhd, width, 25);
-		lblMHHDTongtiens = new JLabel("0");
+		lblMHHDTongtiens = new JLabel("1.000.000");
 		lblMHHDTongtiens.setBounds(xhd + width, yhd, 100, 25);
+		lblMHHDTongtiens.setFont(fontMoney);
 		JLabel lblVnd1 = new JLabel("VND");
 		lblVnd1.setBounds(xhd + width + 110, yhd, 30, 25);
 		
 		yhd += 45;
 		JLabel lblMHHDGiam = new JLabel("Giảm giá: ");
 		lblMHHDGiam.setBounds(xhd, yhd, width, 25);
-		lblMHHDGiams = new JLabel("0");
+		lblMHHDGiams = new JLabel("100.000");
 		lblMHHDGiams.setBounds(xhd + width, yhd, 100, 25);
+		lblMHHDGiams.setFont(fontMoney);
 		JLabel lblVnd2 = new JLabel("VND");
 		lblVnd2.setBounds(xhd + width + 110, yhd, 30, 25);
 		
 		yhd += 45;
 		JLabel lblMHHDThue = new JLabel("Thuế VAT: ");
 		lblMHHDThue.setBounds(xhd, yhd, width, 25);
-		lblMHHDThues = new JLabel("0");
+		lblMHHDThues = new JLabel("100.000");
 		lblMHHDThues.setBounds(xhd + width, yhd, 100, 25);
+		lblMHHDThues.setFont(fontMoney);
 		JLabel lblVnd6 = new JLabel("VND");
 		lblVnd6.setBounds(xhd + width + 110, yhd, 30, 25);
 		
 		yhd += 45;
 		JLabel lblMHHDThanhToan = new JLabel("Thanh toán: ");
 		lblMHHDThanhToan.setBounds(xhd, yhd, width, 25);
-		lblMHHDThanhtoans = new JLabel("0");
+		lblMHHDThanhtoans = new JLabel("1.000.000");
 		lblMHHDThanhtoans.setBounds(xhd + width, yhd, 100, 25);
+		lblMHHDThanhtoans.setFont(fontMoney);
 		JLabel lblVnd3 = new JLabel("VND");
 		lblVnd3.setBounds(xhd + width + 110, yhd, 30, 25);
 		
 		yhd += 45;
 		JLabel lblMHHDTienkhach = new JLabel("Tiền khách đưa: ");
 		lblMHHDTienkhach.setBounds(xhd, yhd, width, 25);
-		txtMHHDTienKhachDua = new JTextField("0");
+		txtMHHDTienKhachDua = new JTextField("2.000.000");
 		txtMHHDTienKhachDua.setBounds(xhd + width, yhd, 100, 25);
+		txtMHHDTienKhachDua.setFont(new Font("Arial", Font.BOLD, 16));
 		JLabel lblVnd4 = new JLabel("VND");
 		lblVnd4.setBounds(xhd + width + 110, yhd, 30, 25);
 		
 		yhd += 45;
 		JLabel lblMHHDTienthua = new JLabel("Tiền thừa trả khách: ");
 		lblMHHDTienthua.setBounds(xhd, yhd, width, 25);
-		lblMHHDTienthuas = new JLabel("0");
+		lblMHHDTienthuas = new JLabel("1.000.000");
 		lblMHHDTienthuas.setBounds(xhd + width, yhd, 100, 25);
+		lblMHHDTienthuas.setFont(new Font("Arial", Font.BOLD, 17));
+		lblMHHDTienthuas.setForeground(mauChuDao);
 		JLabel lblVnd5 = new JLabel("VND");
 		lblVnd5.setBounds(xhd + width + 110, yhd, 30, 25);
 		
@@ -470,7 +494,7 @@ public class ViewTrangChu extends JFrame{
 		pnlMuaHangHD.add(srcMHHDGhichu);
 		pnlMuaHangHD.add(btnMHHDLammoi);
 		pnlMuaHangHD.add(btnMHHDThanhToan);
-//		this.add(pnlMuaHang);
+		this.add(pnlMuaHang);
 	}
 	
 	public void khoiTaoBangCase() {
@@ -927,7 +951,7 @@ public class ViewTrangChu extends JFrame{
 		pnlSanPham.add(pnlSPThongTin);
 		pnlSanPham.add(pnlLocSP);
 		pnlSanPham.add(scroll);
-		this.add(pnlSanPham);
+//		this.add(pnlSanPham);
 	}
 	
 	public void themItemChoCbbNgayThangNam() {
