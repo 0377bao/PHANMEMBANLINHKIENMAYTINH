@@ -47,6 +47,7 @@ import javax.swing.plaf.basic.BasicComboBoxUI;
 import javax.swing.table.DefaultTableModel;
 import javax.swing.text.TableView.TableCell;
 
+import controller.LocTheoDanhMuc;
 import model.MauCacDongTrongBang;
 import model.MyButton;
 import model.MyCombobox;
@@ -110,8 +111,8 @@ public class ViewTrangChu extends JFrame {
 	private MyCombobox cbbSPLocDanhMuc, cbbSPLocNhaSX, cbbSPLocGia;
 	private JTextField txtSPLocTimKiem;
 	// phần table sản phẩm
-	private DefaultTableModel modelSP;
-	private MyTable tableSP;
+	public DefaultTableModel modelSP;
+	public MyTable tableSP;
 	// COMPONENT PHẦN HÓA ĐƠN
 	// COMPONENT PHẦN KHUYẾN MÃI
 	// COMPONENT PHẦN NHÂN VIÊN
@@ -527,7 +528,7 @@ public class ViewTrangChu extends JFrame {
 		cbbSPDanhMuc.addItem("VGA");	
 		cbbSPDanhMuc.setBounds(x + widthlbl + 10, y, widthtext, height);
 		// add sự kiện cho lọc danh mục sản phẩm
-
+        cbbSPDanhMuc.addActionListener(new LocTheoDanhMuc(this));
 		
 		y+= 40;
 		JLabel lblSPMa = new JLabel("Mã sản phẩm:");
@@ -644,6 +645,8 @@ public class ViewTrangChu extends JFrame {
 		pnlSPCPU.add(txtSPBoNhoDem);
 		pnlSPCPU.add(lblSPBoNhoToiDa);
 		pnlSPCPU.add(txtSPBoNhoToiDa);
+		
+	
 		
 		// phần sản phẩm Vga
 	    pnlSPVGA = new JPanel();
@@ -917,6 +920,15 @@ public class ViewTrangChu extends JFrame {
 		pnlLocSP.add(pnlLocSP2);
 		pnlLocSP.add(pnlLocSP3);
 		pnlLocSP.add(pnlLocSP4);
+		
+		// đổi màu panel
+		pnlSPCPU.setBackground(Color.white);
+		pnlSPMAIN.setBackground(Color.WHITE);
+		pnlSPVGA.setBackground(Color.WHITE);
+		pnlSPPSU.setBackground(Color.WHITE);
+		pnlSPRam.setBackground(Color.WHITE);
+		pnlSPCase.setBackground(Color.WHITE);
+		
 
 		// phần table sản phẩm
 		String[] cols = {"Mã sản phẩm", "Tên Sản Phẩm", "Giá Bán", "Số Lượng Tồn", "Nhà Sản Xuất", "Ngày Sản Xuất", "Bảo Hành", "Giá Nhập", "Giảm Giá"};
@@ -924,15 +936,18 @@ public class ViewTrangChu extends JFrame {
 		tableSP = new MyTable(modelSP);
 		JScrollPane scroll = new JScrollPane(tableSP);
 		scroll.setBounds(10, 380, 1065, 325);
+		
+		// add sự kiện click cho table
+		tableSP.addMouseListener(new LocTheoDanhMuc(this));
 
 		// thêm các đối tượng để fill vào table
 		modelSP.addRow(new Object[] {"N001", "CPU", 1000, 5, "Acer", "12-05-2023", 1, 800, 2});
 		modelSP.addRow(new Object[] {"N002", "VGA", 2000, 6, "MSI", "12-06-2023", 1, 1800, 1});
 		modelSP.addRow(new Object[] {"N003", "PSU", 3000, 7, "HP", "12-07-2023", 1, 2800, 2});
 		modelSP.addRow(new Object[] {"N004", "MAIN", 4000, 8, "Dell", "12-08-2023", 1, 3800, 1});
-		modelSP.addRow(new Object[] {"N005", "Ram", 5000, 9, "Acer", "12-09-2023", 1, 4800, 2});
+		modelSP.addRow(new Object[] {"N005", "RAM", 5000, 9, "Acer", "12-09-2023", 1, 4800, 2});
 		modelSP.addRow(new Object[] {"N006", "Case", 6000, 10, "MSI", "12-10-2023", 1, 5800, 1});
-		modelSP.addRow(new Object[] {"N007", "Ram", 7000, 11, "Dell", "12-11-2023", 1, 6800, 2});
+		modelSP.addRow(new Object[] {"N007", "RAM", 7000, 11, "Dell", "12-11-2023", 1, 6800, 2});
 		modelSP.addRow(new Object[] {"N008", "CPU", 8000, 12, "MSI", "12-01-2023", 1, 7800, 2});
 		modelSP.addRow(new Object[] {"N009", "MAIN", 9000, 13, "Acer", "12-03-2023", 1, 8800, 1});
 		modelSP.addRow(new Object[] {"N009", "MAIN", 9000, 13, "Acer", "12-03-2023", 1, 8800, 1});
@@ -943,6 +958,9 @@ public class ViewTrangChu extends JFrame {
 		pnlSanPham.add(pnlSPThongTin);
 		pnlSanPham.add(pnlLocSP);
 		pnlSanPham.add(scroll);
+		pnlSanPham.setBackground(Color.WHITE);
+		pnlSPThongTin.setBackground(Color.WHITE);
+		pnlLocSP.setBackground(Color.WHITE);
 		this.add(pnlSanPham);
 	}
 	
