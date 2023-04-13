@@ -23,11 +23,19 @@ public class NhanVien_DAO {
 			Statement statement = con.createStatement();
 			ResultSet rs = statement.executeQuery(sql);
 			while (rs.next()) {
-				String ten = rs.getString("ten");
-				System.out.println(ten);
+				String ma = rs.getString("ma").trim();
+				String ten = rs.getString("ten").trim();
+				String sdt = rs.getString("sdt").trim();
+				boolean gioiTinh = rs.getBoolean("gioiTinh");
+				String email = rs.getString("email").trim();
+				String diaChi = rs.getString("diaChi").trim();
+				String chucVu = rs.getString("chucVu").trim();
+				String cmnd = rs.getString("cmnd").trim();
+				String matKhau = rs.getString("matKhau").trim();
+				NhanVien them = new NhanVien(ma, ten, sdt, gioiTinh, email, diaChi, chucVu, cmnd, matKhau);
+				ds.add(them);
 			}
 		} catch (SQLException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 		return ds;

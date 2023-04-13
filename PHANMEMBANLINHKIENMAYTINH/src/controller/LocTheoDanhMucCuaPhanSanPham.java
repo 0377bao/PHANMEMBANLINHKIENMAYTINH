@@ -7,9 +7,9 @@ import java.awt.event.MouseListener;
 
 import view.ViewTrangChu;
 
-public class LocTheoDanhMuc implements ActionListener, MouseListener{
+public class LocTheoDanhMucCuaPhanSanPham implements ActionListener, MouseListener{
 	private ViewTrangChu trangchu;
-	public LocTheoDanhMuc(ViewTrangChu view) {
+	public LocTheoDanhMucCuaPhanSanPham(ViewTrangChu view) {
 		trangchu = view;
 	}
 	

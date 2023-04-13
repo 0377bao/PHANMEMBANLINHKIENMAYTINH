@@ -54,4 +54,11 @@ public class NhanVien extends ConNguoi{
         return Objects.hash(getMa());
     }
 
+	@Override
+	public String toString() {
+		return super.toString() + "NhanVien [chucVu=" + chucVu + ", cmnd=" + cmnd + ", matkhau=" + matkhau + "]";
+	}
+
+    
+    
 }
