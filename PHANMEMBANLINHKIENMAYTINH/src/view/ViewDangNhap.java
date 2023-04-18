@@ -23,9 +23,10 @@ import javax.swing.JTextField;
 import javax.swing.UIManager;
 import javax.swing.plaf.ColorUIResource;
 
-import BUS.NhanVien_BUS;
+//import BUS.NhanVien_BUS;
 import connectDB.ConnectDB;
 import model.MyButton;
+import model.NhanVien;
 
 public class ViewDangNhap extends JFrame implements ActionListener{
 	public Color mauNenLoGin = new Color(64,64,64);
@@ -34,7 +35,7 @@ public class ViewDangNhap extends JFrame implements ActionListener{
 	private JPasswordField txtPassWord;
 	private JButton btnDangNhap;
 	public Font fontLabel = new Font("Arial", Font.BOLD, 12);
-	private NhanVien_BUS nvbus = new NhanVien_BUS();
+	//private NhanVien_BUS nvbus = new NhanVien_BUS();
 	
 	public ViewDangNhap() {
 		try {
@@ -102,7 +103,8 @@ public class ViewDangNhap extends JFrame implements ActionListener{
 	}
 	
 	public static void main(String[] args) {
-		new ViewDangNhap().setVisible(true);
+		NhanVien nv = new NhanVien("123");
+		new ViewTrangChu(nv).setVisible(true);
 	}
 
 	@Override
@@ -113,14 +115,14 @@ public class ViewDangNhap extends JFrame implements ActionListener{
 		}else {
 			String u = txtUserName.getText();
 			String p = txtPassWord.getText();
-			if(nvbus.kiemTraDangNhap(u, p) != null) {
-				JOptionPane.showMessageDialog(this, "Đăng nhập thành công");
-				this.setVisible(false);
-				new ViewTrangChu(nvbus.kiemTraDangNhap(u, p)).setVisible(true);
-			}else {
-				JOptionPane.showMessageDialog(this, "Thông tin đăng nhập không chính xác. Vui lòng kiểm tra lại tên đăng nhập hoặc mật khẩu");
-				txtUserName.requestFocus();
-			}
+//			//if(nvbus.kiemTraDangNhap(u, p) != null) {
+//				JOptionPane.showMessageDialog(this, "Đăng nhập thành công");
+//				this.setVisible(false);
+//				new ViewTrangChu(nvbus.kiemTraDangNhap(u, p)).setVisible(true);
+//			}else {
+//				JOptionPane.showMessageDialog(this, "Thông tin đăng nhập không chính xác. Vui lòng kiểm tra lại tên đăng nhập hoặc mật khẩu");
+//				txtUserName.requestFocus();
+//			}
 		}
 	}
 	

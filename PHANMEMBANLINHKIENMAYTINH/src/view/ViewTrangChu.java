@@ -58,9 +58,12 @@ import javax.swing.table.DefaultTableModel;
 import javax.swing.text.TableView.TableCell;
 
 import connectDB.ConnectDB;
-import controller.LocTheoDanhMucCuaPhanMuaHang;
-import controller.LocTheoDanhMucCuaPhanSanPham;
 import controller.XuLyDieuHuongPhanMem;
+//import connectDB.ConnectDB;
+//import controller.LocTheoDanhMucCuaPhanMuaHang;
+//import controller.LocTheoDanhMucCuaPhanSanPham;
+//import controller.XuLyDieuHuongPhanMem;
+//>>>>>>> b5ad0b8b32a9f449a31933487bbe634cad168515
 import model.MauCacDongTrongBang;
 import model.MyButton;
 import model.MyCombobox;
@@ -244,8 +247,8 @@ public class ViewTrangChu extends JFrame {
 		iconHinhNen = new ImageIcon("Image\\logodangnhap\\logoFrame.png");
 
 		pnlWest.add(Box.createVerticalStrut(10));
-		pnlWest.add(lblHinhNenAvt = new JLabel(taoHinhTronAvt(iconHinhNen)));
-		lblHinhNenAvt.setAlignmentX(Component.CENTER_ALIGNMENT);
+	//	pnlWest.add(lblHinhNenAvt = new JLabel(taoHinhTronAvt(iconHinhNen)));
+		//lblHinhNenAvt.setAlignmentX(Component.CENTER_ALIGNMENT);
 
 		pnlWest.add(Box.createVerticalStrut(10));
 		pnlWest.add(lblControlTen = new JLabel());
@@ -332,6 +335,7 @@ public class ViewTrangChu extends JFrame {
 		// Tạo thông tin nhân viên
 
 		Box bInfor = Box.createVerticalBox();
+		Box bLayout = Box.createHorizontalBox();
 		Box bInfor_1 = Box.createHorizontalBox();
 		Box bInfor_2 = Box.createHorizontalBox();
 		Box bInfor_3 = Box.createHorizontalBox();
@@ -340,45 +344,56 @@ public class ViewTrangChu extends JFrame {
 		pnlInfor_6 = new JPanel();
 
 		bInfor.add(Box.createRigidArea(new Dimension(0, 20)));
-
+		
+		// line layout
+		
+		bLayout.add(Box.createRigidArea(new Dimension(850, 1)));
+		
 		// line 1
 		bInfor_1.add(lblMaNV = new JLabel("Mã NV"));
 		lblMaNV.setPreferredSize(new Dimension(80, 20));
 		bInfor_1.add(txtMaNV = new JTextField(20));
+		txtMaNV.setPreferredSize(new Dimension(0, 25));
 		bInfor_1.add(Box.createRigidArea(new Dimension(120, 0)));
 		bInfor_1.add(lblSDT = new JLabel("Điện thoại"));
 		lblSDT.setPreferredSize(new Dimension(80, 20));
 		bInfor_1.add(txtSDT = new JTextField(20));
+		txtSDT.setPreferredSize(new Dimension(0, 25));
 
 		// line 2
 		bInfor_2.add(lblTen = new JLabel("Tên NV"));
 		lblTen.setPreferredSize(new Dimension(80, 20));
 		bInfor_2.add(txtTen = new JTextField(20));
+		txtTen.setPreferredSize(new Dimension(0, 25));
 		bInfor_2.add(Box.createRigidArea(new Dimension(120, 0)));
 		bInfor_2.add(lblNS = new JLabel("Ngày Sinh"));
 		lblNS.setPreferredSize(new Dimension(80, 20));
 		bInfor_2.add(txtNS = new JTextField(20));
+		txtNS.setPreferredSize(new Dimension(0, 25));
 
 		// line 3
 		bInfor_3.add(lblMK = new JLabel("Mật Khẩu"));
 		lblMK.setPreferredSize(new Dimension(80, 20));
 		bInfor_3.add(txtMK = new JTextField(20));
+		txtMK.setPreferredSize(new Dimension(0, 25));
 		bInfor_3.add(Box.createRigidArea(new Dimension(120, 0)));
 		bInfor_3.add(lblEmail = new JLabel("Email"));
 		lblEmail.setPreferredSize(new Dimension(80, 20));
 		bInfor_3.add(txtEmail = new JTextField(20));
+		txtEmail.setPreferredSize(new Dimension(0, 25));
 
 		// line 4
 		bInfor_4.add(lblVaiTro = new JLabel("Vai Trò"));
 		lblVaiTro.setPreferredSize(new Dimension(80, 20));
 		comboVaiTro = new MyCombobox();
 		comboVaiTro.addItem("Quản lý");
-		comboVaiTro.addItem("Nhân viên");
-		comboVaiTro.setPreferredSize(new Dimension(20, 20));
+		comboVaiTro.addItem("Nhân viên");	
 		bInfor_4.add(comboVaiTro);
+		comboVaiTro.setPreferredSize(new Dimension(120, 25));
 		bInfor_4.add(Box.createRigidArea(new Dimension(120, 0)));
 		bInfor_4.add(lblGioiTinh = new JLabel("Giới Tính"));
-		lblGioiTinh.setPreferredSize(new Dimension(180, 20));
+		lblGioiTinh.setPreferredSize(new Dimension(80, 20));
+		bInfor_4.add(Box.createRigidArea(new Dimension(162, 20)));
 		bInfor_4.add(radNam_NV = new JRadioButton("Nam"));
 		bInfor_4.add(Box.createRigidArea(new Dimension(30, 0)));
 		bInfor_4.add(radNu_NV = new JRadioButton("Nữ"));
@@ -390,6 +405,7 @@ public class ViewTrangChu extends JFrame {
 		bInfor_5.add(lblDiaChi = new JLabel("Địa Chỉ"));
 		lblDiaChi.setPreferredSize(new Dimension(80, 20));
 		bInfor_5.add(txtDiaChi = new JTextField(20));
+		txtDiaChi.setPreferredSize(new Dimension(0, 25));
 		bInfor_5.add(Box.createRigidArea(new Dimension(120, 0)));
 		bInfor_5.add(lblCMND = new JLabel("CNMD/CCCD"));
 		lblCMND.setPreferredSize(new Dimension(80, 20));
@@ -407,6 +423,7 @@ public class ViewTrangChu extends JFrame {
 		btnLamMoiNhanVien.setPreferredSize(new Dimension(70, 30));
 
 		// add các line vào
+		bInfor.add(bLayout);
 		bInfor.add(bInfor_1);
 		bInfor.add(Box.createRigidArea(new Dimension(0, 20)));
 		bInfor.add(bInfor_2);
@@ -583,7 +600,7 @@ public class ViewTrangChu extends JFrame {
 		cbbMHDanhMuc.addItem("MAIN");
 		cbbMHDanhMuc.setBounds(545, 50, 150, 25);
 		// thêm sự kiện cho phần danh mục mua hàng để đổi bảng sản phẩm khi chọn một loại danh mục
-		cbbMHDanhMuc.addActionListener(new LocTheoDanhMucCuaPhanMuaHang(this));
+//		cbbMHDanhMuc.addActionListener(new LocTheoDanhMucCuaPhanMuaHang(this));
 
 		pnlMHSanPham.add(lblMHTimSP);
 		pnlMHSanPham.add(txtMHTimSP);
@@ -904,7 +921,7 @@ public class ViewTrangChu extends JFrame {
 		cbbSPDanhMuc.addItem("VGA");
 		cbbSPDanhMuc.setBounds(x + widthlbl + 10, y, widthtext, height);
 		// add sự kiện cho lọc danh mục sản phẩm
-		cbbSPDanhMuc.addActionListener(new LocTheoDanhMucCuaPhanSanPham(this));
+//		cbbSPDanhMuc.addActionListener(new LocTheoDanhMucCuaPhanSanPham(this));
 
 		y += 40;
 		JLabel lblSPMa = new JLabel("Mã sản phẩm:");
@@ -1309,7 +1326,7 @@ public class ViewTrangChu extends JFrame {
 		scroll.setBounds(10, 380, 1065, 325);
 
 		// add sự kiện click cho table
-		tableSP.addMouseListener(new LocTheoDanhMucCuaPhanSanPham(this));
+//		tableSP.addMouseListener(new LocTheoDanhMucCuaPhanSanPham(this));
 
 		// thêm các đối tượng để fill vào table
 		modelSP.addRow(new Object[] { "N001", "CPU", 1000, 5, "Acer", "12-05-2023", 1, 800, 2 });
