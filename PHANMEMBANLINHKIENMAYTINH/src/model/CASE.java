@@ -2,16 +2,16 @@ package model;
 
 import java.time.LocalDate;
 
-public class Case extends SanPham {
+public class CASE extends SanPham {
 	private String chatLieu;
 	private String mau;
 	private String tuongThich;
 
-	public Case() {
+	public CASE() {
 		
 	}
 
-	public Case(String maSanPham, String tenSanPham, double giaBan, int soLuongTonKho, String nhaSanXuat,
+	public CASE(String maSanPham, String tenSanPham, double giaBan, int soLuongTonKho, String nhaSanXuat,
 			LocalDate ngaySanXuat, int baoHanh, double giaNhap, int giamGia, String chatLieu, String mau,
 			String tuongThich) {
 		super(maSanPham, tenSanPham, giaBan, soLuongTonKho, nhaSanXuat, ngaySanXuat, baoHanh, giaNhap, giamGia);

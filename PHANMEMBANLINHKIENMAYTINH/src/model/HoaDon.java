@@ -32,58 +32,58 @@ public class HoaDon {
 		this.maHoaDon = maHoaDon;
 	}
 
-	String getMaHoaDon() {
+	public String getMaHoaDon() {
 		return maHoaDon;
 	}
-	void setMaHoaDon(String maHoaDon) {
+	public void setMaHoaDon(String maHoaDon) {
 		this.maHoaDon = maHoaDon;
 	}
-	LocalDate getNgayLapHoaDon() {
+	public LocalDate getNgayLapHoaDon() {
 		return ngayLapHoaDon;
 	}
-	void setNgayLapHoaDon(LocalDate ngayLapHoaDon) {
+	public void setNgayLapHoaDon(LocalDate ngayLapHoaDon) {
 		this.ngayLapHoaDon = ngayLapHoaDon;
 	}
-	double getTienKhachTra() {
+	public double getTienKhachTra() {
 		return tienKhachTra;
 	}
-	void setTienKhachTra(double tienKhachTra) {
+	public void setTienKhachTra(double tienKhachTra) {
 		this.tienKhachTra = tienKhachTra;
 	}
-	ArrayList<ChiTietHoaDon> getDsChiTietHoaDon() {
+	public ArrayList<ChiTietHoaDon> getDsChiTietHoaDon() {
 		return dsChiTietHoaDon;
 	}
-	void setDsChiTietHoaDon(ArrayList<ChiTietHoaDon> dsChiTietHoaDon) {
+	public void setDsChiTietHoaDon(ArrayList<ChiTietHoaDon> dsChiTietHoaDon) {
 		this.dsChiTietHoaDon = dsChiTietHoaDon;
 	}
-	String getHinhThucThanhToan() {
+	public String getHinhThucThanhToan() {
 		return hinhThucThanhToan;
 	}
-	void setHinhThucThanhToan(String hinhThucThanhToan) {
+	public void setHinhThucThanhToan(String hinhThucThanhToan) {
 		this.hinhThucThanhToan = hinhThucThanhToan;
 	}
-	String getGhiChu() {
+	public String getGhiChu() {
 		return ghiChu;
 	}
-	void setGhiChu(String ghiChu) {
+	public void setGhiChu(String ghiChu) {
 		this.ghiChu = ghiChu;
 	}
-	double getThueVAT() {
+	public double getThueVAT() {
 		return thueVAT;
 	}
-	void setThueVAT(double thueVAT) {
+	public void setThueVAT(double thueVAT) {
 		this.thueVAT = thueVAT;
 	}
-	KhachHang getKhachHang() {
+	public KhachHang getKhachHang() {
 		return khachHang;
 	}
-	void setKhachHang(KhachHang khachHang) {
+	public void setKhachHang(KhachHang khachHang) {
 		this.khachHang = khachHang;
 	}
-	NhanVien getNhanVien() {
+	public NhanVien getNhanVien() {
 		return nhanVien;
 	}
-	void setNhanVien(NhanVien nhanVien) {
+	public void setNhanVien(NhanVien nhanVien) {
 		this.nhanVien = nhanVien;
 	}
 	

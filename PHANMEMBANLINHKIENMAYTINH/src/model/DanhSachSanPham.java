@@ -66,7 +66,7 @@ public class DanhSachSanPham {
     public ArrayList<SanPham> getDSCpu() {
     	ArrayList<SanPham> dsCPU = new ArrayList<>();
     		for (SanPham sP : ds) {
-				if(sP instanceof Cpu) {
+				if(sP instanceof CPU) {
 					dsCPU.add(sP);
 				}
 			}
@@ -77,7 +77,7 @@ public class DanhSachSanPham {
     public ArrayList<SanPham> getDSMain() {
     	ArrayList<SanPham> dsMain = new ArrayList<>();
     		for (SanPham sP : ds) {
-				if(sP instanceof Main) {
+				if(sP instanceof MAIN) {
 					dsMain.add(sP);
 				}
 			}
@@ -88,7 +88,7 @@ public class DanhSachSanPham {
     public ArrayList<SanPham> getDSVga() {
     	ArrayList<SanPham> dsVGA = new ArrayList<>();
     		for (SanPham sP : ds) {
-				if(sP instanceof Vga) {
+				if(sP instanceof VGA) {
 					dsVGA.add(sP);
 				}
 			}
@@ -99,7 +99,7 @@ public class DanhSachSanPham {
     public ArrayList<SanPham> getDSPsu() {
     	ArrayList<SanPham> dsPSU = new ArrayList<>();
     		for (SanPham sP : ds) {
-				if(sP instanceof Psu) {
+				if(sP instanceof PSU) {
 					dsPSU.add(sP);
 				}
 			}
@@ -110,7 +110,7 @@ public class DanhSachSanPham {
     public ArrayList<SanPham> getDSCase() {
     	ArrayList<SanPham> dsCASE = new ArrayList<>();
     		for (SanPham sP : ds) {
-				if(sP instanceof Case) {
+				if(sP instanceof CASE) {
 					dsCASE.add(sP);
 				}
 			}
@@ -121,7 +121,7 @@ public class DanhSachSanPham {
     public ArrayList<SanPham> getDSRam() {
     	ArrayList<SanPham> dsRAM = new ArrayList<>();
     		for (SanPham sP : ds) {
-				if(sP instanceof Ram) {
+				if(sP instanceof RAM) {
 					dsRAM.add(sP);
 				}
 			}

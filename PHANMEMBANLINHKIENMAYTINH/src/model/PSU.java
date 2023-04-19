@@ -2,18 +2,18 @@ package model;
 
 import java.time.LocalDate;
 
-public class Psu extends SanPham {
+public class PSU extends SanPham {
 	private int congSuat;
 	private int hieuSuat;
 	private int tuoiTho;
 
 
 
-	public Psu() {
+	public PSU() {
 		
 	}
 
-	public Psu(String maSanPham, String tenSanPham, double giaBan, int soLuongTonKho, String nhaSanXuat,
+	public PSU(String maSanPham, String tenSanPham, double giaBan, int soLuongTonKho, String nhaSanXuat,
 			LocalDate ngaySanXuat, int baoHanh, double giaNhap, int giamGia, int congSuat, int hieuSuat, int tuoiTho) {
 		super(maSanPham, tenSanPham, giaBan, soLuongTonKho, nhaSanXuat, ngaySanXuat, baoHanh, giaNhap, giamGia);
 		this.congSuat = congSuat;

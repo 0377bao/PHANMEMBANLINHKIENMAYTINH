@@ -2,17 +2,17 @@ package model;
 
 import java.time.LocalDate;
 
-public class Vga extends SanPham {
+public class VGA extends SanPham {
 	private int tienTrinh;
 	private int TDP;
 	private int cudaCores;
 
-	public Vga() {
+	public VGA() {
 		
 	}
 
 	
-	public Vga(String maSanPham, String tenSanPham, double giaBan, int soLuongTonKho, String nhaSanXuat,
+	public VGA(String maSanPham, String tenSanPham, double giaBan, int soLuongTonKho, String nhaSanXuat,
 			LocalDate ngaySanXuat, int baoHanh, double giaNhap, int giamGia, int tienTrinh, int tDP, int cudaCores) {
 		super(maSanPham, tenSanPham, giaBan, soLuongTonKho, nhaSanXuat, ngaySanXuat, baoHanh, giaNhap, giamGia);
 		this.tienTrinh = tienTrinh;

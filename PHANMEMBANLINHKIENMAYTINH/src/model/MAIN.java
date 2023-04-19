@@ -2,7 +2,7 @@ package model;
 
 import java.time.LocalDate;
 
-public class Main extends SanPham {
+public class MAIN extends SanPham {
 	private String chipSet;
 	private String ramHoTro;
 	private String cpuHoTro;
@@ -10,11 +10,11 @@ public class Main extends SanPham {
 	private String oCungHoTro;
 
 
-	public Main() {
+	public MAIN() {
 		
 	}
 
-	public Main(String maSanPham, String tenSanPham, double giaBan, int soLuongTonKho, String nhaSanXuat,
+	public MAIN(String maSanPham, String tenSanPham, double giaBan, int soLuongTonKho, String nhaSanXuat,
 			LocalDate ngaySanXuat, int baoHanh, double giaNhap, int giamGia, String chipSet, String ramHoTro,
 			String cpuHoTro, String doHoa, String oCungHoTro) {
 		super(maSanPham, tenSanPham, giaBan, soLuongTonKho, nhaSanXuat, ngaySanXuat, baoHanh, giaNhap, giamGia);

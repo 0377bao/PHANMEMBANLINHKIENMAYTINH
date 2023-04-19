@@ -2,7 +2,7 @@ package model;
 
 import java.time.LocalDate;
 
-public class Cpu extends SanPham {
+public class CPU extends SanPham {
 	private int soLoi;
 	private int soLuong;
 	private double tanSoCoSo;
@@ -10,11 +10,11 @@ public class Cpu extends SanPham {
 	private int boNhoDem;
 	private int boNhoToiDa;
 
-	public Cpu() {
+	public CPU() {
 		
 	}
 	
-	public Cpu(String maSanPham, String tenSanPham, double giaBan, int soLuongTonKho, String nhaSanXuat,
+	public CPU(String maSanPham, String tenSanPham, double giaBan, int soLuongTonKho, String nhaSanXuat,
 			LocalDate ngaySanXuat, int baoHanh, double giaNhap, int giamGia, int soLoi, int soLuong, double tanSoCoSo,
 			double tanSoTurbo, int boNhoDem, int boNhoToiDa) {
 		super(maSanPham, tenSanPham, giaBan, soLuongTonKho, nhaSanXuat, ngaySanXuat, baoHanh, giaNhap, giamGia);

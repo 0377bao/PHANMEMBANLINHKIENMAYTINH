@@ -2,15 +2,15 @@ package model;
 
 import java.time.LocalDate;
 
-public class Ram extends SanPham{
+public class RAM extends SanPham{
 	private int dungLuong;
 	private int tocDo;
 
-	public Ram() {
+	public RAM() {
 		
 	}
 
-	public Ram(String maSanPham, String tenSanPham, double giaBan, int soLuongTonKho, String nhaSanXuat,
+	public RAM(String maSanPham, String tenSanPham, double giaBan, int soLuongTonKho, String nhaSanXuat,
 			LocalDate ngaySanXuat, int baoHanh, double giaNhap, int giamGia, int dungLuong, int tocDo) {
 		super(maSanPham, tenSanPham, giaBan, soLuongTonKho, nhaSanXuat, ngaySanXuat, baoHanh, giaNhap, giamGia);
 		this.dungLuong = dungLuong;
