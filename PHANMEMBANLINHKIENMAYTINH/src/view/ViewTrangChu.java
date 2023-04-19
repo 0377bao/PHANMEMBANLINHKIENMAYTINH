@@ -371,15 +371,14 @@ public class ViewTrangChu extends JFrame {
 		txtSDT.setPreferredSize(new Dimension(0, 25));
 
 		// line 2
-		bInfor_2.add(lblTen = new JLabel("Tên NV"));
-		lblTen.setPreferredSize(new Dimension(80, 20));
-		bInfor_2.add(txtTen = new JTextField(20));
-		txtTen.setPreferredSize(new Dimension(0, 25));
+		bInfor_2.add(lblDiaChi = new JLabel("Địa Chỉ"));
+		lblDiaChi.setPreferredSize(new Dimension(80, 20));
+		bInfor_2.add(txtDiaChi = new JTextField(20));
+		txtDiaChi.setPreferredSize(new Dimension(0, 25));
 		bInfor_2.add(Box.createRigidArea(new Dimension(120, 0)));
-		bInfor_2.add(lblNS = new JLabel("Ngày Sinh"));
-		lblNS.setPreferredSize(new Dimension(80, 20));
-		bInfor_2.add(txtNS = new JTextField(20));
-		txtNS.setPreferredSize(new Dimension(0, 25));
+		bInfor_2.add(lblCMND = new JLabel("CNMD/CCCD"));
+		lblCMND.setPreferredSize(new Dimension(80, 20));
+		bInfor_2.add(txtCMND = new JTextField(20));
 
 		// line 3
 		bInfor_3.add(lblMK = new JLabel("Mật Khẩu"));
@@ -413,14 +412,11 @@ public class ViewTrangChu extends JFrame {
 		gr.add(radNu_NV);
 
 		// line 5
-		bInfor_5.add(lblDiaChi = new JLabel("Địa Chỉ"));
-		lblDiaChi.setPreferredSize(new Dimension(80, 20));
-		bInfor_5.add(txtDiaChi = new JTextField(20));
-		txtDiaChi.setPreferredSize(new Dimension(0, 25));
-		bInfor_5.add(Box.createRigidArea(new Dimension(120, 0)));
-		bInfor_5.add(lblCMND = new JLabel("CNMD/CCCD"));
-		lblCMND.setPreferredSize(new Dimension(80, 20));
-		bInfor_5.add(txtCMND = new JTextField(20));
+		bInfor_5.add(lblTen = new JLabel("Tên NV"));
+		lblTen.setPreferredSize(new Dimension(80, 20));
+		bInfor_5.add(txtTen = new JTextField(20));
+		txtTen.setPreferredSize(new Dimension(0, 25));
+		bInfor_5.add(Box.createRigidArea(new Dimension(487, 0)));
 
 		// line 6
 		pnlInfor_6.add(btnThemNhanVien = new MyButton("Thêm"));
