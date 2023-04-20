@@ -60,6 +60,8 @@ import javax.swing.text.TableView.TableCell;
 import BUS.KhachHang_BUS;
 import connectDB.ConnectDB;
 import controller.XuLyDieuHuongPhanMem;
+import controller.XuLySuKien_GUIKhachHang;
+import model.KhachHang;
 //import connectDB.ConnectDB;
 //import controller.LocTheoDanhMucCuaPhanMuaHang;
 //import controller.LocTheoDanhMucCuaPhanSanPham;
@@ -187,7 +189,7 @@ public class ViewTrangChu extends JFrame {
 	private JPanel pnlInfor_6;
 	// COMPONENT PHẦN KHÁCH HÀNG
 	JLabel lbl_maKhach, lbl_tenKhachHang, lbl_GioiTinhKH, lbl_soDienThoaiKH, lbl_emailKH, lbl_diaChiKH, lbl_tempKH;
-	JButton btn_ThemKH, btn_SuaKH, btn_LamMoiKH;
+	JButton btn_ThemKH, btn_SuaKH, btn_LamMoiKH, btn_KhoiTaoMaKH;
 	ButtonGroup groupbtnKH;
 	JTextArea txt_AreaKH;
 	KhachHang_BUS kh_BUS = new KhachHang_BUS();
@@ -200,6 +202,7 @@ public class ViewTrangChu extends JFrame {
 	private JRadioButton radNamKH, radNuKH;
 	// COMPONENT PHẦN THỐNG KÊ
 	private JPanel pnThongKe;
+
 
 	// CONSTRUCTER
 
@@ -1508,6 +1511,7 @@ public class ViewTrangChu extends JFrame {
 		b.add(lbl_maKhach = new JLabel("Mã khách hàng: "));
 		b.add(txt_maKhachHang = new JTextField());
 		txt_maKhachHang.setBorder(BorderFactory.createLoweredBevelBorder());
+		txt_maKhachHang.setEditable(false);
 		b.setBounds(20, 20, 350, 30);
 
 		Box b1 = new Box(BoxLayout.X_AXIS);
@@ -1554,18 +1558,25 @@ public class ViewTrangChu extends JFrame {
 		// right pnlTop thiết lập thông tin khách hàng
 		JPanel pnRight = new JPanel();
 		pnRight.setLayout(null);
-
+		
+		
+		pnRight.add(btn_KhoiTaoMaKH = new MyButton("Khởi Tạo Mã"));
+		btn_KhoiTaoMaKH.setBounds(20, 0, 120, 34);
+		btn_KhoiTaoMaKH.setBorder(BorderFactory.createRaisedBevelBorder());
+		
 		pnRight.add(btn_ThemKH = new MyButton("Thêm"));
-		btn_ThemKH.setBounds(20, 0, 150, 40);
+		btn_ThemKH.setBounds(20, 40, 120, 34);
 		btn_ThemKH.setBorder(BorderFactory.createRaisedBevelBorder());
 
 		pnRight.add(btn_SuaKH = new MyButton("Sửa"));
-		btn_SuaKH.setBounds(20, 65, 150, 40);
+		btn_SuaKH.setBounds(20, 80, 120, 34);
 		btn_SuaKH.setBorder(BorderFactory.createRaisedBevelBorder());
 
 		pnRight.add(btn_LamMoiKH = new MyButton("Làm mới"));
-		btn_LamMoiKH.setBounds(20, 130, 150, 40);
+		btn_LamMoiKH.setBounds(20, 120, 120, 34);
 		btn_LamMoiKH.setBorder(BorderFactory.createRaisedBevelBorder());
+		
+		
 		pnRight.setBounds(780, 20, 200, 180);
 
 		pnlTopKH.add(b);
@@ -1595,58 +1606,32 @@ public class ViewTrangChu extends JFrame {
 		tabbedPane.setBounds(25, 15, 950, 370);
 		model_KHthongTin
 				.addRow(new Object[] { "123", "Sang", "Nam", "0397866052", "sang@gmail.com", "124/9 Nơ Trang Long" });
+		tb_thongTinCaNhanKH.addMouseListener(new XuLySuKien_GUIKhachHang(this));
+		btn_LamMoiKH.addActionListener(new XuLySuKien_GUIKhachHang(this));
+		btn_KhoiTaoMaKH.addActionListener(new XuLySuKien_GUIKhachHang(this));
+		btn_SuaKH.addActionListener(new XuLySuKien_GUIKhachHang(this));
+		btn_ThemKH.addActionListener(new XuLySuKien_GUIKhachHang(this));
 		
-		tb_thongTinCaNhanKH.addMouseListener(new MouseListener() {
-			@Override
-			public void mouseReleased(MouseEvent e) {
-				// TODO Auto-generated method stub
-				
-			}
-			
-			@Override
-			public void mousePressed(MouseEvent e) {
-				// TODO Auto-generated method stub
-				
-			}
-			
-			@Override
-			public void mouseExited(MouseEvent e) {
-				// TODO Auto-generated method stub
-				
-			}
-			
-			@Override
-			public void mouseEntered(MouseEvent e) {
-				// TODO Auto-generated method stub
-				
-			}
-			
-			@Override
-			public void mouseClicked(MouseEvent e) {
-				// TODO Auto-generated method stub
-				upLoadTBThongTinCaNhanKHtoText();
-
-			}
-		});
-		btn_LamMoiKH.addActionListener(new ActionListener() {
-			
-			@Override
-			public void actionPerformed(ActionEvent e) {
-				// TODO Auto-generated method stub
-				txt_maKhachHang.setText("");	
-				txt_tenKhachHang.setText("");	
-				txt_AreaKH.setText("");	
-				txt_soDienThoaiKH.setText("");	
-				txt_emailKH.setText("");	
-				groupbtnKH.clearSelection();
-				txt_maKhachHang.requestFocus();
-			}
-		});
 		
 	}
+	// Tạo mã khách hàng
 	public String createMaKH() {
-		return "KH"+kh_BUS.getDSKhachHang().size()+1;
+		return "KH"+(kh_BUS.getDSKhachHang().size()+3);
 	}
+	
+	//Thêm khách hàng
+	public void themKhachHang() {
+		String mes = "";
+		if(kh_BUS.valiData(txt_tenKhachHang.getText(), txt_soDienThoaiKH.getText(), txt_emailKH.getText(), txt_AreaKH.getText())) {
+			kh_BUS.themKhachHang(new KhachHang(txt_maKhachHang.getText(), txt_tenKhachHang.getText(), txt_soDienThoaiKH.getText(), radNamKH.isSelected(), txt_emailKH.getText(), txt_AreaKH.getText(), 0));
+		}else {
+			JOptionPane.showMessageDialog(this, kh_BUS.mes);
+		}
+		
+		
+	
+	}
+	
 	
 	public void upLoadTBThongTinCaNhanKHtoText() {
 		int row = tb_thongTinCaNhanKH.getSelectedRow();
@@ -2001,5 +1986,27 @@ public class ViewTrangChu extends JFrame {
 			}
 		}
 	}
+	// phần xử lý sự kiện các nút ở GUI_KHACHHANG
+	public void xuLySuKienBtn_GUIKhachHang(Object o) {
+		if(o.equals(btn_LamMoiKH)) {
+			txt_maKhachHang.setText("");	
+			txt_tenKhachHang.setText("");	
+			txt_AreaKH.setText("");	
+			txt_soDienThoaiKH.setText("");	
+			txt_emailKH.setText("");	
+			groupbtnKH.clearSelection();
+			txt_maKhachHang.requestFocus();
+		}
+		else if(o.equals(btn_KhoiTaoMaKH)) {
+			txt_maKhachHang.setText(createMaKH());
+		}
+		else if(o.equals(btn_ThemKH)) {
+			themKhachHang();
+		}
+	}
+	// phần xử lý sự kiện table ở GUI_KHACHHANG
+	public void xuLySuKienTB_GUIKhachHang() {
+		upLoadTBThongTinCaNhanKHtoText();
+	}
 
-}
+}	

@@ -35,15 +35,15 @@ public class KhachHang_DAO {
 			}
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block
-			e.printStackTrace();
+//			e.printStackTrace();
 		}
 		return ds;
 	}
 	public boolean themKhachHang(KhachHang kh) {
 		ConnectDB.getInstance();
 		Connection con = ConnectDB.getConnection();
-		String sqlCN = "insert into" + " ConNguoi values(?,?,?,?,?,?)";
-		String sqlKH = "insert into" +" KhachHang values(?) ";
+		String sqlCN = "insert into" + " ConNguoi values(?,?,?,?,?,?,?)";
+		String sqlKH = "insert into" +" KhachHang values(?,?) ";
 		int n = 0;
 		int m =0;
 		PreparedStatement statementCN = null;
@@ -57,9 +57,12 @@ public class KhachHang_DAO {
 			statementCN.setBoolean(4, kh.isGioiTinh());
 			statementCN.setString(5, kh.getEmail());
 			statementCN.setString(6, kh.getDiaChi());
-			statementKH.setDouble(1, kh.getDiemTichLuy());
+			statementCN.setString(7, kh.getClass().getSimpleName());
+			
+			statementKH.setString(1, kh.getMa());
+			statementKH.setDouble(2, kh.getDiemTichLuy());
 			n = statementCN.executeUpdate();
-			m = statementCN.executeUpdate();
+			m = statementKH.executeUpdate();
 		}catch (Exception e) {
 			// TODO: handle exception
 			e.printStackTrace();

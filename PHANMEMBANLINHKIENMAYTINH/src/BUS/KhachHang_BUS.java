@@ -11,38 +11,39 @@ public class KhachHang_BUS {
 		// TODO Auto-generated constructor stub
 	}
 	KhachHang_DAO kh_DAO = new KhachHang_DAO();
+	public static String mes = "a";
 	public ArrayList<KhachHang> getDSKhachHang(){
 		return kh_DAO.getAllKhachHang();
 	}
-	public boolean valiData(String maKH, String tenKH, String sDT, String gioiTinh, String emailKH,String diaChi) {
-		String ma = maKH.trim();
+	public boolean valiData( String tenKH, String sDT, String emailKH,String diaChi) {
 		String ten = tenKH.trim();
 		String sdt = sDT.trim();
-		String phai = gioiTinh.trim();
 		String email = emailKH.trim();
 		String diachi = diaChi.trim();
 		
-		
+		if(ten.equals("")||!ten.matches("\\+")) {
+			mes = "Lỗi tên khách hàng phải là chữ và không được để rỗng";
+			return false;
+		}
+		if(sdt.equals("")||!sdt.matches("^0[379]\\d{8}$")) {
+			mes = "Lỗi số điện thoại phải 10 số và bắt đầu bằng 03 hoặc 09 hoặc 07 và không được để rỗng";
+			return false;
+		}
+		if(email.equals("")||!email.matches("^(.+)@(\\S+)$")) {
+			mes = "Lỗi email không đúng định dạng và không được để rỗng";
+			return false;
+		}
+		if(diachi.equals("")||!diachi.matches("[A-Za-z0-9\\-\\./]+")) {
+			mes = "Lỗi địa chỉ không đúng định dạng và không được để rỗng";
+			return false;
+		}
 		
 		return true;
 	}
-	public KhachHang createKhachHang(String maKH, String tenKH, String sDT, String gioiTinh, String emailKH,String diaChi) {
-		boolean phai;
-		if(gioiTinh.equalsIgnoreCase("Nam")) {
-			phai = true;
-		}else {
-			phai = false;
-		}
-		if(valiData(maKH, tenKH, sDT, gioiTinh, emailKH, diaChi)) {
-		KhachHang kh = new KhachHang(maKH, tenKH, sDT, phai, emailKH, diaChi, 0);
-			return kh;
-		}else {
-			return null;
-		}
-	}
-	public boolean themNhanVien (KhachHang kh) {
-		
-		
+	
+
+	public boolean themKhachHang (KhachHang kh) {
+		kh_DAO.themKhachHang(kh);
 		return true;
 	}
 }
