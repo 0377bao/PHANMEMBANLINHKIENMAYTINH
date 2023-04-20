@@ -58,15 +58,20 @@ import javax.swing.table.DefaultTableModel;
 import javax.swing.text.TableView.TableCell;
 
 import BUS.KhachHang_BUS;
+
 import connectDB.ConnectDB;
+
 import controller.XuLyDieuHuongPhanMem;
 import controller.XuLySuKien_GUIKhachHang;
 import model.KhachHang;
 //import connectDB.ConnectDB;
+
 //import controller.LocTheoDanhMucCuaPhanMuaHang;
-//import controller.LocTheoDanhMucCuaPhanSanPham;
-//import controller.XuLyDieuHuongPhanMem;
-//>>>>>>> b5ad0b8b32a9f449a31933487bbe634cad168515
+import controller.LocTheoDanhMucCuaPhanSanPham;
+import controller.XuLyDieuHuongPhanMem;
+
+
+
 import model.MauCacDongTrongBang;
 import model.MyButton;
 import model.MyCombobox;
@@ -91,8 +96,8 @@ public class ViewTrangChu extends JFrame {
 	private JLabel lblSanPham;
 	private JButton btnTat;
 	private JButton btnIn;
-	
 
+	
 	// COMPONENT PHẦN MUA HÀNG
 	private JPanel pnlMuaHang;
 	private DefaultTableModel modelMHGioHang, modelMHSanPham;
@@ -116,7 +121,7 @@ public class ViewTrangChu extends JFrame {
 	private JPanel pnlSanPham, pnlSPThongTin;
 	public MyCombobox cbbSPDanhMuc;
 	private MyCombobox cbbSPNhaSX, cbbSPNgay, cbbSPThang, cbbSPNam;
-	private MyButton btnSPThem, btnSPXoa, btnSPSua, btnSPLamMoi;
+	public MyButton btnSPThem, btnSPXoa, btnSPSua, btnSPLamMoi;
 	private JTextField txtSPMa, txtSPTen, txtSPGiaBan, txtSPSoLuongTon, txtSPBaoHanh, txtSPGiaNhap, txtSPGiamGia;
 	// Phần component của cpu (Sản phẩm)
 	private JTextField txtSPSoLoi, txtSPSoLuongXuLy, txtSPTanSoCoSo, txtSPTanSoTurbo, txtSPBoNhoDem, txtSPBoNhoToiDa;
@@ -147,6 +152,7 @@ public class ViewTrangChu extends JFrame {
 	private DefaultTableModel model_NV;
 	private MyTable table_NV;
 	private Box pnlNhanVien;
+
 	private JPanel pnlNhanVien_Top;
 	private JLabel lblThongTinNhanVien;
 	private JLabel lblMaNV;
@@ -200,6 +206,7 @@ public class ViewTrangChu extends JFrame {
 	private MyTable tb_LichSuGiaoDichKH, tb_thongTinCaNhanKH;
 	
 	private JRadioButton radNamKH, radNuKH;
+
 	// COMPONENT PHẦN THỐNG KÊ
 	private JPanel pnThongKe;
 
@@ -1339,19 +1346,25 @@ public class ViewTrangChu extends JFrame {
 //		tableSP.addMouseListener(new LocTheoDanhMucCuaPhanSanPham(this));
 
 		// thêm các đối tượng để fill vào table
-		modelSP.addRow(new Object[] { "N001", "CPU", 1000, 5, "Acer", "12-05-2023", 1, 800, 2 });
-		modelSP.addRow(new Object[] { "N002", "VGA", 2000, 6, "MSI", "12-06-2023", 1, 1800, 1 });
-		modelSP.addRow(new Object[] { "N003", "PSU", 3000, 7, "HP", "12-07-2023", 1, 2800, 2 });
-		modelSP.addRow(new Object[] { "N004", "MAIN", 4000, 8, "Dell", "12-08-2023", 1, 3800, 1 });
-		modelSP.addRow(new Object[] { "N005", "RAM", 5000, 9, "Acer", "12-09-2023", 1, 4800, 2 });
-		modelSP.addRow(new Object[] { "N006", "Case", 6000, 10, "MSI", "12-10-2023", 1, 5800, 1 });
-		modelSP.addRow(new Object[] { "N007", "RAM", 7000, 11, "Dell", "12-11-2023", 1, 6800, 2 });
-		modelSP.addRow(new Object[] { "N008", "CPU", 8000, 12, "MSI", "12-01-2023", 1, 7800, 2 });
-		modelSP.addRow(new Object[] { "N009", "MAIN", 9000, 13, "Acer", "12-03-2023", 1, 8800, 1 });
-		modelSP.addRow(new Object[] { "N009", "MAIN", 9000, 13, "Acer", "12-03-2023", 1, 8800, 1 });
-		modelSP.addRow(new Object[] { "N009", "MAIN", 9000, 13, "Acer", "12-03-2023", 1, 8800, 1 });
-		modelSP.addRow(new Object[] { "N009", "MAIN", 9000, 13, "Acer", "12-03-2023", 1, 8800, 1 });
-		modelSP.addRow(new Object[] { "N009", "MAIN", 9000, 13, "Acer", "12-03-2023", 1, 8800, 1 });
+//		modelSP.addRow(new Object[] { "N001", "CPU", 1000, 5, "Acer", "12-05-2023", 1, 800, 2 });
+//		modelSP.addRow(new Object[] { "N002", "VGA", 2000, 6, "MSI", "12-06-2023", 1, 1800, 1 });
+//		modelSP.addRow(new Object[] { "N003", "PSU", 3000, 7, "HP", "12-07-2023", 1, 2800, 2 });
+//		modelSP.addRow(new Object[] { "N004", "MAIN", 4000, 8, "Dell", "12-08-2023", 1, 3800, 1 });
+//		modelSP.addRow(new Object[] { "N005", "RAM", 5000, 9, "Acer", "12-09-2023", 1, 4800, 2 });
+//		modelSP.addRow(new Object[] { "N006", "Case", 6000, 10, "MSI", "12-10-2023", 1, 5800, 1 });
+//		modelSP.addRow(new Object[] { "N007", "RAM", 7000, 11, "Dell", "12-11-2023", 1, 6800, 2 });
+//		modelSP.addRow(new Object[] { "N008", "CPU", 8000, 12, "MSI", "12-01-2023", 1, 7800, 2 });
+//		modelSP.addRow(new Object[] { "N009", "MAIN", 9000, 13, "Acer", "12-03-2023", 1, 8800, 1 });
+//		modelSP.addRow(new Object[] { "N009", "MAIN", 9000, 13, "Acer", "12-03-2023", 1, 8800, 1 });
+//		modelSP.addRow(new Object[] { "N009", "MAIN", 9000, 13, "Acer", "12-03-2023", 1, 8800, 1 });
+//		modelSP.addRow(new Object[] { "N009", "MAIN", 9000, 13, "Acer", "12-03-2023", 1, 8800, 1 });
+//		modelSP.addRow(new Object[] { "N009", "MAIN", 9000, 13, "Acer", "12-03-2023", 1, 8800, 1 });
+		//SanPham_BUS sp_bus = new SanPham_BUS();
+		//sp_bus.DocDuLieuVaoTableSanPham(modelSP);
+		
+		// thêm sự kiện cho các btn
+		//ActionListener ac = new XuLySuKien_GUISanPham(this);
+		//btnSPThem.addActionListener(ac);
 
 		pnlSanPham.add(pnlSPThongTin);
 		pnlSanPham.add(pnlLocSP);
@@ -1494,8 +1507,10 @@ public class ViewTrangChu extends JFrame {
 		model_KHlichSuGD = new DefaultTableModel(new String[] { "Mã Giao Dịch", "Tên Khách Hàng", "Tên Nhân Viên",
 				"Giới Tính", "Số Điện Thoại", "Địa Chỉ", "Ngày Giao Dịch" }, 0);
 		tb_LichSuGiaoDichKH = new MyTable(model_KHlichSuGD);
+
 		pnlCenter_KhachHang = new JPanel();
 		pnlCenter_KhachHang.setLayout(null);
+		pnlCenter_KhachHang.setBackground(Color.white);
 
 		JPanel pnlTopKH = new JPanel();
 		pnlTopKH.setLayout(null);
@@ -1505,6 +1520,7 @@ public class ViewTrangChu extends JFrame {
 		pnlTopKH.setBorder(BorderFactory.createLoweredBevelBorder());
 		pnlCenter_KhachHang.add(pnlTopKH);
 		pnlTopKH.setBounds(40, 35, 1000, 220);
+
 
 		// left pnlTop thiết lập thông tin khách hàng
 		Box b = new Box(BoxLayout.X_AXIS);
@@ -1558,15 +1574,16 @@ public class ViewTrangChu extends JFrame {
 		// right pnlTop thiết lập thông tin khách hàng
 		JPanel pnRight = new JPanel();
 		pnRight.setLayout(null);
-		
+
 		
 		pnRight.add(btn_KhoiTaoMaKH = new MyButton("Khởi Tạo Mã"));
 		btn_KhoiTaoMaKH.setBounds(20, 0, 120, 34);
 		btn_KhoiTaoMaKH.setBorder(BorderFactory.createRaisedBevelBorder());
-		
+
 		pnRight.add(btn_ThemKH = new MyButton("Thêm"));
 		btn_ThemKH.setBounds(20, 40, 120, 34);
 		btn_ThemKH.setBorder(BorderFactory.createRaisedBevelBorder());
+
 
 		pnRight.add(btn_SuaKH = new MyButton("Sửa"));
 		btn_SuaKH.setBounds(20, 80, 120, 34);
@@ -1596,16 +1613,22 @@ public class ViewTrangChu extends JFrame {
 		pnlBottom.setBounds(40, 300, 1000, 400);
 		pnlBottom.setBorder(BorderFactory.createLoweredBevelBorder());
 		pnlBottom.setLayout(null);
-		JTabbedPane tabbedPane = new JTabbedPane();
+	  
+		
+		JTabbedPane tabbedPane = new JTabbedPane();	
 		tabbedPane.setTabLayoutPolicy(JTabbedPane.SCROLL_TAB_LAYOUT);
 		JPanel pn_ThongTinCaNhan = new JPanel();
 		JPanel pn_LichSuGiaoDich = new JPanel();
+
 		tabbedPane.addTab("Thông tin cá nhân", taoTabPanel(pn_ThongTinCaNhan, tb_thongTinCaNhanKH));
 		tabbedPane.addTab("Lịch sử giao dịch", taoTabPanel(pn_LichSuGiaoDich, tb_LichSuGiaoDichKH));
+
 		pnlBottom.add(tabbedPane);
 		tabbedPane.setBounds(25, 15, 950, 370);
+		
 		model_KHthongTin
 				.addRow(new Object[] { "123", "Sang", "Nam", "0397866052", "sang@gmail.com", "124/9 Nơ Trang Long" });
+
 		tb_thongTinCaNhanKH.addMouseListener(new XuLySuKien_GUIKhachHang(this));
 		btn_LamMoiKH.addActionListener(new XuLySuKien_GUIKhachHang(this));
 		btn_KhoiTaoMaKH.addActionListener(new XuLySuKien_GUIKhachHang(this));
@@ -1615,6 +1638,7 @@ public class ViewTrangChu extends JFrame {
 		
 	}
 	// Tạo mã khách hàng
+
 	public String createMaKH() {
 		return "KH"+(kh_BUS.getDSKhachHang().size()+3);
 	}
@@ -1645,6 +1669,7 @@ public class ViewTrangChu extends JFrame {
 		txt_soDienThoaiKH.setText(model_KHthongTin.getValueAt(row, 3).toString());
 		txt_emailKH.setText(model_KHthongTin.getValueAt(row, 4).toString());
 		txt_AreaKH.setText(model_KHthongTin.getValueAt(row, 5).toString());
+
 	}
 
 	// PHẦN VIẾT GUI CHO THỐNG KÊ
@@ -1766,24 +1791,27 @@ public class ViewTrangChu extends JFrame {
 	}
 
 	// Hàm tạo panel cho JTabbedPane
+
 	public JPanel taoTabPanel(JPanel temp, MyTable model) {
 		JLabel lbl_timKiem;
 		JTextField txt_timKiem;
 		temp.setLayout(null);
+		temp.setBackground(Color.white);
 		temp.setBounds(25, 60, 950, 400);
 		Box b8 = new Box(BoxLayout.X_AXIS);
 		b8.add(lbl_timKiem = new JLabel("Tìm kiếm: "));
 		b8.add(txt_timKiem = new JTextField());
-		txt_timKiem.setBorder(BorderFactory.createLoweredBevelBorder());
+	
 		b8.setBounds(25, 25, 650, 30);
 		temp.add(b8, BorderLayout.NORTH);
+
 
 		JScrollPane sp = new JScrollPane(model, JScrollPane.VERTICAL_SCROLLBAR_ALWAYS,
 				JScrollPane.HORIZONTAL_SCROLLBAR_ALWAYS);
 		sp.setBounds(25, 75, 650, 250);
 
 		JPanel pn_loc = new JPanel();
-		JLabel lbl_loc = new JLabel("Loc");
+		JLabel lbl_loc = new JLabel("Lọc");
 		lbl_loc.setBounds(700, 20, 100, 30);
 		temp.add(lbl_loc);
 		lbl_loc.setFont(new Font("Arial", Font.PLAIN, 16));
@@ -1986,6 +2014,7 @@ public class ViewTrangChu extends JFrame {
 			}
 		}
 	}
+
 	// phần xử lý sự kiện các nút ở GUI_KHACHHANG
 	public void xuLySuKienBtn_GUIKhachHang(Object o) {
 		if(o.equals(btn_LamMoiKH)) {
@@ -2008,5 +2037,6 @@ public class ViewTrangChu extends JFrame {
 	public void xuLySuKienTB_GUIKhachHang() {
 		upLoadTBThongTinCaNhanKHtoText();
 	}
+
 
 }	
