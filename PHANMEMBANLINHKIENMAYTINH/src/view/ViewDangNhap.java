@@ -24,8 +24,10 @@ import javax.swing.UIManager;
 import javax.swing.plaf.ColorUIResource;
 
 import BUS.NhanVien_BUS;
+//import BUS.NhanVien_BUS;
 import connectDB.ConnectDB;
 import model.MyButton;
+import model.NhanVien;
 
 public class ViewDangNhap extends JFrame implements ActionListener{
 	public Color mauNenLoGin = new Color(64,64,64);

@@ -2,26 +2,47 @@ package view;
 
 import java.awt.Font;
 import java.awt.Image;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import java.sql.SQLException;
 
 import javax.swing.ButtonGroup;
 import javax.swing.ImageIcon;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
+import javax.swing.JOptionPane;
 import javax.swing.JRadioButton;
 import javax.swing.JScrollPane;
 import javax.swing.JTextArea;
 import javax.swing.JTextField;
 
+import BUS.KhachHang_BUS;
+import connectDB.ConnectDB;
+import model.KhachHang;
 import model.MyButton;
 
-public class ViewThemKhachHang extends JFrame{
+public class ViewThemKhachHang extends JFrame implements ActionListener{
+	private KhachHang_BUS khachhangbus = new KhachHang_BUS();
+	private KhachHang khachHang;
 	private JLabel lblMa, lblTen, lblGioiTinh, lblSDT, lblEmail, lblDiaChi;
 	private JTextField txtMa, txtTen, txtSDT, txtEmail;
 	private JTextArea txtDiaChi;
 	private JRadioButton radNam, radNu;
 	private ButtonGroup grbt;
 	private MyButton btnThem, btnLamMoi;
-	public ViewThemKhachHang() {
+	private JLabel lblmaKHMH, lbltenKHMH;
+	public ViewThemKhachHang(KhachHang kh, JLabel ma, JLabel ten) {
+		
+		try {
+			ConnectDB.getInstance().connect();
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		
+		khachHang = kh;
+		lblmaKHMH = ma;
+		lbltenKHMH = ten;
 		this.setTitle("Thêm khách hàng");
 		this.setSize(600, 465);
 		this.setLocationRelativeTo(null);
@@ -63,6 +84,8 @@ public class ViewThemKhachHang extends JFrame{
 		width = 310;
 		txtMa = new JTextField();
 		txtMa.setBounds(x, y, width, height);
+		txtMa.setEditable(false);
+		txtMa.setText(khachhangbus.ranDomMaKhachHang());
 		y += 45;
 		txtTen = new JTextField();
 		txtTen.setBounds(x, y, width, height);
@@ -108,5 +131,38 @@ public class ViewThemKhachHang extends JFrame{
 		this.add(src);
 		this.add(btnThem);
 		this.add(btnLamMoi);
+		// phần thêm sự kiện
+		btnLamMoi.addActionListener(this);
+		btnThem.addActionListener(this);
+	}
+
+	@Override
+	public void actionPerformed(ActionEvent e) {
+		Object o = e.getSource();
+		if(o.equals(btnLamMoi)) {
+			txtTen.setText("");
+			txtSDT.setText("");
+			txtEmail.setText("");
+			txtDiaChi.setText("");
+			grbt.clearSelection();
+			txtTen.requestFocus();
+		}else {
+			if(!khachhangbus.valiData(txtTen.getText(), txtSDT.getText(), txtEmail.getText(), txtDiaChi.getText(), radNam.isSelected(), radNu.isSelected())) {
+				JOptionPane.showMessageDialog(this, khachhangbus.mes);
+			}else {
+				KhachHang khachhangthem = new KhachHang(txtMa.getText(),txtTen.getText(),txtSDT.getText(),
+						radNam.isSelected(),
+						txtEmail.getText(),
+						txtDiaChi.getText(),
+						0
+					);
+				khachhangbus.themKhachHang(khachhangthem);
+				JOptionPane.showMessageDialog(this, "Thêm khách hàng thành công");
+				khachHang = khachhangthem;
+				lblmaKHMH.setText(khachHang.getMa());
+				lbltenKHMH.setText(khachHang.getTen());
+				this.setVisible(false);
+			}
+		}
 	}
 }
