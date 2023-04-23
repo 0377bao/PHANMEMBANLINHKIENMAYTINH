@@ -7,48 +7,59 @@ import java.sql.Statement;
 import java.util.ArrayList;
 
 import DAO.KhachHang_DAO;
+<<<<<<< HEAD
 import connectDB.ConnectDB;
+=======
+import model.HoaDon;
+>>>>>>> 278de0af19ab204884cb6324ebac63950df3fdf9
 import model.KhachHang;
 
 
 public class KhachHang_BUS {
-	public KhachHang_BUS() {
-		// TODO Auto-generated constructor stub
-	}
+	public static String mes = "";
 	KhachHang_DAO kh_DAO = new KhachHang_DAO();
-	public ArrayList<KhachHang> getDSKhachHang(){
+	public ArrayList<KhachHang> getAllKhachHang(){
 		return kh_DAO.getAllKhachHang();
 	}
-	public boolean valiData(String maKH, String tenKH, String sDT, String gioiTinh, String emailKH,String diaChi) {
-		String ma = maKH.trim();
+	public boolean valiData(String tenKH, String sDT, String emailKH,String diaChi, boolean nam, boolean nu) {
 		String ten = tenKH.trim();
 		String sdt = sDT.trim();
-		String phai = gioiTinh.trim();
 		String email = emailKH.trim();
 		String diachi = diaChi.trim();
-		
-		
-		
+		boolean phai = false;
+		if(nam || nu) phai = true;
+		if(ten.equals("") || sdt.equals("") || email.equals("") || diachi.equals("") || !phai) {
+			mes = "Vui lòng điền đầy đủ thông tin";
+			return false;
+		}else if(ten.equals("")||!ten.matches("[\\p{L}\\s]+")) {
+			mes = "Lỗi tên khách hàng phải là chữ";
+			return false;
+		}else if(sdt.equals("")||!sdt.matches("^0[379]\\d{8}$")) {
+			mes = "Lỗi số điện thoại phải 10 số và bắt đầu bằng 03 hoặc 09 hoặc 07";
+			return false;
+		}else if(email.equals("")||!email.matches("[a-zA-Z0-9._]+@[a-zA-Z0-9.-]+\\.[a-zA-Z]{2,}")) {
+			mes = "Lỗi email không đúng định dạng";
+			return false;
+		}else if(diachi.equals("")||!diachi.matches("[\\p{L}\\d\\s,-.?]+")) {
+			mes = "Lỗi địa chỉ không đúng định dạng";
+			return false;
+		}else return true;
+	}
+	
+	public String ranDomMaKhachHang() {
+		String maold = kh_DAO.getMaKhachHangMax();
+		int so = Integer.parseInt(maold.replace("KH", "").trim());
+		so++;
+		return "KH" + so;
+	}
+
+	public boolean themKhachHang (KhachHang kh) {
+		kh_DAO.themKhachHang(kh);
 		return true;
 	}
-	public KhachHang createKhachHang(String maKH, String tenKH, String sDT, String gioiTinh, String emailKH,String diaChi) {
-		boolean phai;
-		if(gioiTinh.equalsIgnoreCase("Nam")) {
-			phai = true;
-		}else {
-			phai = false;
-		}
-		if(valiData(maKH, tenKH, sDT, gioiTinh, emailKH, diaChi)) {
-		KhachHang kh = new KhachHang(maKH, tenKH, sDT, phai, emailKH, diaChi, 0);
-			return kh;
-		}else {
-			return null;
-		}
-	}
-	public boolean themNhanVien (KhachHang kh) {
-		
-		
-		return true;
+	
+	public void capNhatDiemTichLuyKhachHang(HoaDon hoaDon) {
+		kh_DAO.capNhatDiemTichLuyKhachHang(hoaDon.getKhachHang().getMa(), hoaDon.getKhachHang().getDiemTichLuy());
 	}
 	
 	public String ranDomMaKhachHang() {

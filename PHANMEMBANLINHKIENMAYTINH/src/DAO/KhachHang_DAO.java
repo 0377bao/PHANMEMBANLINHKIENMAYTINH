@@ -35,15 +35,15 @@ public class KhachHang_DAO {
 			}
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block
-			e.printStackTrace();
+//			e.printStackTrace();
 		}
 		return ds;
 	}
 	public boolean themKhachHang(KhachHang kh) {
 		ConnectDB.getInstance();
 		Connection con = ConnectDB.getConnection();
-		String sqlCN = "insert into" + " ConNguoi values(?,?,?,?,?,?)";
-		String sqlKH = "insert into" +" KhachHang values(?) ";
+		String sqlCN = "insert into" + " ConNguoi values(?,?,?,?,?,?,?)";
+		String sqlKH = "insert into" +" KhachHang values(?,?) ";
 		int n = 0;
 		int m =0;
 		PreparedStatement statementCN = null;
@@ -57,9 +57,11 @@ public class KhachHang_DAO {
 			statementCN.setBoolean(4, kh.isGioiTinh());
 			statementCN.setString(5, kh.getEmail());
 			statementCN.setString(6, kh.getDiaChi());
-			statementKH.setDouble(1, kh.getDiemTichLuy());
+			statementCN.setString(7, kh.getClass().getSimpleName());
+			statementKH.setString(1, kh.getMa());
+			statementKH.setDouble(2, kh.getDiemTichLuy());
 			n = statementCN.executeUpdate();
-			m = statementCN.executeUpdate();
+			m = statementKH.executeUpdate();
 		}catch (Exception e) {
 			// TODO: handle exception
 			e.printStackTrace();
@@ -81,15 +83,47 @@ public class KhachHang_DAO {
 		ConnectDB.getInstance();
 		Connection con = ConnectDB.getConnection();
 		try {
+<<<<<<< HEAD
             Statement statement = con.createStatement();			
+=======
+			Statement statement = con.createStatement();
+>>>>>>> 278de0af19ab204884cb6324ebac63950df3fdf9
 			String sql = "Select top 1 * from KhachHang order by ma desc";
 			ResultSet rs = statement.executeQuery(sql);
 			while(rs.next()) {
 				ma = rs.getString("ma");
 			}
+<<<<<<< HEAD
 		}catch(SQLException e) {
+=======
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+>>>>>>> 278de0af19ab204884cb6324ebac63950df3fdf9
 			e.printStackTrace();
 		}
 		return ma;
 	}
+<<<<<<< HEAD
+=======
+	
+	public void capNhatDiemTichLuyKhachHang(String ma, double CapNhat) {
+    	try {
+			ConnectDB.getInstance().connect();
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+    	Connection con = ConnectDB.getConnection();
+    	String sql = "update KhachHang set diemTichLuy=? where ma = ?";
+    	try {
+    		PreparedStatement stmt = con.prepareStatement(sql);
+    		stmt.setDouble(1, CapNhat);
+    		stmt.setString(2, ma);
+    		stmt.executeUpdate();
+    		
+    	}catch(SQLException e) {
+    		e.printStackTrace();
+    	}
+    }
+>>>>>>> 278de0af19ab204884cb6324ebac63950df3fdf9
 }

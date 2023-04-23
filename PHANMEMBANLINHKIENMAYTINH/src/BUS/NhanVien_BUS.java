@@ -6,15 +6,20 @@ import DAO.NhanVien_DAO;
 import model.NhanVien;
 
 public class NhanVien_BUS {
-      private NhanVien_DAO nv_dao = new NhanVien_DAO();
-      
-      public NhanVien kiemTraDangNhap(String u, String p) {
-    	  ArrayList<NhanVien> list_nv = nv_dao.getAllNhanVien();
-    	  for (NhanVien nv : list_nv) {
-			if(nv.getMa().equals(u) && nv.getMatkhau().equals(p)) {
-				return nv;
+	NhanVien_DAO nvdao = new NhanVien_DAO();
+	
+	public ArrayList<NhanVien> getAllNhanVien() {
+		return nvdao.getAllNhanVien();
+	}
+	
+	public NhanVien kiemTraDangNhap(String user, String password) {
+		ArrayList<NhanVien> ds = nvdao.getAllNhanVien();
+		for (NhanVien nv : ds) {
+			if(nv.getMa().equals(user)) {
+				if(nv.getMatkhau().equals(password)) return nv;
+				else return null;
 			}
 		}
-    	  return null;
-      }
+		return null;
+	}
 }

@@ -106,7 +106,6 @@ public class ViewDangNhap extends JFrame implements ActionListener{
 	public static void main(String[] args) {
 		NhanVien nv = new NhanVien("123");
 		new ViewDangNhap().setVisible(true);
-//    new ViewTrangChu(nv).setVisible(true);
 	}
 
 	@Override

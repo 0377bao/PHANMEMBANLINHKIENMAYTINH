@@ -11,9 +11,6 @@ import connectDB.ConnectDB;
 import model.NhanVien;
 
 public class NhanVien_DAO {
-	public NhanVien_DAO() {
-	}
-	
 	public ArrayList<NhanVien> getAllNhanVien() {
 		ArrayList<NhanVien> ds = new ArrayList<>();
 		ConnectDB.getInstance();

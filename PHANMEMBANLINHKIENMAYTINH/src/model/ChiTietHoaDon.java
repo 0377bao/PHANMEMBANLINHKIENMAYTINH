@@ -10,21 +10,21 @@ public class ChiTietHoaDon {
 		this.soLuongMua = soLuongMua;
 		this.sanPham = sanPham;
 	}
-	int getSoLuongMua() {
+	public int getSoLuongMua() {
 		return soLuongMua;
 	}
-	void setSoLuongMua(int soLuongMua) {
+	public void setSoLuongMua(int soLuongMua) {
 		this.soLuongMua = soLuongMua;
 	}
-	SanPham getSanPham() {
+	public SanPham getSanPham() {
 		return sanPham;
 	}
-	void setSanPham(SanPham sanPham) {
+	public void setSanPham(SanPham sanPham) {
 		this.sanPham = sanPham;
 	}
 	
 	public double tinhTongTien() {
-		return soLuongMua * sanPham.getGiaBan() - sanPham.getGiamGia();
+		return soLuongMua * (sanPham.getGiaBan() - sanPham.getGiamGia());
 	}
 	@Override
 	public String toString() {
@@ -46,6 +46,4 @@ public class ChiTietHoaDon {
 		ChiTietHoaDon other = (ChiTietHoaDon) obj;
 		return Objects.equals(sanPham, other.sanPham);
 	}
-	
-	
 }

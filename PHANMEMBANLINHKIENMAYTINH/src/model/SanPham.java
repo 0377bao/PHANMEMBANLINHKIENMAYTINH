@@ -19,6 +19,13 @@ public class SanPham {
 		// TODO Auto-generated constructor stub
 	}
 
+	public SanPham(String maSanPham) {
+		super();
+		this.maSanPham = maSanPham;
+	}
+
+
+
 	public SanPham(String maSanPham, String tenSanPham, double giaBan, int soLuongTonKho, String nhaSanXuat,
 			LocalDate ngaySanXuat, int baoHanh, double giaNhap, int giamGia) {
 		super();
@@ -104,8 +111,7 @@ public class SanPham {
 	public void setGiamGia(int giamGia) {
 		this.giamGia = giamGia;
 	}
-	
-	
+
 	@Override
 	public int hashCode() {
 		return Objects.hash(maSanPham);
