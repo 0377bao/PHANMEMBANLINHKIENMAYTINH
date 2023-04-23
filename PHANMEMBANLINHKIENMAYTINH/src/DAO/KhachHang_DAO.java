@@ -75,4 +75,21 @@ public class KhachHang_DAO {
 		}
 		return (n>0&&m>0);
 	}
+	
+	public String getMaKhachHangMax() {
+		String ma = "";
+		ConnectDB.getInstance();
+		Connection con = ConnectDB.getConnection();
+		try {
+            Statement statement = con.createStatement();			
+			String sql = "Select top 1 * from KhachHang order by ma desc";
+			ResultSet rs = statement.executeQuery(sql);
+			while(rs.next()) {
+				ma = rs.getString("ma");
+			}
+		}catch(SQLException e) {
+			e.printStackTrace();
+		}
+		return ma;
+	}
 }

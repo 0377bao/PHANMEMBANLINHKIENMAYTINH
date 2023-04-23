@@ -1,10 +1,5 @@
-<<<<<<< HEAD
-/view/
 /BUS/
-/DAO/
-=======
-/DAO/
 /view/
-/BUS/
->>>>>>> abd6e6530d4086dbcd6730eed5ea469aa343a36c
+/DAO/
 /controller/
+/connectDB/

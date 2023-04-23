@@ -5,6 +5,8 @@ import java.awt.event.ActionListener;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 
+import javax.swing.JComboBox;
+
 import view.ViewTrangChu;
 
 public class LocTheoDanhMucCuaPhanSanPham implements ActionListener, MouseListener{
@@ -22,6 +24,7 @@ public class LocTheoDanhMucCuaPhanSanPham implements ActionListener, MouseListen
 	public void mouseClicked(MouseEvent e) {
 		// TODO Auto-generated method stub
 		trangchu.xuLyDanhMuc(trangchu.modelSP.getValueAt(trangchu.tableSP.getSelectedRow(), 1).toString());
+		trangchu.uploadTbSanPham();
 	}
 
 	@Override

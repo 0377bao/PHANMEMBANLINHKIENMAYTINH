@@ -1,8 +1,13 @@
 package BUS;
 
+import java.sql.Connection;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.sql.Statement;
 import java.util.ArrayList;
 
 import DAO.KhachHang_DAO;
+import connectDB.ConnectDB;
 import model.KhachHang;
 
 
@@ -44,5 +49,12 @@ public class KhachHang_BUS {
 		
 		
 		return true;
+	}
+	
+	public String ranDomMaKhachHang() {
+		String maold = kh_DAO.getMaKhachHangMax();
+		int so = Integer.parseInt(maold.replace("KH", "").trim());
+		so++;
+		return "KH" + so;
 	}
 }
