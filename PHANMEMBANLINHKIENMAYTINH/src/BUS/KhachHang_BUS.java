@@ -7,11 +7,11 @@ import java.sql.Statement;
 import java.util.ArrayList;
 
 import DAO.KhachHang_DAO;
-<<<<<<< HEAD
+
 import connectDB.ConnectDB;
-=======
+
 import model.HoaDon;
->>>>>>> 278de0af19ab204884cb6324ebac63950df3fdf9
+
 import model.KhachHang;
 
 
@@ -62,10 +62,5 @@ public class KhachHang_BUS {
 		kh_DAO.capNhatDiemTichLuyKhachHang(hoaDon.getKhachHang().getMa(), hoaDon.getKhachHang().getDiemTichLuy());
 	}
 	
-	public String ranDomMaKhachHang() {
-		String maold = kh_DAO.getMaKhachHangMax();
-		int so = Integer.parseInt(maold.replace("KH", "").trim());
-		so++;
-		return "KH" + so;
-	}
+	
 }
