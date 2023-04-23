@@ -35,7 +35,7 @@ public class KhachHang_DAO {
 			}
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block
-			e.printStackTrace();
+//			e.printStackTrace();
 		}
 		return ds;
 	}
@@ -95,4 +95,24 @@ public class KhachHang_DAO {
 		}
 		return ma;
 	}
+	
+	public void capNhatDiemTichLuyKhachHang(String ma, double CapNhat) {
+    	try {
+			ConnectDB.getInstance().connect();
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+    	Connection con = ConnectDB.getConnection();
+    	String sql = "update KhachHang set diemTichLuy=? where ma = ?";
+    	try {
+    		PreparedStatement stmt = con.prepareStatement(sql);
+    		stmt.setDouble(1, CapNhat);
+    		stmt.setString(2, ma);
+    		stmt.executeUpdate();
+    		
+    	}catch(SQLException e) {
+    		e.printStackTrace();
+    	}
+    }
 }

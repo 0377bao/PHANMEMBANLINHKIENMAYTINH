@@ -7,6 +7,8 @@ import java.awt.GridLayout;
 import java.awt.Image;
 import java.awt.ScrollPane;
 import java.util.ArrayList;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 import javax.swing.Box;
 import javax.swing.ImageIcon;
@@ -20,6 +22,8 @@ import javax.swing.table.DefaultTableModel;
 
 import BUS.KhachHang_BUS;
 import BUS.XuLySuKienGuiKhachHang;
+import controller.XuLySuKienChonKhachHang;
+import model.HoaDon;
 import model.KhachHang;
 import model.MyButton;
 import model.MyTable;
@@ -29,13 +33,18 @@ public class ViewKhachHang extends JFrame{
 	private DefaultTableModel model;
 	private MyTable table;
 	private MyButton btnChon;
-	private JLabel lblmaKHMH, lbltenKHMH;
+	private JLabel lblmaKHMH, lbltenKHMH, lblgiamgia, lblthanhtoan, lbltienThua;
+	private HoaDon hoadon;
 	private KhachHang khachhang;
 	private KhachHang_BUS khachhangbus = new KhachHang_BUS();
-	public ViewKhachHang(KhachHang kh, JLabel ma, JLabel ten) {
+	public ViewKhachHang(KhachHang kh, JLabel ma, JLabel ten, JLabel giamgia, JLabel toan, JLabel tienthua, HoaDon hoadon) {
 		khachhang = kh;
 		lblmaKHMH = ma;
 		lbltenKHMH = ten;
+		lblgiamgia = giamgia;
+		lblthanhtoan = toan;
+		lbltienThua = tienthua;
+		this.hoadon = hoadon;
 		this.setTitle("Thông tin khách hàng");
 		this.setSize(700, 700);
 		this.setLocationRelativeTo(null);
@@ -85,7 +94,10 @@ public class ViewKhachHang extends JFrame{
 		pnlSouth.add(btnChon);
 		this.add(pnlSouth, BorderLayout.SOUTH);
 		// phần đỗ dữ liệu vào bảng
-		doDuLieuVaoBang(khachhangbus.getDSKhachHang());
+		doDuLieuVaoBang(khachhangbus.getAllKhachHang());
+		// phần thêm sự kiện nhập cho txt
+		txtTen.addKeyListener(new XuLySuKienChonKhachHang(this));
+		txtSDT.addKeyListener(new XuLySuKienChonKhachHang(this));
 	}
 	
 	public void doDuLieuVaoBang(ArrayList<KhachHang> ds) {
@@ -106,15 +118,59 @@ public class ViewKhachHang extends JFrame{
 		if(row == -1) {
 			JOptionPane.showMessageDialog(this, "Vui lòng chọn một nhân viên");
 		}else {
-			ArrayList<KhachHang> ds = khachhangbus.getDSKhachHang();
+			ArrayList<KhachHang> ds = khachhangbus.getAllKhachHang();
 			for (KhachHang khachHang : ds) {
 				if(model.getValueAt(row, 0).toString().equals(khachHang.getMa())) {
 					khachhang = khachHang;
 					lblmaKHMH.setText(khachhang.getMa());
 					lbltenKHMH.setText(khachhang.getTen());
+					hoadon.setKhachHang(khachHang);
+					lblthanhtoan.setText(String.format("%,.0f", hoadon.tinhTienCanThanhToan()));
+					lblgiamgia.setText(String.format("%,.0f", hoadon.giamGia()));
+					lbltienThua.setText(String.format("%,.0f", hoadon.tinhTienThua()));
 					this.setVisible(false);
 				}
 			}
+		}
+	}
+	
+	public void xuLySuKienNhapTXT() {
+		ArrayList<KhachHang> ds = khachhangbus.getAllKhachHang();
+		xuLyDuLieuTen(ds);
+		xuLyDuLieuSDT(ds);
+		model.setRowCount(0);
+		doDuLieuVaoBang(ds);
+	}
+	
+	public void xuLyDuLieuTen(ArrayList<KhachHang> ds) {
+		String tenp = txtTen.getText();
+		if(!tenp.equals("")) {
+			ArrayList<KhachHang> tam = new ArrayList<>();
+			Pattern p = Pattern.compile(tenp, Pattern.CASE_INSENSITIVE);
+			for (KhachHang khachHang : ds) {
+				Matcher m = p.matcher(khachHang.getTen());
+				if(m.find()) {
+					tam.add(khachHang);
+				}
+			}
+			ds.clear();
+			ds.addAll(tam);
+		}
+	}
+	
+	public void xuLyDuLieuSDT(ArrayList<KhachHang> ds) {
+		String sdt = txtSDT.getText();
+		if(!sdt.equals("")) {
+			ArrayList<KhachHang> tam = new ArrayList<>();
+			Pattern p = Pattern.compile(sdt);
+			for (KhachHang khachHang : ds) {
+				Matcher m = p.matcher(khachHang.getSDT());
+				if(m.find()) {
+					tam.add(khachHang);
+				}
+			}
+			ds.clear();
+			ds.addAll(tam);
 		}
 	}
 }

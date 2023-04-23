@@ -3,13 +3,14 @@ package BUS;
 import java.util.ArrayList;
 
 import DAO.KhachHang_DAO;
+import model.HoaDon;
 import model.KhachHang;
 
 
 public class KhachHang_BUS {
 	public static String mes = "";
 	KhachHang_DAO kh_DAO = new KhachHang_DAO();
-	public ArrayList<KhachHang> getDSKhachHang(){
+	public ArrayList<KhachHang> getAllKhachHang(){
 		return kh_DAO.getAllKhachHang();
 	}
 	public boolean valiData(String tenKH, String sDT, String emailKH,String diaChi, boolean nam, boolean nu) {
@@ -43,10 +44,13 @@ public class KhachHang_BUS {
 		so++;
 		return "KH" + so;
 	}
-	
 
 	public boolean themKhachHang (KhachHang kh) {
 		kh_DAO.themKhachHang(kh);
 		return true;
+	}
+	
+	public void capNhatDiemTichLuyKhachHang(HoaDon hoaDon) {
+		kh_DAO.capNhatDiemTichLuyKhachHang(hoaDon.getKhachHang().getMa(), hoaDon.getKhachHang().getDiemTichLuy());
 	}
 }

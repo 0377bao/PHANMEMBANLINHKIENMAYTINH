@@ -6,6 +6,7 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.sql.SQLException;
 
+import javax.swing.BorderFactory;
 import javax.swing.ButtonGroup;
 import javax.swing.ImageIcon;
 import javax.swing.JFrame;
@@ -18,6 +19,7 @@ import javax.swing.JTextField;
 
 import BUS.KhachHang_BUS;
 import connectDB.ConnectDB;
+import model.HoaDon;
 import model.KhachHang;
 import model.MyButton;
 
@@ -30,8 +32,9 @@ public class ViewThemKhachHang extends JFrame implements ActionListener{
 	private JRadioButton radNam, radNu;
 	private ButtonGroup grbt;
 	private MyButton btnThem, btnLamMoi;
-	private JLabel lblmaKHMH, lbltenKHMH;
-	public ViewThemKhachHang(KhachHang kh, JLabel ma, JLabel ten) {
+	private JLabel lblmaKHMH, lbltenKHMH, lblgiamgia, lblthanhtoan;
+	private HoaDon hoadon;
+	public ViewThemKhachHang(KhachHang kh, JLabel ma, JLabel ten, JLabel giamgia, JLabel toan, HoaDon hoadon) {
 		
 		try {
 			ConnectDB.getInstance().connect();
@@ -43,6 +46,9 @@ public class ViewThemKhachHang extends JFrame implements ActionListener{
 		khachHang = kh;
 		lblmaKHMH = ma;
 		lbltenKHMH = ten;
+		lblgiamgia = giamgia;
+		lblthanhtoan = toan;
+		this.hoadon = hoadon;
 		this.setTitle("Thêm khách hàng");
 		this.setSize(600, 465);
 		this.setLocationRelativeTo(null);
@@ -85,6 +91,7 @@ public class ViewThemKhachHang extends JFrame implements ActionListener{
 		txtMa = new JTextField();
 		txtMa.setBounds(x, y, width, height);
 		txtMa.setEditable(false);
+		txtMa.setBorder(BorderFactory.createLoweredBevelBorder());
 		txtMa.setText(khachhangbus.ranDomMaKhachHang());
 		y += 45;
 		txtTen = new JTextField();
@@ -161,6 +168,9 @@ public class ViewThemKhachHang extends JFrame implements ActionListener{
 				khachHang = khachhangthem;
 				lblmaKHMH.setText(khachHang.getMa());
 				lbltenKHMH.setText(khachHang.getTen());
+				hoadon.setKhachHang(khachHang);
+				lblthanhtoan.setText(String.format("%,.0f", hoadon.tinhTienCanThanhToan()));
+				lblgiamgia.setText(String.format("%,.0f", hoadon.giamGia()));
 				this.setVisible(false);
 			}
 		}
