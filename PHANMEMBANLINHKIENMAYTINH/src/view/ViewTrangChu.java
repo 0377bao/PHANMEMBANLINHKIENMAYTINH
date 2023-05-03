@@ -71,6 +71,7 @@ import DAO.KhachHang_DAO;
 import connectDB.ConnectDB;
 import controller.LocTheoDanhMucCuaPhanSanPham;
 import controller.XuLyDieuHuongPhanMem;
+import controller.XuLySuKienChoTrangHoaDon;
 import model.Case;
 import model.Cpu;
 import model.ChiTietHoaDon;
@@ -119,10 +120,10 @@ public class ViewTrangChu extends JFrame {
 	private DefaultTableModel modelMHGioHang, modelMHSanPham;
 	private MyTable tableMHGioHang, tableMHSanPham;
 	private MyButton btnMHXoa, btnMHXoaAll, btnMHSua;
-	private JLabel lblMHTimSP, lblMHDanhMuc;
+	private JLabel lblMHTimSP, lblMHDanhMuc, lblMHNhaSX;
 	private JTextField txtMHTimSP;
 	private MyButton btnMHThemSP;
-	private MyCombobox cbbMHDanhMuc;
+	private MyCombobox cbbMHDanhMuc, cbbMHNhaSX;
 	private DefaultTableModel modelMHCase, modelMHCpu, modelMHRam, modelMHPsu, modelMHVga, modelMHMain;
 	private MyTable tableMHCase, tableMHCpu, tableMHRam, tableMHPsu, tableMHVga, tableMHMain;
 	private JScrollPane scrMHTable;
@@ -163,6 +164,11 @@ public class ViewTrangChu extends JFrame {
 	public MyTable tableSP;
 	// COMPONENT PHẦN HÓA ĐƠN
 	private JPanel pnHoaDon;
+	private KhachHang khachHangLocHoaDon = new KhachHang("");
+	private NhanVien nhanVienLocHoaDon = new NhanVien("");
+	private DefaultTableModel modelHoaDon, modelChiTietHoaDon;
+	private MyTable tableHoaDon, tableChiTietHoaDon;
+	private MyCombobox cbohinhThucThanhToan, cbotongTien, cbongay, cbothang, cbonam;
 	// COMPONENT PHẦN KHUYẾN MÃI
 	// COMPONENT PHẦN NHÂN VIÊN
 	private DefaultTableModel model_NV;
@@ -620,11 +626,8 @@ public class ViewTrangChu extends JFrame {
 		txtMHTimSP = new JTextField();
 		txtMHTimSP.setBounds(15, 50, 200, 25);
 
-		btnMHThemSP = new MyButton("Thêm sản phẩm");
-		btnMHThemSP.setBounds(305, 45, 150, 30);
-
 		lblMHDanhMuc = new JLabel("Danh mục:");
-		lblMHDanhMuc.setBounds(545, 30, 150, 15);
+		lblMHDanhMuc.setBounds(250, 30, 130, 15);
 
 		cbbMHDanhMuc = new MyCombobox();
 		cbbMHDanhMuc.addItem("CASE");
@@ -633,13 +636,31 @@ public class ViewTrangChu extends JFrame {
 		cbbMHDanhMuc.addItem("PSU");
 		cbbMHDanhMuc.addItem("VGA");
 		cbbMHDanhMuc.addItem("MAIN");
-		cbbMHDanhMuc.setBounds(545, 50, 150, 25);
+		cbbMHDanhMuc.setBounds(250, 50, 130, 25);
+		
+		lblMHNhaSX = new JLabel("Nhà sản xuất:");
+		lblMHNhaSX.setBounds(420, 30, 130, 15);
+		
+		cbbMHNhaSX = new MyCombobox();
+		cbbMHNhaSX.addItem("Tất cả");
+		cbbMHNhaSX.addItem("ACER");
+		cbbMHNhaSX.addItem("MSI");
+		cbbMHNhaSX.addItem("DELL");
+		cbbMHNhaSX.addItem("HP");
+		cbbMHNhaSX.addItem("ASUS");
+		cbbMHNhaSX.addItem("GIGABYTE");
+		cbbMHNhaSX.setBounds(420, 50, 130, 25);
+
+		btnMHThemSP = new MyButton("Thêm sản phẩm");
+		btnMHThemSP.setBounds(590, 45, 130, 30);
 
 		pnlMHSanPham.add(lblMHTimSP);
 		pnlMHSanPham.add(txtMHTimSP);
 		pnlMHSanPham.add(btnMHThemSP);
 		pnlMHSanPham.add(lblMHDanhMuc);
 		pnlMHSanPham.add(cbbMHDanhMuc);
+		pnlMHSanPham.add(lblMHNhaSX);
+		pnlMHSanPham.add(cbbMHNhaSX);
 
 		khoiTaoBangCase();
 		khoiTaoBangCpu();
@@ -686,10 +707,11 @@ public class ViewTrangChu extends JFrame {
 		lblMHHDTenKH.setText(khachHangMH.getTen());
 
 		btnMHHDChon = new MyButton("Chọn");
+		ViewTrangChu viewhome  = this;
 		btnMHHDChon.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				new ViewKhachHang(khachHangMH, lblMHHDMaKH, lblMHHDTenKH, lblMHHDGiams, lblMHHDThanhtoans,lblMHHDTienthuas, hoaDonMuaHang).setVisible(true);
+				new ViewChonKhachHang(khachHangMH, lblMHHDMaKH, lblMHHDTenKH, lblMHHDGiams, lblMHHDThanhtoans,lblMHHDTienthuas, hoaDonMuaHang, viewhome, "Mua hàng").setVisible(true);
 			}
 		});
 		btnMHHDThem = new MyButton("Thêm");
@@ -832,6 +854,7 @@ public class ViewTrangChu extends JFrame {
 		btnMHXoaAll.addActionListener(new XuLySuKienChoTrangMuaHang(this));
 		btnMHSua.addActionListener(new XuLySuKienChoTrangMuaHang(this));
 		cbbMHDanhMuc.addActionListener(new XuLySuKienChoTrangMuaHang(this));
+		cbbMHNhaSX.addActionListener(new XuLySuKienChoTrangMuaHang(this));
 		txtMHTimSP.addKeyListener(new XuLySuKienChoTrangMuaHang(this));
 		txtMHHDTienKhachDua.addKeyListener(new XuLySuKienChoTrangMuaHang(this));
 		cbbMHHDHinhthuctt.addActionListener(new XuLySuKienChoTrangMuaHang(this));
@@ -841,6 +864,7 @@ public class ViewTrangChu extends JFrame {
 		txtMHTimSP.setName("Tìm sản phẩm");
 		txtMHHDTienKhachDua.setName("Tiền khách đưa");
 		cbbMHDanhMuc.setName("Danh mục");
+		cbbMHNhaSX.setName("Nhà sản xuất");
 		cbbMHHDHinhthuctt.setName("Hình thức thanh toán");
 		// tạo hóa đơn
 		khoiTaoHoaDon(hoaDonMuaHang);
@@ -1178,7 +1202,7 @@ public class ViewTrangChu extends JFrame {
 		cbbSPThang.setBounds(x + 70 + 20, y + 30, 70, height);
 		cbbSPNam = new MyCombobox();
 		cbbSPNam.setBounds(x + 70 * 2 + 20 * 2, y + 30, 70, height);
-		themItemChoCbbNgayThangNam();
+		themItemChoCbbNgayThangNam(cbbSPNgay, cbbSPThang, cbbSPNam);
 
 		// phần sản phẩm cpu;
 		x += widthlbl + widthtext + 70;
@@ -1550,32 +1574,35 @@ public class ViewTrangChu extends JFrame {
 		pnlLocSP.setBackground(Color.WHITE);
 	}
 
-	public void themItemChoCbbNgayThangNam() {
+	public void themItemChoCbbNgayThangNam(MyCombobox cbbngay, MyCombobox cbbthang, MyCombobox cbbnam) {
 		for (int i = 1; i <= 31; i++) {
-			cbbSPNgay.addItem(i + "");
+			cbbngay.addItem(i + "");
 		}
 		for (int i = 1; i <= 12; i++) {
-			cbbSPThang.addItem(i + "");
+			cbbthang.addItem(i + "");
 		}
 		for (int i = 2000; i <= 2023; i++) {
-			cbbSPNam.addItem(i + "");
+			cbbnam.addItem(i + "");
 		}
 	}
 
 	// PHẦN VIẾT GUI CHO HÓA ĐƠN
 	public void GUIHoaDon() {
-		pnHoaDon = new JPanel(new GridLayout(2, 1));
+		pnHoaDon = new JPanel();
+		pnHoaDon.setLayout(new BorderLayout());
 		JPanel pnNorthHoaDon = new JPanel();
-		pnHoaDon.add(pnNorthHoaDon, BorderLayout.SOUTH);
+		pnHoaDon.add(pnNorthHoaDon);
 		pnNorthHoaDon.setBorder(BorderFactory.createBevelBorder(BevelBorder.LOWERED));
+		
 
 		JPanel pntimKiem = new JPanel();
 		FlowLayout flowLayout = new FlowLayout();
 		flowLayout.setAlignment(FlowLayout.LEFT);
-		flowLayout.setHgap(10);
+		flowLayout.setHgap(25);
 		pntimKiem.setLayout(flowLayout);
 		JLabel lbltimKiemHoaDon = new JLabel("Tìm Kiếm Hóa Đơn :");
 		JTextField txttimKiemHoaDon = new JTextField(70);
+		txttimKiemHoaDon.setPreferredSize(new Dimension(70,25));
 		pntimKiem.add(lbltimKiemHoaDon);
 		pntimKiem.add(txttimKiemHoaDon);
 		txttimKiemHoaDon.setBorder(BorderFactory.createBevelBorder(BevelBorder.LOWERED));
@@ -1584,24 +1611,24 @@ public class ViewTrangChu extends JFrame {
 		JPanel pnCenterHoaDon = new JPanel(new GridLayout(1, 5, 20, 0));
 
 		JPanel pnkhachHang = new JPanel(new GridLayout(1, 1));
-		MyButton khachHangButton = new MyButton("Khách hàng");
-		pnkhachHang.add(khachHangButton);
+		MyButton btnHoaDonKhachHang = new MyButton("Khách hàng");
+		pnkhachHang.add(btnHoaDonKhachHang);
 		pnCenterHoaDon.add(pnkhachHang);
 
 		JPanel pnNhanVien = new JPanel(new GridLayout(1, 1));
-		MyButton btnNhanVien = new MyButton("Nhân Viên");
-		pnNhanVien.add(btnNhanVien);
+		MyButton btnHoaDonNhanVien = new MyButton("Nhân Viên");
+		pnNhanVien.add(btnHoaDonNhanVien);
 		pnCenterHoaDon.add(pnNhanVien);
 
 		JPanel pnhinhThucThanhToan = new JPanel(new GridLayout(2, 1));
-		Border border = BorderFactory.createLineBorder(Color.BLACK);
+		Border border = BorderFactory.createLineBorder(Color.LIGHT_GRAY);
 		pnhinhThucThanhToan.setBorder(border);
 		JLabel lblhinhThucThanhToan = new JLabel("Hình thức thanh toán");
-		MyCombobox cbohinhThucThanhToan = new MyCombobox();
-		cbohinhThucThanhToan.addItem("Trực tiếp");
-		cbohinhThucThanhToan.addItem("Ngân hàng");
-		cbohinhThucThanhToan.addItem("");
-		cbohinhThucThanhToan.setEnabled(false);
+		cbohinhThucThanhToan = new MyCombobox();
+		cbohinhThucThanhToan.addItem("Tất cả");
+		cbohinhThucThanhToan.addItem("Tiền mặt");
+		cbohinhThucThanhToan.addItem("Quẹt thẻ");
+		cbohinhThucThanhToan.addItem("Chuyển khoản");
 		pnhinhThucThanhToan.add(lblhinhThucThanhToan);
 		pnhinhThucThanhToan.add(cbohinhThucThanhToan);
 		pnCenterHoaDon.add(pnhinhThucThanhToan);
@@ -1609,9 +1636,13 @@ public class ViewTrangChu extends JFrame {
 		JPanel pntongTien = new JPanel(new GridLayout(2, 1));
 		pntongTien.setBorder(border);
 		JLabel lbltongTien = new JLabel("Tổng tiền:");
-		MyCombobox cbotongTien = new MyCombobox();
-		cbotongTien.addItem("1000000");
-		cbotongTien.addItem("2000000");
+		cbotongTien = new MyCombobox();
+		cbotongTien.addItem("Tất cả");
+		cbotongTien.addItem("Dưới 1.000.000");
+		cbotongTien.addItem("1.000.000 đến 5.000.000");
+		cbotongTien.addItem("5.000.000 đến 10.000.000");
+		cbotongTien.addItem("10.000.000 đến 20.000.000");
+		cbotongTien.addItem("Trên 20.000.000");
 		pntongTien.add(lbltongTien);
 		pntongTien.add(cbotongTien);
 		pnCenterHoaDon.add(pntongTien);
@@ -1620,57 +1651,226 @@ public class ViewTrangChu extends JFrame {
 		ngayThangPanel.setBorder(border);
 		JPanel ngayPanel = new JPanel(new GridLayout(2, 1));
 		JLabel ngayLabel = new JLabel("Ngày:");
-		MyCombobox cbongay = new MyCombobox();
-		cbongay.addItem("1");
-		cbongay.addItem("2");
-		cbongay.addItem("3");
+		cbongay = new MyCombobox();
 		ngayPanel.add(ngayLabel);
 		ngayPanel.add(cbongay);
 		JPanel thangPanel = new JPanel(new GridLayout(2, 1));
 		JLabel thangLabel = new JLabel("Tháng:");
-		MyCombobox cbothang = new MyCombobox();
-		cbothang.addItem("1");
-		cbothang.addItem("2");
-		cbothang.addItem("3");
-		cbothang.addItem("4");
-		cbothang.addItem("5");
+		cbothang = new MyCombobox();
 		thangPanel.add(thangLabel);
 		thangPanel.add(cbothang);
 		JPanel namPanel = new JPanel(new GridLayout(2, 1));
 		JLabel namLabel = new JLabel("Năm:");
-		MyCombobox cboNam = new MyCombobox();
-		cboNam.addItem("2021");
-		cboNam.addItem("2022");
-		cboNam.addItem("2023");
+		cbonam = new MyCombobox();
+		themItemChoCbbNgayThangNam(cbongay, cbothang, cbonam);
+		cbongay.insertItemAt("", 0);
+		cbothang.insertItemAt("", 0);
+		cbonam.insertItemAt("", 0);
+		cbongay.setSelectedIndex(0);
+		cbothang.setSelectedIndex(0);
+		cbonam.setSelectedIndex(0);
 		namPanel.add(namLabel);
-		namPanel.add(cboNam);
+		namPanel.add(cbonam);
 		ngayThangPanel.add(ngayPanel);
 		ngayThangPanel.add(thangPanel);
 		ngayThangPanel.add(namPanel);
 		pnCenterHoaDon.add(ngayThangPanel);
 
 		pnNorthHoaDon.add(pnCenterHoaDon, BorderLayout.CENTER);
-
-		String[] columnNames = { "Mã hóa đơn", "Tổng tiền", "Thanh toán", "Tiền thừa", "Hình thức thanh toán",
-				"Ngày lập hóa đơn", "Trạng thái thanh toán", "Mã NV", "Tên NV", "Mã KH", "Tên KH", "Ghi Chú" };
-		DefaultTableModel tableModel = new DefaultTableModel(columnNames, 0);
-		MyTable table = new MyTable(tableModel);
-		JScrollPane scrollPane = new JScrollPane(table);
-		scrollPane.setPreferredSize(new Dimension(getWidth(), getHeight() - 300));
+       
+		String[] columnNames = { "Mã hóa đơn", "Tổng tiền", "Thanh toán", "Tiền khách trả", "Tiền thừa", "Hình thức thanh toán",
+				"Ngày lập hóa đơn", "Mã NV", "Tên NV", "Mã KH", "Tên KH", "Ghi Chú" };
+		modelHoaDon = new DefaultTableModel(columnNames, 0);
+		tableHoaDon = new MyTable(modelHoaDon);
+		tableHoaDon.setAutoResizeMode(JTable.AUTO_RESIZE_OFF);
+		for(int i = 0; i < modelHoaDon.getColumnCount(); i++) {
+				tableHoaDon.getColumnModel().getColumn(i).setPreferredWidth(100);
+		}
+		JScrollPane scrollPane = new JScrollPane(tableHoaDon);
+		scrollPane.setPreferredSize(new Dimension(1030,350));
 		pnNorthHoaDon.add(scrollPane, BorderLayout.SOUTH);
+		scrollPane.setBorder(BorderFactory.createTitledBorder("Hóa đơn"));
 
-		JPanel pnSouthHoaDon = new JPanel(new BorderLayout());
+		JPanel pnSouthHoaDon = new JPanel();
+        pnSouthHoaDon.setPreferredSize(new Dimension(1030, 250));
 		pnHoaDon.add(pnSouthHoaDon, BorderLayout.SOUTH);
 		pnSouthHoaDon.setBorder(BorderFactory.createTitledBorder("Chi tiết hóa đơn"));
-		String[] clos = { "Mã hóa đơn chi tiết", "Mã sản phẩm", "Tên sản phẩm chi tiết", "Số lượng", "Đơn Giá",
-				"Thành Tiền" };
-		DefaultTableModel tableModelChiTietHoaDon = new DefaultTableModel(clos, 0);
-		MyTable tabelChiTietHoaDon = new MyTable(tableModelChiTietHoaDon);
-		JScrollPane scrollPaneChiTietHoaDon = new JScrollPane(tabelChiTietHoaDon);
-
+		String[] clos = {"Mã sản phẩm", "Tên sản phẩm", "Số lượng", "Đơn Giá"};
+		modelChiTietHoaDon = new DefaultTableModel(clos, 0);
+		tableChiTietHoaDon = new MyTable(modelChiTietHoaDon);
+		JScrollPane scrollPaneChiTietHoaDon = new JScrollPane(tableChiTietHoaDon);
+        scrollPaneChiTietHoaDon.setPreferredSize(new Dimension(1030,200));
 		pnSouthHoaDon.add(scrollPaneChiTietHoaDon, BorderLayout.CENTER);
+		doDuLieuVaoBangHoaDon(new HoaDon_BUS().getAllHoaDon());
+		// phần thêm sự kiện
+		tableHoaDon.addMouseListener(new XuLySuKienChoTrangHoaDon(this));
+		cbohinhThucThanhToan.addActionListener(new XuLySuKienChoTrangHoaDon(this));
+		cbotongTien.addActionListener(new XuLySuKienChoTrangHoaDon(this));
+		cbongay.addActionListener(new XuLySuKienChoTrangHoaDon(this));
+		cbothang.addActionListener(new XuLySuKienChoTrangHoaDon(this));
+		cbonam.addActionListener(new XuLySuKienChoTrangHoaDon(this));
+		ViewTrangChu viewHome = this;
+		btnHoaDonNhanVien.addActionListener(new ActionListener() {
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				new ViewChonNhanVien(nhanVienLocHoaDon, viewHome).setVisible(true);
+			}
+		});
+		
+		btnHoaDonKhachHang.addActionListener(new ActionListener() {
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				new ViewChonKhachHang(khachHangLocHoaDon, null, null, null, null, null, null, viewHome, "Hóa đơn").setVisible(true);;
+			}
+		});
 	}
-
+	//PHẦN VIẾT LỌC DỮ LIỆU CHO TRANG HÓA ĐƠN
+	
+	public void locDuLieuVaoBangHoaDon() {
+		ArrayList<HoaDon> dsHoaDon = new HoaDon_BUS().getAllHoaDon();
+		locHoaDonBangNhanVien(dsHoaDon);
+		locHoaDonBangKhachHang(dsHoaDon);
+		locHoaDonBangHinhThucThanhToan(dsHoaDon);
+		locHoaDonBangTongTien(dsHoaDon);
+		locHoaDonBangNgayLapHoaDon(dsHoaDon);
+		locHoaDonBangThangLapHoaDon(dsHoaDon);
+		locHoaDonBangNamLapHoaDon(dsHoaDon);
+		modelHoaDon.setRowCount(0);
+		doDuLieuVaoBangHoaDon(dsHoaDon);
+	}
+	
+	public void locHoaDonBangNhanVien(ArrayList<HoaDon> ds) {
+		ArrayList<HoaDon> dstam = new ArrayList<>();
+		if(!nhanVienLocHoaDon.getMa().equals("")) {
+			for (HoaDon hoaDon : ds) {
+				if(hoaDon.getNhanVien().getMa().equals(nhanVienLocHoaDon.getMa())) dstam.add(hoaDon);
+			}
+			ds.clear();
+			ds.addAll(dstam);
+		}
+	}
+	
+	public void locHoaDonBangKhachHang(ArrayList<HoaDon> ds) {
+		ArrayList<HoaDon> dstam = new ArrayList<>();
+		if(!khachHangLocHoaDon.getMa().equals("")) {
+			for (HoaDon hoaDon : ds) {
+				if(hoaDon.getKhachHang().getMa().equals(khachHangLocHoaDon.getMa())) dstam.add(hoaDon);
+			}
+			ds.clear();
+			ds.addAll(dstam);
+		}
+	}
+	
+	public void locHoaDonBangHinhThucThanhToan(ArrayList<HoaDon> ds) {
+		ArrayList<HoaDon> dstam = new ArrayList<>();
+		if(cbohinhThucThanhToan.getSelectedIndex() != 0) {
+			String hinhThucThanhToanLoc = cbohinhThucThanhToan.getSelectedItem()+"";
+			for (HoaDon hoaDon : ds) {
+				if(hoaDon.getHinhThucThanhToan().equals(hinhThucThanhToanLoc)) dstam.add(hoaDon);
+			}
+			ds.clear();
+			ds.addAll(dstam);
+		}
+	}
+	
+	public void locHoaDonBangTongTien(ArrayList<HoaDon> ds) {
+		ArrayList<HoaDon> dstam = new ArrayList<>();
+		if(cbotongTien.getSelectedIndex() != 0) {
+			int indexSelected = cbotongTien.getSelectedIndex();
+			for (HoaDon hoaDon : ds) {
+				double tongTienHoaDon = hoaDon.tinhTongTien();
+				if(indexSelected == 1) {
+					if(tongTienHoaDon < 1000000) dstam.add(hoaDon);
+				}else if(indexSelected == 2) {
+					if(tongTienHoaDon >= 1000000 && tongTienHoaDon < 5000000) dstam.add(hoaDon);
+				}else if(indexSelected == 3) {
+					if(tongTienHoaDon >= 5000000 && tongTienHoaDon < 10000000) dstam.add(hoaDon);
+				}else if(indexSelected == 4) {
+					if(tongTienHoaDon >= 10000000 && tongTienHoaDon < 20000000) dstam.add(hoaDon);
+				}else {
+					if(tongTienHoaDon >= 20000000) ds.add(hoaDon);
+				}
+			}
+			ds.clear();
+			ds.addAll(dstam);
+		}
+	}
+	
+	public void locHoaDonBangNgayLapHoaDon(ArrayList<HoaDon> ds) {
+		ArrayList<HoaDon> dstam = new ArrayList<>();
+		if(cbongay.getSelectedIndex() != 0) {
+			int ngay = Integer.parseInt(cbongay.getSelectedItem()+"");
+			for (HoaDon hoaDon : ds) {
+				if(hoaDon.getNgayLapHoaDon().getDayOfMonth() == ngay) dstam.add(hoaDon);
+			}
+			ds.clear();
+			ds.addAll(dstam);
+		}
+	}
+	
+	public void locHoaDonBangThangLapHoaDon(ArrayList<HoaDon> ds) {
+		ArrayList<HoaDon> dstam = new ArrayList<>();
+		if(cbothang.getSelectedIndex() != 0) {
+			int thang = Integer.parseInt(cbothang.getSelectedItem()+"");
+			for (HoaDon hoaDon : ds) {
+				if(hoaDon.getNgayLapHoaDon().getMonthValue() == thang) dstam.add(hoaDon);
+			}
+			ds.clear();
+			ds.addAll(dstam);
+		}
+	}
+	
+	public void locHoaDonBangNamLapHoaDon(ArrayList<HoaDon> ds) {
+		ArrayList<HoaDon> dstam = new ArrayList<>();
+		if(cbonam.getSelectedIndex() != 0) {
+			int nam = Integer.parseInt(cbonam.getSelectedItem()+"");
+			for (HoaDon hoaDon : ds) {
+				if(hoaDon.getNgayLapHoaDon().getYear() == nam) dstam.add(hoaDon);
+			}
+			ds.clear();
+			ds.addAll(dstam);
+		}
+	}
+	
+	
+	public void doDuLieuVaoBangHoaDon(ArrayList<HoaDon> ds) {
+		for (HoaDon hoaDon : ds) {
+			modelHoaDon.addRow(new Object[] {
+					hoaDon.getMaHoaDon(),
+					dinhDangTien(hoaDon.tinhTongTien()),
+					dinhDangTien(hoaDon.tinhTienCanThanhToan()),
+					dinhDangTien(hoaDon.getTienKhachTra()),
+					dinhDangTien(hoaDon.tinhTienThua()),
+					hoaDon.getHinhThucThanhToan(),
+					hoaDon.getNgayLapHoaDon(),
+					hoaDon.getNhanVien().getMa(),
+					hoaDon.getNhanVien().getTen(),
+					hoaDon.getKhachHang().getMa(),
+					hoaDon.getKhachHang().getTen(),
+					hoaDon.getGhiChu()
+			});
+		}
+	}
+	//XỬ LÝ SỰ KIỆN CHO NHẤN VÀO BẢNG HÓA ĐƠN
+	public void xuLySuKienKhiNhanVaoBangHoaDon() {
+		int row = tableHoaDon.getSelectedRow();
+		String maHoaDon = modelHoaDon.getValueAt(row, 0).toString();
+		HoaDon hd = new HoaDon_BUS().getHoaDonByMaHoaDon(maHoaDon);
+		doDuLieuVaoBangChiTietHoaDonTrangHoaDon(hd.getDsChiTietHoaDon());
+	}
+	
+	public void doDuLieuVaoBangChiTietHoaDonTrangHoaDon(ArrayList<ChiTietHoaDon> ds) {
+		modelChiTietHoaDon.setRowCount(0);
+		for (ChiTietHoaDon c : ds) {
+			modelChiTietHoaDon.addRow(new Object[] {
+					c.getSanPham().getMaSanPham(),
+					c.getSanPham().getTenSanPham(),
+					c.getSoLuongMua(),
+					dinhDangTien(c.tinhTongTien())
+			});
+		}
+	}
+	
 	// PHẦN VIẾT GUI CHO KHÁCH HÀNG
 	public void GUIKhachHang() {
 		model_KHthongTin = new DefaultTableModel(
@@ -2110,39 +2310,81 @@ public class ViewTrangChu extends JFrame {
 				this.setVisible(false);
 			}
 		}else {
-			xoaGiaoDienHienTai();
 			if(src.equals("Trang Chủ")) {
+				xoaGiaoDienHienTai();
 				this.add(pnlTrangChu);
 				btnControlTrangChu.setBackground(new Color(255,165,0));
+				indexFrame = src;
+				this.revalidate();
+				this.repaint();
 			}
 			if(src.equals("Mua Hàng")) {
+				xoaGiaoDienHienTai();
 				this.add(pnlMuaHang);
 				btnControlMuaHang.setBackground(new Color(255,165,0));
+				indexFrame = src;
+				this.revalidate();
+				this.repaint();
 			}
 			if(src.equals("Sản Phẩm")) {
-				this.add(pnlSanPham);
-				btnControlSanPham.setBackground(new Color(255,165,0));
+				if(kiemTraChucVu()) {
+					xoaGiaoDienHienTai();
+					this.add(pnlSanPham);
+					btnControlSanPham.setBackground(new Color(255,165,0));
+					indexFrame = src;
+					this.revalidate();
+					this.repaint();
+				}
 			}
 			if(src.equals("Hóa Đơn")) {
-				this.add(pnHoaDon);
-				btnControlHoaDon.setBackground(new Color(255,165,0));
+				if(kiemTraChucVu()) {
+					xoaGiaoDienHienTai();
+					this.add(pnHoaDon);
+					btnControlHoaDon.setBackground(new Color(255,165,0));
+					indexFrame = src;
+					this.revalidate();
+					this.repaint();
+				}
 			}
 			if(src.equals("Nhân Viên")) {
-				this.add(pnlNhanVien);
-				btnControlNhanVien.setBackground(new Color(255,165,0));
+				if(kiemTraChucVu()) {
+					xoaGiaoDienHienTai();
+					this.add(pnlNhanVien);
+					btnControlNhanVien.setBackground(new Color(255,165,0));
+					indexFrame = src;
+					this.revalidate();
+					this.repaint();
+				}
 			}
 			if(src.equals("Khách Hàng")) {
-				this.add(pnlCenter_KhachHang);
-				btnControlKhachHang.setBackground(new Color(255,165,0));
+				if(kiemTraChucVu()) {
+					xoaGiaoDienHienTai();
+					this.add(pnlCenter_KhachHang);
+					btnControlKhachHang.setBackground(new Color(255,165,0));
+					indexFrame = src;
+					this.revalidate();
+					this.repaint();
+				}
 			}
 			if(src.equals("Thống Kê")) {
-				this.add(pnThongKe);
-				btnControlThongKe.setBackground(new Color(255,165,0));
+				if(kiemTraChucVu()) {
+					xoaGiaoDienHienTai();
+					this.add(pnThongKe);
+					btnControlThongKe.setBackground(new Color(255,165,0));
+					indexFrame = src;
+					this.revalidate();
+					this.repaint();
+				}
 			}
-			indexFrame = src;
-			this.revalidate();
-			this.repaint();
 		}
+	}
+	
+	public boolean kiemTraChucVu() {
+		if(!nhanVien.getChucVu().equals("Quản lý")) {
+			JOptionPane.showMessageDialog(this, "Chỉ có quản lý mới có thể sử dụng tính năng này");
+			return false;
+		}
+		return true;
 	}
 	
 	// phần sử lý giao diện khi người dùng chọn một danh mục bất kỳ trong phần mua hàng
@@ -2456,7 +2698,8 @@ public void xuLyDuLieuGioiTinh(ArrayList<KhachHang> ds) {
 	public void xuLyKhiDuLieuGioHangThayDoi() {
 		lblMHHDTongtiens.setText(dinhDangTien(hoaDonMuaHang.tinhTongTien()));
 		lblMHHDThues.setText(dinhDangTien(hoaDonMuaHang.tinhThue()));
-		lblMHHDGiams.setText(dinhDangTien(hoaDonMuaHang.giamGia()));
+		hoaDonMuaHang.giamGia();
+		lblMHHDGiams.setText(dinhDangTien(hoaDonMuaHang.getGiamgia()));
 		lblMHHDThanhtoans.setText(dinhDangTien(hoaDonMuaHang.tinhTienCanThanhToan()));
 		lblMHHDTienthuas.setText(dinhDangTien(hoaDonMuaHang.tinhTienThua()));
 	}
@@ -2512,7 +2755,38 @@ public void xuLyDuLieuGioiTinh(ArrayList<KhachHang> ds) {
 		hoaDon.setHinhThucThanhToan(cbbMHHDHinhthuctt.getSelectedItem()+"");
 	}
 	
-	public void xuLyKhiNguoiDungNhapTrenTxtTimSP() {
+	public void xuLySuKienLocPhanMuaHang() {
+		ArrayList<Case> dsCase = new SanPham_BUS().getAllCase();
+		ArrayList<Cpu> dsCpu = new SanPham_BUS().getAllCpu();
+		ArrayList<Psu> dsPsu = new SanPham_BUS().getAllPsu();
+		ArrayList<Main> dsMain = new SanPham_BUS().getAllMain();
+		ArrayList<Ram> dsRam = new SanPham_BUS().getAllRam();
+		ArrayList<Vga> dsVga = new SanPham_BUS().getAllVga();
+		
+		xuLyKhiNguoiDungChonLocNhaSX(dsCase, dsCpu, dsPsu, dsMain, dsRam, dsVga);
+		xuLyKhiNguoiDungNhapTrenTxtTimSP(dsCase, dsCpu, dsPsu, dsMain, dsRam, dsVga);
+	}
+	
+	public void xuLyKhiNguoiDungChonLocNhaSX(ArrayList<Case> dsCase, ArrayList<Cpu> dsCpu, ArrayList<Psu> dsPsu, ArrayList<Main> dsMain, ArrayList<Ram> dsRam, ArrayList<Vga> dsVga) {
+		String nhasx = cbbMHNhaSX.getSelectedItem().toString();
+		if(nhasx.equals("Tất cả")) {
+			dsCase = new SanPham_BUS().getAllCase();
+			dsCpu = new SanPham_BUS().getAllCpu();
+			dsPsu = new SanPham_BUS().getAllPsu();
+			dsMain = new SanPham_BUS().getAllMain();
+			dsRam = new SanPham_BUS().getAllRam();
+			dsVga = new SanPham_BUS().getAllVga();
+		}else {
+			new SanPham_BUS().dsSanPhamCaseSauKhiLocNhaSX(dsCase, nhasx);
+			new SanPham_BUS().dsSanPhamCpuSauKhiLocNhaSX(dsCpu, nhasx);
+			new SanPham_BUS().dsSanPhamPsuSauKhiLocNhaSX(dsPsu, nhasx);
+			new SanPham_BUS().dsSanPhamMainSauKhiLocNhaSX(dsMain, nhasx);
+			new SanPham_BUS().dsSanPhamRamSauKhiLocNhaSX(dsRam, nhasx);
+			new SanPham_BUS().dsSanPhamVgaSauKhiLocNhaSX(dsVga, nhasx);
+		}
+	}
+	
+	public void xuLyKhiNguoiDungNhapTrenTxtTimSP(ArrayList<Case> dsCase, ArrayList<Cpu> dsCpu, ArrayList<Psu> dsPsu, ArrayList<Main> dsMain, ArrayList<Ram> dsRam, ArrayList<Vga> dsVga) {
 		String duLieu = txtMHTimSP.getText();
 		modelMHCase.setRowCount(0);
 		modelMHCpu.setRowCount(0);
@@ -2521,19 +2795,19 @@ public void xuLyDuLieuGioiTinh(ArrayList<KhachHang> ds) {
 		modelMHMain.setRowCount(0);
 		modelMHVga.setRowCount(0);
 		if(duLieu.equals("")) {
-			doDuLieuVaoBangCase(new SanPham_BUS().getAllCase());
-			doDuLieuVaoBangCpu(new SanPham_BUS().getAllCpu());
-			doDuLieuVaoBangPsu(new SanPham_BUS().getAllPsu());
-			doDuLieuVaoBangRam(new SanPham_BUS().getAllRam());
-			doDuLieuVaoBangMain(new SanPham_BUS().getAllMain());
-			doDuLieuVaoBangVga(new SanPham_BUS().getAllVga());
+			doDuLieuVaoBangCase(dsCase);
+			doDuLieuVaoBangCpu(dsCpu);
+			doDuLieuVaoBangPsu(dsPsu);
+			doDuLieuVaoBangRam(dsRam);
+			doDuLieuVaoBangMain(dsMain);
+			doDuLieuVaoBangVga(dsVga);
 		}else {
-			doDuLieuVaoBangCase(new SanPham_BUS().dsSanPhamCaseSauKhiLoc(duLieu));
-			doDuLieuVaoBangCpu(new SanPham_BUS().dsSanPhamCpuSauKhiLoc(duLieu));
-			doDuLieuVaoBangPsu(new SanPham_BUS().dsSanPhamPsuSauKhiLoc(duLieu));
-			doDuLieuVaoBangRam(new SanPham_BUS().dsSanPhamRamSauKhiLoc(duLieu));
-			doDuLieuVaoBangMain(new SanPham_BUS().dsSanPhamMainSauKhiLoc(duLieu));
-			doDuLieuVaoBangVga(new SanPham_BUS().dsSanPhamVgaSauKhiLoc(duLieu));
+			doDuLieuVaoBangCase(new SanPham_BUS().dsSanPhamCaseSauKhiLoc(dsCase, duLieu));
+			doDuLieuVaoBangCpu(new SanPham_BUS().dsSanPhamCpuSauKhiLoc(dsCpu, duLieu));
+			doDuLieuVaoBangPsu(new SanPham_BUS().dsSanPhamPsuSauKhiLoc(dsPsu, duLieu));
+			doDuLieuVaoBangRam(new SanPham_BUS().dsSanPhamRamSauKhiLoc(dsRam, duLieu));
+			doDuLieuVaoBangMain(new SanPham_BUS().dsSanPhamMainSauKhiLoc(dsMain, duLieu));
+			doDuLieuVaoBangVga(new SanPham_BUS().dsSanPhamVgaSauKhiLoc(dsVga, duLieu));
 		}
 	}
 	
@@ -2579,8 +2853,7 @@ public void xuLyDuLieuGioiTinh(ArrayList<KhachHang> ds) {
 	public void xuLyThanhToanHoaDon() {
 		if(hoaDonMuaHang.getDsChiTietHoaDon().size() == 0) {
 			JOptionPane.showMessageDialog(this, "Giỏ hàng đang trống");
-		}
-		if(hoaDonMuaHang.tinhTienThua() < 0) {
+		}else if(hoaDonMuaHang.tinhTienThua() < 0) {
 			JOptionPane.showMessageDialog(this, "Số tiền khách đưa không đủ để thanh toán. Vui lòng kiểm tra lại!");
 		}else {
 			if(txtMHHDGhichu.getText().equals("")) {
@@ -2596,10 +2869,13 @@ public void xuLyDuLieuGioiTinh(ArrayList<KhachHang> ds) {
 					new KhachHang_BUS().capNhatDiemTichLuyKhachHang(hoaDonMuaHang);
 				}
 				JOptionPane.showMessageDialog(this, "Thanh toán thành công và lưu hóa đơn");
+				modelHoaDon.setRowCount(0);
+				doDuLieuVaoBangHoaDon(new HoaDon_BUS().getAllHoaDon());
 				xuLyLamMoiHoaDon();
 				hoaDonMuaHang = new HoaDon(hoadon_bus.ranDomMaHoaDon());
 				lblMHHDMahds.setText(hoaDonMuaHang.getMaHoaDon());
 				khoiTaoHoaDon(hoaDonMuaHang);
+				cbbMHNhaSX.setSelectedIndex(0);
 			}
 		}
 	}

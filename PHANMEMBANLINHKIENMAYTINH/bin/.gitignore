@@ -1,4 +1,13 @@
+<<<<<<< HEAD
 /DAO/
 /BUS/
 /controller/
 /view/
+=======
+/view/
+/controller/
+/BUS/
+/DAO/
+/model/
+>>>>>>> 4f004bc702bfe7ec2e75a40a89cc1a5fcae92ca1
+/connectDB/

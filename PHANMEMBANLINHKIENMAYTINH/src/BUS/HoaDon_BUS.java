@@ -22,4 +22,11 @@ public class HoaDon_BUS {
 		so++;
 		return "HD" + so;
 	}
+	public ArrayList<HoaDon> getAllHoaDon() {
+		return hddao.getAllHoaDon();
+	}
+	
+	public HoaDon getHoaDonByMaHoaDon(String maHoaDon) {
+		return hddao.getHoaDonByMaHoaDon(maHoaDon);
+	}
 }

@@ -7,7 +7,7 @@ import java.util.Objects;
 public class HoaDon {
 	private String maHoaDon;
 	private LocalDate ngayLapHoaDon;
-	private double tienKhachTra;
+	private double tienKhachTra, giamgia;
 	private ArrayList<ChiTietHoaDon> dsChiTietHoaDon = new ArrayList<>();
 	private String hinhThucThanhToan;
 	private String ghiChu;
@@ -15,7 +15,7 @@ public class HoaDon {
 	private KhachHang khachHang;
 	private NhanVien nhanVien;
 	public HoaDon(String maHoaDon, LocalDate ngayLapHoaDon, double tienKhachTra, String hinhThucThanhToan,
-			String ghiChu, double thueVAT, KhachHang khachHang, NhanVien nhanVien) {
+			String ghiChu, double thueVAT, KhachHang khachHang, NhanVien nhanVien, double giamgia) {
 		super();
 		this.maHoaDon = maHoaDon;
 		this.ngayLapHoaDon = ngayLapHoaDon;
@@ -24,6 +24,7 @@ public class HoaDon {
 		this.ghiChu = ghiChu;
 		this.khachHang = khachHang;
 		this.nhanVien = nhanVien;
+		this.giamgia = giamgia;
 	}
 	public HoaDon(String maHoaDon) {
 		super();
@@ -82,6 +83,12 @@ public class HoaDon {
 		this.nhanVien = nhanVien;
 	}
 	
+	public double getGiamgia() {
+		return giamgia;
+	}
+	public void setGiamgia(double giamgia) {
+		this.giamgia = giamgia;
+	}
 	@Override
 	public int hashCode() {
 		return Objects.hash(maHoaDon);
@@ -143,21 +150,23 @@ public class HoaDon {
 	}
 	
 	public double tinhTienCanThanhToan() {
-		return this.tinhTongTien() + this.tinhThue() - this.giamGia();
+		return this.tinhTongTien() + this.tinhThue() - this.giamgia;
 	}
 	
 	public double tinhTienThua() {
 		return this.tienKhachTra - this.tinhTienCanThanhToan();
 	}
 	
-	public double giamGia() {
+	public void giamGia() {
 		double tienGiam = this.getKhachHang().getDiemTichLuy() / 1000 * 100000;
-		if(tienGiam > this.tinhTongTien()) return 0;
-		return tienGiam;
+		if(tienGiam > this.tinhTongTien()) this.giamgia = 0;
+		else {
+			this.giamgia = tienGiam;
+		}
 	}
 	
 	public void capNhatDiemTichLuyChoKhachHang() {
-		if(this.giamGia() != 0) {
+		if(this.giamgia != 0) {
 			this.khachHang.setDiemTichLuy(0);
 		}
 		congDiemKhachHang();

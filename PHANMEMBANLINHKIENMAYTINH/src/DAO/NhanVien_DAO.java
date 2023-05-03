@@ -38,6 +38,33 @@ public class NhanVien_DAO {
 		return ds;
 	}
 	
+	public NhanVien getNhanVienByMaNhanVien(String maNhanVien) {
+		NhanVien nhanVien = null;
+		ConnectDB.getInstance();
+		Connection con = ConnectDB.getConnection();
+		String sql = "select * from NhanVien nv join ConNguoi cn on nv.ma = cn.ma where cn.ma = ?";
+		try {
+			PreparedStatement statement = con.prepareStatement(sql);
+			statement.setString(1, maNhanVien);
+			ResultSet rs = statement.executeQuery();
+			while (rs.next()) {
+				String ma = rs.getString("ma").trim();
+				String ten = rs.getString("ten").trim();
+				String sdt = rs.getString("sdt").trim();
+				boolean gioiTinh = rs.getBoolean("gioiTinh");
+				String email = rs.getString("email").trim();
+				String diaChi = rs.getString("diaChi").trim();
+				String chucVu = rs.getString("chucVu").trim();
+				String cmnd = rs.getString("cmnd").trim();
+				String matKhau = rs.getString("matKhau").trim();
+				nhanVien = new NhanVien(ma, ten, sdt, gioiTinh, email, diaChi, chucVu, cmnd, matKhau);
+			}
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		return nhanVien;
+	}
+	
 	public boolean themNhanVien(NhanVien them) {
 		ConnectDB.getInstance();
 		Connection con = ConnectDB.getConnection();

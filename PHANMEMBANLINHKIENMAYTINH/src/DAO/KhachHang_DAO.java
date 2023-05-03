@@ -40,6 +40,32 @@ public class KhachHang_DAO {
 		}
 		return ds;
 	}
+	
+	public KhachHang getKhachHangByMaKhachHang(String maKhachHang) {
+		KhachHang khachhang = null;
+		ConnectDB.getInstance();
+		Connection con = ConnectDB.getConnection();
+		try {
+			String sql = "Select * from KhachHang kh join ConNguoi cn on kh.ma = cn.ma where cn.ma = ?";
+			PreparedStatement statement = con.prepareStatement(sql);
+			statement.setString(1, maKhachHang);
+			ResultSet rs = statement.executeQuery();
+			while(rs.next()) {
+				String ma = rs.getString("ma").trim();
+				String ten = rs.getString("ten").trim();
+				String sdt = rs.getString("sdt").trim();
+				boolean gioiTinh = rs.getBoolean("gioiTinh");
+				String email = rs.getString("email").trim();
+				String diaChi = rs.getString("diaChi").trim();
+				double diemTichLuy = rs.getDouble("diemTichLuy");
+				khachhang = new KhachHang(ma, ten, sdt, gioiTinh, email, diaChi, diemTichLuy);
+			}
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		return khachhang;
+	}
+	
 	public boolean themKhachHang(KhachHang kh) {
 		ConnectDB.getInstance();
 		Connection con = ConnectDB.getConnection();

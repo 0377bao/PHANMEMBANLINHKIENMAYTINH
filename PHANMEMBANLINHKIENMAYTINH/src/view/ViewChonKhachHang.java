@@ -21,14 +21,15 @@ import javax.swing.JTextField;
 import javax.swing.table.DefaultTableModel;
 
 import BUS.KhachHang_BUS;
-import BUS.XuLySuKienGuiKhachHang;
 import controller.XuLySuKienChonKhachHang;
 import model.HoaDon;
 import model.KhachHang;
 import model.MyButton;
 import model.MyTable;
 
-public class ViewKhachHang extends JFrame{
+public class ViewChonKhachHang extends JFrame{
+	private String message;
+	private ViewTrangChu view;
 	private JTextField txtTen, txtSDT;
 	private DefaultTableModel model;
 	private MyTable table;
@@ -37,13 +38,15 @@ public class ViewKhachHang extends JFrame{
 	private HoaDon hoadon;
 	private KhachHang khachhang;
 	private KhachHang_BUS khachhangbus = new KhachHang_BUS();
-	public ViewKhachHang(KhachHang kh, JLabel ma, JLabel ten, JLabel giamgia, JLabel toan, JLabel tienthua, HoaDon hoadon) {
+	public ViewChonKhachHang(KhachHang kh, JLabel ma, JLabel ten, JLabel giamgia, JLabel toan, JLabel tienthua, HoaDon hoadon, ViewTrangChu viewhome, String mes) {
 		khachhang = kh;
 		lblmaKHMH = ma;
 		lbltenKHMH = ten;
 		lblgiamgia = giamgia;
 		lblthanhtoan = toan;
 		lbltienThua = tienthua;
+		view = viewhome;
+		message = mes;
 		this.hoadon = hoadon;
 		this.setTitle("Thông tin khách hàng");
 		this.setSize(700, 700);
@@ -89,7 +92,7 @@ public class ViewKhachHang extends JFrame{
 		pnlSouth.setPreferredSize(new Dimension(700, 80));
 		pnlSouth.setLayout(null);
 		btnChon = new MyButton("Chọn");
-		btnChon.addActionListener(new XuLySuKienGuiKhachHang(this));
+		btnChon.addActionListener(new XuLySuKienChonKhachHang(this));
 		btnChon.setBounds(300, 25, 100, 30);
 		pnlSouth.add(btnChon);
 		this.add(pnlSouth, BorderLayout.SOUTH);
@@ -121,14 +124,21 @@ public class ViewKhachHang extends JFrame{
 			ArrayList<KhachHang> ds = khachhangbus.getAllKhachHang();
 			for (KhachHang khachHang : ds) {
 				if(model.getValueAt(row, 0).toString().equals(khachHang.getMa())) {
-					khachhang = khachHang;
-					lblmaKHMH.setText(khachhang.getMa());
-					lbltenKHMH.setText(khachhang.getTen());
-					hoadon.setKhachHang(khachHang);
-					lblthanhtoan.setText(String.format("%,.0f", hoadon.tinhTienCanThanhToan()));
-					lblgiamgia.setText(String.format("%,.0f", hoadon.giamGia()));
-					lbltienThua.setText(String.format("%,.0f", hoadon.tinhTienThua()));
-					this.setVisible(false);
+					if(message.equals("Mua hàng")) {
+						khachhang = khachHang;
+						lblmaKHMH.setText(khachhang.getMa());
+						lbltenKHMH.setText(khachhang.getTen());
+						hoadon.setKhachHang(khachHang);
+						hoadon.giamGia();
+						lblthanhtoan.setText(String.format("%,.0f", hoadon.tinhTienCanThanhToan()));
+						lblgiamgia.setText(String.format("%,.0f", hoadon.getGiamgia()));
+						lbltienThua.setText(String.format("%,.0f", hoadon.tinhTienThua()));
+						this.setVisible(false);
+					}else if(message.equals("Hóa đơn")) {
+						khachhang.setMa(khachHang.getMa());
+						view.locDuLieuVaoBangHoaDon();
+						this.setVisible(false);
+					}
 				}
 			}
 		}
