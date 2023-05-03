@@ -6,10 +6,18 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
+import java.time.LocalDate;
+import java.util.ArrayList;
+import java.util.Calendar;
 
+import BUS.ChiTietHoaDon_BUS;
+import BUS.KhachHang_BUS;
+import BUS.NhanVien_BUS;
 import connectDB.ConnectDB;
 import model.ChiTietHoaDon;
 import model.HoaDon;
+import model.KhachHang;
+import model.NhanVien;
 
 public class HoaDon_DAO {
 	public int getMaHoaDonMax() {
@@ -79,4 +87,38 @@ public class HoaDon_DAO {
 		}
 		return (n>0&&m>0);
 	}
+//	public ArrayList<HoaDon> getAllHoaDon() {
+//		ArrayList<HoaDon> ds = new ArrayList<>();
+//		Connection con = ConnectDB.getConnection();
+//		String sql = "select * from HoaDon";
+//		Statement statement = null;
+//		try {
+//			statement = con.createStatement();
+//			ResultSet rs = statement.executeQuery(sql);
+//			while(rs.next()) {
+//				String maHoaDon = rs.getString("maHoaDon");
+//				Date ngay = rs.getDate("ngayLapHoaDon");
+//				Calendar c = Calendar.getInstance();
+//				c.setTime(ngay);
+//				LocalDate ngayLapHoaDon = LocalDate.of(c.get(Calendar.YEAR), c.get(Calendar.MONTH) + 1, c.get(Calendar.DAY_OF_MONTH));
+//				double tienKhachTra = rs.getDouble("tienKhachTra");
+//				String hinhThucThanhToan = rs.getString("hinhThucThanhToan");
+//				String ghiChu = rs.getString("ghiChu");
+//				double thueVAT = rs.getDouble("thueVAT");
+//				String maKH = rs.getString("maKhachHang");
+//				String maNV = rs.getString("maNhanVien");
+//				KhachHang kh = new KhachHang_BUS().getkhachHangTheoMa(maKH);
+//				NhanVien nv = new NhanVien_BUS().getNhanVienByMaNhanVien(maNV);
+//				ArrayList<ChiTietHoaDon> cthd = new ChiTietHoaDon_BUS().getChiTietHoaDonOfHoaDon(maHoaDon);
+//				HoaDon hd = new HoaDon(maHoaDon, ngayLapHoaDon, tienKhachTra, hinhThucThanhToan, ghiChu, thueVAT, kh, nv);
+//				hd.setDsChiTietHoaDon(cthd);
+//				ds.add(hd);
+//			}
+//		} catch (SQLException e) {
+//			// TODO Auto-generated catch block
+//			e.printStackTrace();
+//		}
+//		return ds;
+//	}
+	
 }
