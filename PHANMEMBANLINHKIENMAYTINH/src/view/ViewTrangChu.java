@@ -20,6 +20,7 @@ import java.awt.event.ActionListener;
 import java.awt.event.ComponentEvent;
 import java.awt.event.ComponentListener;
 import java.awt.event.KeyEvent;
+import java.awt.event.KeyListener;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 import java.awt.geom.Ellipse2D;
@@ -66,6 +67,7 @@ import javax.swing.text.TableView.TableCell;
 
 import BUS.HoaDon_BUS;
 import BUS.KhachHang_BUS;
+import BUS.NhanVien_BUS;
 import BUS.SanPham_BUS;
 import DAO.KhachHang_DAO;
 import connectDB.ConnectDB;
@@ -80,7 +82,7 @@ import model.KhachHang;
 import model.Main;
 import controller.XuLySuKien_GUIKhachHang;
 import controller.XuLySuKienChoTrangMuaHang;
-
+import controller.XuLySuKienNhanVien;
 import model.MauCacDongTrongBang;
 import model.MyButton;
 import model.MyCombobox;
@@ -96,6 +98,7 @@ public class ViewTrangChu extends JFrame {
 	private NhanVien nhanVien = null;
 	// phần khai báo bus
 	private KhachHang_BUS kh_BUS = new KhachHang_BUS();
+	private NhanVien_BUS nv_BUS = new NhanVien_BUS();
 	private String indexFrame = "Trang Chủ";
 	// PHẦN KHAI BÁO BIẾN LOCAL
 	public Color mauChuDao = new ViewDangNhap().mauChuDao;
@@ -215,6 +218,8 @@ public class ViewTrangChu extends JFrame {
 	private JPanel pnlSreachContainer;
 	private JPanel pnlSreachContainerNV;
 	private JPanel pnlInfor_6;
+	private JButton btnXoaNhanVien;
+	private JButton btnKhoiTaoMaNhanVien;
 	// COMPONENT PHẦN KHÁCH HÀNG
 	JLabel lbl_maKhach, lbl_tenKhachHang, lbl_GioiTinhKH, lbl_soDienThoaiKH, lbl_emailKH, lbl_diaChiKH, lbl_tempKH,lbl_timKiemKH;
 	JButton btn_ThemKH, btn_SuaKH, btn_LamMoiKH, btn_KhoiTaoMaKH;
@@ -430,7 +435,9 @@ public class ViewTrangChu extends JFrame {
 		lblVaiTro.setPreferredSize(new Dimension(80, 20));
 		comboVaiTro = new MyCombobox();
 		comboVaiTro.addItem("Quản lý");
-		comboVaiTro.addItem("Nhân viên");	
+		comboVaiTro.addItem("Nhân viên bán hàng");
+		nv_BUS = new NhanVien_BUS();
+        ArrayList<NhanVien> listNV = nv_BUS.getAllNhanVien();  
 		bInfor_4.add(comboVaiTro);
 		comboVaiTro.setPreferredSize(new Dimension(120, 25));
 		bInfor_4.add(Box.createRigidArea(new Dimension(120, 0)));
@@ -453,8 +460,10 @@ public class ViewTrangChu extends JFrame {
 		bInfor_5.add(Box.createRigidArea(new Dimension(487, 0)));
 
 		// line 6
+		pnlInfor_6.add(btnKhoiTaoMaNhanVien = new MyButton("Khởi tạo mã"));
+		btnKhoiTaoMaNhanVien.setPreferredSize(new Dimension(100, 30));
+		pnlInfor_6.add(Box.createRigidArea(new Dimension(20, 0)));
 		pnlInfor_6.add(btnThemNhanVien = new MyButton("Thêm"));
-
 		btnThemNhanVien.setPreferredSize(new Dimension(70, 30));
 		pnlInfor_6.add(Box.createRigidArea(new Dimension(20, 0)));
 		pnlInfor_6.add(btnSuaNhanVien = new MyButton("Sửa"));
@@ -462,6 +471,9 @@ public class ViewTrangChu extends JFrame {
 		pnlInfor_6.add(Box.createRigidArea(new Dimension(20, 0)));
 		pnlInfor_6.add(btnLamMoiNhanVien = new MyButton("Làm mới"));
 		btnLamMoiNhanVien.setPreferredSize(new Dimension(70, 30));
+		pnlInfor_6.add(Box.createRigidArea(new Dimension(20, 0)));
+		pnlInfor_6.add(btnXoaNhanVien = new MyButton("Xóa"));
+		btnXoaNhanVien.setPreferredSize(new Dimension(70,30));
 
 		// add các line vào
 		bInfor.add(bLayout);
@@ -496,18 +508,20 @@ public class ViewTrangChu extends JFrame {
 		bSreachGT_VT.add(lblLocTheoGT = new JLabel("Lọc theo giới tính"));
 		bSreachGT_VT.add(Box.createRigidArea(new Dimension(20, 0)));
 		comboLocGioiTinh = new MyCombobox();
-		comboLocGioiTinh.addItem("");
+		comboLocGioiTinh.addItem("Tất cả");
 		comboLocGioiTinh.addItem("Nam");
 		comboLocGioiTinh.addItem("Nữ");
+        comboLocGioiTinh.setActionCommand("comboBoxLocGioiTinh");
 		comboLocGioiTinh.setPreferredSize(new Dimension(60, 20));
 		bSreachGT_VT.add(comboLocGioiTinh);
 		bSreachGT_VT.add(Box.createRigidArea(new Dimension(170, 0)));
 		bSreachGT_VT.add(lblLocTheoVT = new JLabel("Lọc theo vai trò"));
 		bSreachGT_VT.add(Box.createRigidArea(new Dimension(20, 0)));
 		comboLocVaiTro = new MyCombobox();
-		comboLocVaiTro.addItem("");
+		comboLocVaiTro.addItem("Tất cả");
 		comboLocVaiTro.addItem("Quản lý");
-		comboLocVaiTro.addItem("Nhân Viên");
+		comboLocVaiTro.addItem("Nhân viên bán hàng");
+        comboLocVaiTro.setActionCommand("comboBoxLocChucVu");
 		comboLocVaiTro.setPreferredSize(new Dimension(60, 20));
 		bSreachGT_VT.add(comboLocVaiTro);
 		bSreachGT_VT.add(Box.createRigidArea(new Dimension(20, 0)));
@@ -543,15 +557,14 @@ public class ViewTrangChu extends JFrame {
 		model_NV.addColumn("Vai Trò");
 		model_NV.addColumn("Địa chỉ");
 		model_NV.addColumn("Điện thoại");
-		model_NV.addColumn("Ngày sinh");
 		model_NV.addColumn("Giới Tính");
 		model_NV.addColumn("Email");
 		model_NV.addColumn("CMND/CCCD");
 		table_NV = new MyTable(model_NV);
 		JScrollPane croll = new JScrollPane(table_NV);
-		model_NV.addRow(new Object[] { "NV1", "Đạt", "123", "Nhân Viên", "778 Thống Nhất", "091123", "12/12/2003", "Nữ",
-				"111@gmail.com", "111231" });
 		croll.setBorder(BorderFactory.createBevelBorder(BevelBorder.LOWERED));
+		nv_BUS = new NhanVien_BUS();
+		DocDuLieuDatabaseVaoTableNhanVien();
 
 		// Tạo vùng chứa table
 		Box bTableContainer = Box.createHorizontalBox();
@@ -568,7 +581,306 @@ public class ViewTrangChu extends JFrame {
 		pnlNhanVien.add(Box.createRigidArea(new Dimension(0, 15)));
 		pnlNhanVien.add(bTableContainer);
 //		this.add(b);
+
+		ActionListener ac = new XuLySuKienNhanVien(this);
+		btnThemNhanVien.addActionListener(ac);
+		btnLamMoiNhanVien.addActionListener(ac);
+		btnSuaNhanVien.addActionListener(ac);
+		btnXoaNhanVien.addActionListener(ac);
+		btnKhoiTaoMaNhanVien.addActionListener(ac);
+		comboLocGioiTinh.addActionListener(ac);
+		comboLocVaiTro.addActionListener(ac);
+		txtMaNV.setEditable(false);	
 	}
+	//Đọc dữ liệu vào bảng nhân viên
+    public void DocDuLieuDatabaseVaoTableNhanVien() {
+        model_NV.setRowCount(0);
+        ArrayList<NhanVien> list = nv_BUS.getAllNhanVien();
+        for (NhanVien nhanVien : list) {
+            model_NV.addRow(new Object[]{nhanVien.getMa(), nhanVien.getTen(),  nhanVien.getMatkhau(),nhanVien.getChucVu(),nhanVien.getDiaChi(),nhanVien.getSDT(), nhanVien.isGioiTinh() ? "Nữ" : "Nam", 
+            nhanVien.getEmail(),nhanVien.getCmnd()		});
+        }
+
+    }
+    //Lọc dữ liệu Combobox giới tính và chức vụ
+    ArrayList<NhanVien> filteredList1 = new ArrayList<>();
+    public void LocComBoBox() {
+    	ArrayList<NhanVien> list = nv_BUS.getAllNhanVien();
+    	filteredList1.clear();
+    	for (NhanVien nhanVien : list) {
+    		if (comboLocGioiTinh.getSelectedItem().toString().equals("Tất cả")
+                    || nhanVien.isGioiTinh()==(comboLocGioiTinh.getSelectedItem().toString().equals("Nữ"))) {
+                // Lọc theo chức vụ
+                if (comboLocVaiTro.getSelectedItem().toString().equals("Tất cả")
+                        || nhanVien.getChucVu().equals(comboLocVaiTro.getSelectedItem().toString())) {
+                    // Thêm đối tượng Person phù hợp vào ArrayList mới
+                    filteredList1.add(nhanVien);
+                }
+            }
+		}
+    	model_NV.setRowCount(0);
+    	for (NhanVien nhanVien : filteredList1) {
+    		model_NV.addRow(new Object[]{nhanVien.getMa(), nhanVien.getTen(), nhanVien.getMatkhau(), nhanVien.getChucVu(), nhanVien.getDiaChi(), nhanVien.getSDT(), nhanVien.isGioiTinh() ? "Nữ" : "Nam", nhanVien.getEmail(), nhanVien.getCmnd()});
+		}
+    }
+    
+
+    //Làm mới các JTextField
+    public void lamMoi() {
+    	txtMaNV.setText("");
+    	txtTen.setText("");
+    	txtSDT.setText("");
+    	txtMK.setText("");
+    	txtDiaChi.setText("");
+    	txtCMND.setText("");
+    	txtEmail.setText("");
+    	
+    }
+    //thêm nhân viên 
+    public void themNhanVien() {
+    	
+
+    	if(!kiemTraRong()) {
+    		JOptionPane.showMessageDialog(this, "Xin lỗi bạn chưa nhập đầy đủ thông tin. Vui lòng nhập đầy đủ trước khi tiếp tục");
+    	
+    	}
+  	  Pattern patternten = Pattern.compile("[\\p{L}\\s]+");
+  	  Pattern patternsdt = Pattern.compile("^0\\d{9}$");
+  	  Pattern patterncmnd = Pattern.compile("^\\d{9}(\\d{3})?$");
+  	  Pattern patternmk = Pattern.compile(".*");
+  	  Pattern patternemail = Pattern.compile("^\\w+([.-]?\\w+)*@\\w+([.-]?\\w+)*(\\.\\w{2,3})+$");
+  	  Pattern patterndiachi = Pattern.compile("[\\p{L}\\d\\s,-.?]+");
+      Matcher matcherten = patternten.matcher(txtTen.getText());
+      if (!matcherten.matches()) {
+          JOptionPane.showMessageDialog(this, "Lỗi tên khách hàng phải là chữ", "Lỗi", JOptionPane.ERROR_MESSAGE);
+          txtTen.requestFocus();
+          return;
+      }
+      Matcher matchersdt = patternsdt.matcher(txtSDT.getText());
+      if (!matchersdt.matches()) {
+          JOptionPane.showMessageDialog(this, "Số điện thoại bắt đầu bằng 0 và có 10 số", "Lỗi", JOptionPane.ERROR_MESSAGE);
+          txtSDT.requestFocus();
+          return;
+      }
+      Matcher matchercmnd = patterncmnd.matcher(txtCMND.getText());
+      if (!matchercmnd.matches()) {
+          JOptionPane.showMessageDialog(this, "Chứng minh nhân dân hoặc căn cước công dân có 9 hoặc 12 chữ số", "Lỗi", JOptionPane.ERROR_MESSAGE);
+          txtCMND.requestFocus();
+          return;
+      }
+      Matcher matchermk = patternmk.matcher(txtMK.getText());
+      if (!matchermk.matches()) {
+          JOptionPane.showMessageDialog(this, "Chứng minh nhân dân hoặc căn cước công dân có 9 hoặc 12 chữ số", "Lỗi", JOptionPane.ERROR_MESSAGE);
+          txtMK.requestFocus();
+          return;
+      }
+      Matcher matcheremail = patternemail.matcher(txtEmail.getText());
+      if (!matcheremail.matches()) {
+          JOptionPane.showMessageDialog(this, "Email có định dạng abc@xyz.com", "Lỗi", JOptionPane.ERROR_MESSAGE);
+          txtEmail.requestFocus();
+          return;
+      }
+      Matcher matcherdiachi = patterndiachi.matcher(txtDiaChi.getText());
+      if (!matcherdiachi.matches()) {
+          JOptionPane.showMessageDialog(this, "Lỗi địa chỉ không đúng định dạng", "Lỗi", JOptionPane.ERROR_MESSAGE);
+          txtDiaChi.requestFocus();
+          return;
+      }
+      
+      
+    		String ma = txtMaNV.getText(); 	  	
+        	String ten = txtTen.getText();
+        	String sdt = txtSDT.getText();
+        	String matKhau = txtMK.getText();
+        	String diaChi = txtDiaChi.getText();
+        	String cmnd = txtCMND.getText();
+        	String email = txtEmail.getText();
+            String gioiTinh = radNam_NV.isSelected() ? "Nữ" : "Nam";
+            Boolean phai = gioiTinh.equals("Nam");
+            String chucVu = comboVaiTro.getSelectedItem().toString();
+
+            
+            NhanVien nv = new NhanVien(ma, ten, sdt, phai, email, diaChi, chucVu, cmnd, matKhau);
+            if (nv_BUS.themNhanVien(nv)) {
+    		    JOptionPane.showMessageDialog(this, "Thêm nhân viên thành công!");
+    		    // Load lại dữ liệu trên JTable
+    		    DocDuLieuDatabaseVaoTableNhanVien();
+
+    		} else {
+    		    JOptionPane.showMessageDialog(this, "Mã nhân viên đã tồn tại!");
+    		}
+    	
+  
+    }
+    
+    public void khoiTaoMa() {
+    	String ma = nv_BUS.ranDomMaKhachHang();
+	  	txtMaNV.setText(ma);
+    }
+    public boolean kiemTraRong() {
+    	String ten = txtTen.getText().trim();
+    	String sdt = txtSDT.getText().trim();
+    	String matKhau = txtMK.getText().trim();
+    	String diaChi = txtDiaChi.getText().trim();
+    	String cmnd = txtCMND.getText().trim();
+    	String email = txtEmail.getText().trim();
+        if (  ten.isEmpty() || sdt.isEmpty() || matKhau.isEmpty()
+    	        || diaChi.isEmpty() || cmnd.isEmpty() || email.isEmpty()) {
+    	    return false;
+    	}
+        return true;
+    }
+    public void suaNhanVien() {
+    	if(!kiemTraRong()) {
+    		JOptionPane.showMessageDialog(this, "Xin lỗi bạn chưa nhập đầy đủ thông tin. Vui lòng nhập đầy đủ trước khi tiếp tục");
+    	
+    	}
+  	  Pattern patternten = Pattern.compile("[\\p{L}\\s]+");
+  	  Pattern patternsdt = Pattern.compile("^0\\d{9}$");
+  	  Pattern patterncmnd = Pattern.compile("^\\d{9}(\\d{3})?$");
+  	  Pattern patternmk = Pattern.compile(".*");
+  	  Pattern patternemail = Pattern.compile("^\\w+([.-]?\\w+)*@\\w+([.-]?\\w+)*(\\.\\w{2,3})+$");
+  	  Pattern patterndiachi = Pattern.compile("[\\p{L}\\d\\s,-.?]+");
+      Matcher matcherten = patternten.matcher(txtTen.getText());
+      if (!matcherten.matches()) {
+          JOptionPane.showMessageDialog(this, "Lỗi tên khách hàng phải là chữ", "Lỗi", JOptionPane.ERROR_MESSAGE);
+          txtTen.requestFocus();
+          return;
+      }
+      Matcher matchersdt = patternsdt.matcher(txtSDT.getText());
+      if (!matchersdt.matches()) {
+          JOptionPane.showMessageDialog(this, "Số điện thoại bắt đầu bằng 0 và có 10 số", "Lỗi", JOptionPane.ERROR_MESSAGE);
+          txtSDT.requestFocus();
+          return;
+      }
+      Matcher matchercmnd = patterncmnd.matcher(txtCMND.getText());
+      if (!matchercmnd.matches()) {
+          JOptionPane.showMessageDialog(this, "Chứng minh nhân dân hoặc căn cước công dân có 9 hoặc 12 chữ số", "Lỗi", JOptionPane.ERROR_MESSAGE);
+          txtCMND.requestFocus();
+          return;
+      }
+      Matcher matchermk = patternmk.matcher(txtMK.getText());
+      if (!matchermk.matches()) {
+          JOptionPane.showMessageDialog(this, "Chứng minh nhân dân hoặc căn cước công dân có 9 hoặc 12 chữ số", "Lỗi", JOptionPane.ERROR_MESSAGE);
+          txtMK.requestFocus();
+          return;
+      }
+      Matcher matcheremail = patternemail.matcher(txtEmail.getText());
+      if (!matcheremail.matches()) {
+          JOptionPane.showMessageDialog(this, "Email có định dạng abc@xyz.com", "Lỗi", JOptionPane.ERROR_MESSAGE);
+          txtEmail.requestFocus();
+          return;
+      }
+      Matcher matcherdiachi = patterndiachi.matcher(txtDiaChi.getText());
+      if (!matcherdiachi.matches()) {
+          JOptionPane.showMessageDialog(this, "Lỗi địa chỉ không đúng định dạng", "Lỗi", JOptionPane.ERROR_MESSAGE);
+          txtDiaChi.requestFocus();
+          return;
+      }
+      
+    	
+    	
+    	String ma = txtMaNV.getText();
+    	String ten = txtTen.getText();
+    	String sdt = txtSDT.getText();
+    	String matKhau = txtMK.getText();
+    	String diaChi = txtDiaChi.getText();
+    	String cmnd = txtCMND.getText();
+    	String email = txtEmail.getText();
+        String gioiTinh = radNam_NV.isSelected() ? "Nữ" : "Nam";
+        Boolean phai = gioiTinh.equals("Nam");
+        String chucVu = comboVaiTro.getSelectedItem().toString();
+        NhanVien nv = new NhanVien(ma, ten, sdt, phai, email, diaChi, chucVu, cmnd, matKhau);
+        if (nv_BUS.suaNhanVien(nv)) {
+		    JOptionPane.showMessageDialog(this, "Sửa nhân viên thành công!");
+		    DocDuLieuDatabaseVaoTableNhanVien();
+
+		} else {
+		    JOptionPane.showMessageDialog(this, "Sửa nhân viên không thành công");
+		}
+    }
+    public void xoaNhanVien() {
+        int r = table_NV.getSelectedRow();
+        if (r == -1) {
+            JOptionPane.showMessageDialog(null, "Vui lòng chọn nhân viên cần xóa!");
+        } else {
+            int confirm = JOptionPane.showConfirmDialog(null, "Bạn có chắc chắn muốn xóa nhân viên này không?", "Xác nhận", JOptionPane.YES_NO_OPTION);
+            if (confirm == JOptionPane.YES_OPTION) {
+                String maNV = txtMaNV.getText();
+                boolean result = nv_BUS.xoaNhanVien(maNV);
+				if (result) {
+				    JOptionPane.showMessageDialog(null, "Xóa nhân viên thành công!");
+				    DocDuLieuDatabaseVaoTableNhanVien();
+				} else {
+				    JOptionPane.showMessageDialog(null, "Xóa nhân viên không thành công!");
+				}
+            }
+        }
+    	
+    }
+    public void timKiem() {
+        String keyword = txtTimKiemNV.getText().toLowerCase(); 
+        model_NV.setRowCount(0);
+        for (NhanVien nhanVien : filteredList1) {
+            String ma = nhanVien.getMa().toLowerCase();
+            String ten = nhanVien.getTen().toLowerCase();
+            String matkhau = nhanVien.getMatkhau().toLowerCase();
+            String chucvu = nhanVien.getChucVu().toLowerCase();
+            String diaChi = nhanVien.getDiaChi().toLowerCase();
+            String sdt = nhanVien.getSDT().toLowerCase();
+            String gioiTinh = nhanVien.isGioiTinh() ? "Nữ" : "Nam";
+            String email = nhanVien.getEmail().toLowerCase();
+            String cmnd = nhanVien.getCmnd().toLowerCase();
+            
+            if (ma.contains(keyword) || ten.contains(keyword) || matkhau.contains(keyword) || chucvu.contains(keyword) || diaChi.contains(keyword) || sdt.contains(keyword) || gioiTinh.equalsIgnoreCase(keyword) || email.contains(keyword) || cmnd.contains(keyword)) {
+                model_NV.addRow(new Object[]{nhanVien.getMa(), nhanVien.getTen(), nhanVien.getMatkhau(), nhanVien.getChucVu(), nhanVien.getDiaChi(), nhanVien.getSDT(), nhanVien.isGioiTinh() ? "Nữ" : "Nam", nhanVien.getEmail(), nhanVien.getCmnd()});
+            }
+        }
+    }
+    
+
+    public void LoadDuLieuLaiCacComponent() {
+    	int row = table_NV.getSelectedRow();
+    	if (row != -1) {
+    	String ma = (String) table_NV.getValueAt(row,0);
+    	ArrayList<NhanVien> nv = nv_BUS.timTheoMaNhanVien(ma);
+        for (NhanVien nhanVien : nv) {
+            txtMaNV.setText(nhanVien.getMa().trim());
+            txtTen.setText(nhanVien.getTen().trim());
+            txtMK.setText(nhanVien.getMatkhau().trim());
+            comboVaiTro.setSelectedItem(nhanVien.getChucVu().toString());
+            txtDiaChi.setText(nhanVien.getDiaChi().trim());
+            txtSDT.setText(nhanVien.getSDT().trim());
+            txtCMND.setText(nhanVien.getCmnd().trim());
+            txtEmail.setText(nhanVien.getEmail().trim());
+            if(nhanVien.isGioiTinh()) {
+                radNu_NV.setSelected(true);
+                radNam_NV.setSelected(false);
+            } else {
+                radNam_NV.setSelected(true);
+                radNu_NV.setSelected(false);
+            }
+
+
+            
+        }
+    	
+    		
+    	}
+    }
+    
+
+    public String getTimKiem() {
+        return txtTimKiemNV.getText();
+    }
+
+    public void addSearchKeyListener(KeyListener listener) {
+        txtTimKiemNV.addKeyListener(listener);
+    }
+    public void addMouse(MouseListener mouseListener) {
+        table_NV.addMouseListener(mouseListener);
+    }
+	
 
 	// PHẦN VIẾT GUI CHO MUA HÀNG
 	public void GUIMuaHang() {
