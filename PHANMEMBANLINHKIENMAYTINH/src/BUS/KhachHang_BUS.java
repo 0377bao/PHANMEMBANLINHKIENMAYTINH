@@ -14,6 +14,7 @@ import model.KhachHang;
 public class KhachHang_BUS {
 	public static String mes = "";
 	KhachHang_DAO kh_DAO = new KhachHang_DAO();
+	private HoaDon_BUS HD_BUS;
 	public ArrayList<KhachHang> getAllKhachHang(){
 		return kh_DAO.getAllKhachHang();
 	}
@@ -113,8 +114,14 @@ public class KhachHang_BUS {
 	public void capNhatDiemTichLuyKhachHang(HoaDon hoaDon) {
 		kh_DAO.capNhatDiemTichLuyKhachHang(hoaDon.getKhachHang().getMa(), hoaDon.getKhachHang().getDiemTichLuy());
 	}
-	
-	public KhachHang getKhachHangByMaKhachHang(String maKhachHang) {
-		return kh_DAO.getKhachHangByMaKhachHang(maKhachHang);
+	public void layDuLieuBangLSGDTheoMa(String maKH,DefaultTableModel model) {
+		HD_BUS = new HoaDon_BUS(); 
+		for(HoaDon hd : HD_BUS.getAllHoaDon()) {
+			if(maKH.equals(hd.getKhachHang().getMa())) {
+				Object obj[] = {maKH,hd.getKhachHang().getTen(),hd.getNgayLapHoaDon(),hd.getKhachHang().getSDT(),hd.tinhTongTien()};
+				model.addRow(obj);
+			}
+		}
 	}
+	
 }

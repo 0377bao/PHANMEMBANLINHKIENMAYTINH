@@ -245,4 +245,5 @@ public class KhachHang_DAO {
     	}
     }
 	
+	
 }
