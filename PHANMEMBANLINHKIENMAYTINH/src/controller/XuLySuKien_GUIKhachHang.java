@@ -18,7 +18,7 @@ private ViewTrangChu view ;
 	public void mouseClicked(MouseEvent e) {
 		// TODO Auto-generated method stub
 		view.upLoadTBThongTinCaNhanKHtoText();
-		
+		view.doDuLieuVaoBangLSGDTheoKhachHang();
 	}
 	@Override
 	public void mousePressed(MouseEvent e) {
@@ -60,6 +60,6 @@ private ViewTrangChu view ;
 	@Override
 	public void keyReleased(KeyEvent e) {
 		// TODO Auto-generated method stub
-		view.xuLySuKienTimKiem(e);
+		view.xuLySuKienTimKiemTTKH(e);
 	}
 }

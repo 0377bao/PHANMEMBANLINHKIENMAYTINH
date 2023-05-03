@@ -146,7 +146,7 @@ public class HoaDon_DAO {
 				double thueVAT = rs.getDouble("thueVAT");
 				String maKH = rs.getString("maKhachHang");
 				String maNV = rs.getString("maNhanVien");
-				KhachHang kh = new KhachHang_BUS().getKhachHangByMaKhachHang(maKH);
+				KhachHang kh = new KhachHang_BUS().getkhachHangTheoMa(maKH);
 				NhanVien nv = new NhanVien_BUS().getNhanVienByMaNhanVien(maNV);
 				ArrayList<ChiTietHoaDon> cthd = new ChiTietHoaDon_BUS().getChiTietHoaDonOfHoaDon(maHoaDon);
 				double giamgia = rs.getDouble("giamGia");
