@@ -7,10 +7,12 @@ import java.awt.event.MouseListener;
 
 import javax.swing.JComboBox;
 
+import BUS.SanPham_BUS;
 import view.ViewTrangChu;
 
 public class LocTheoDanhMucCuaPhanSanPham implements ActionListener, MouseListener{
 	private ViewTrangChu trangchu;
+	private SanPham_BUS sp_BUS = new SanPham_BUS();
 	public LocTheoDanhMucCuaPhanSanPham(ViewTrangChu view) {
 		trangchu = view;
 	}
@@ -23,8 +25,10 @@ public class LocTheoDanhMucCuaPhanSanPham implements ActionListener, MouseListen
 	@Override
 	public void mouseClicked(MouseEvent e) {
 		// TODO Auto-generated method stub
-		trangchu.xuLyDanhMuc(trangchu.modelSP.getValueAt(trangchu.tableSP.getSelectedRow(), 1).toString());
+		
+		trangchu.xuLyDanhMuc(sp_BUS.getLoaiSanPham((trangchu.modelSP.getValueAt(trangchu.tableSP.getSelectedRow(), 0)).toString().toUpperCase()));
 		trangchu.uploadTbSanPham();
+		
 	}
 
 	@Override

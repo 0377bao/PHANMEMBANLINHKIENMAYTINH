@@ -15,7 +15,6 @@ public class LoadDuLieuTheoCombobox implements ActionListener{
 	@Override
 	public void actionPerformed(ActionEvent e) {
 		// TODO Auto-generated method stub
-        String src = ((JComboBox)e.getSource()).getName();
-		trangchu.xuLySuKien_LocSanPham(src);
+		trangchu.xuLyDuLieuLocTrenCombobox();
 	}
 }

@@ -21,6 +21,8 @@ import javax.swing.JTextField;
 import javax.swing.table.DefaultTableModel;
 
 import BUS.KhachHang_BUS;
+import controller.XuLySuKienChonKhachHang;
+import controller.XuLySuKienGuiKhachHang;
 //import BUS.XuLySuKienGuiKhachHang;
 //import controller.XuLySuKienChonKhachHang;
 import model.HoaDon;
@@ -89,15 +91,15 @@ public class ViewKhachHang extends JFrame{
 		pnlSouth.setPreferredSize(new Dimension(700, 80));
 		pnlSouth.setLayout(null);
 		btnChon = new MyButton("Chọn");
-//		btnChon.addActionListener(new XuLySuKienGuiKhachHang(this));
+		btnChon.addActionListener(new XuLySuKienGuiKhachHang(this));
 		btnChon.setBounds(300, 25, 100, 30);
 		pnlSouth.add(btnChon);
 		this.add(pnlSouth, BorderLayout.SOUTH);
 		// phần đỗ dữ liệu vào bảng
 		doDuLieuVaoBang(khachhangbus.getAllKhachHang());
 		// phần thêm sự kiện nhập cho txt
-//		txtTen.addKeyListener(new XuLySuKienChonKhachHang(this));
-//		txtSDT.addKeyListener(new XuLySuKienChonKhachHang(this));
+		txtTen.addKeyListener(new XuLySuKienChonKhachHang(this));
+		txtSDT.addKeyListener(new XuLySuKienChonKhachHang(this));
 	}
 	
 	public void doDuLieuVaoBang(ArrayList<KhachHang> ds) {
