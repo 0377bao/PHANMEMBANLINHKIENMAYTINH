@@ -169,8 +169,9 @@ public class ViewThemKhachHang extends JFrame implements ActionListener{
 				lblmaKHMH.setText(khachHang.getMa());
 				lbltenKHMH.setText(khachHang.getTen());
 				hoadon.setKhachHang(khachHang);
+				hoadon.giamGia();
 				lblthanhtoan.setText(String.format("%,.0f", hoadon.tinhTienCanThanhToan()));
-				lblgiamgia.setText(String.format("%,.0f", hoadon.giamGia()));
+				lblgiamgia.setText(String.format("%,.0f", hoadon.getGiamgia()));
 				this.setVisible(false);
 			}
 		}

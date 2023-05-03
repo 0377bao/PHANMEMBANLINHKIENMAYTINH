@@ -386,54 +386,108 @@ public class SanPham_BUS {
 		return sp_dao.getALLSanPhamTheoLoai(loai);
 	}
 
-	public ArrayList<Case> dsSanPhamCaseSauKhiLoc(String regex) {
+	public ArrayList<Case> dsSanPhamCaseSauKhiLoc(ArrayList<Case> ds, String regex) {
 		ArrayList<Case> dsLoc = new ArrayList<>();
-		ArrayList<Case> ds = sp_dao.getAllCase();
 		for (Case sanPham : ds) {
 			if(kiemTraMaHoacTenSanPham(sanPham, regex)) dsLoc.add(sanPham);
 		}
 		return dsLoc;
 	}
-	public ArrayList<Main> dsSanPhamMainSauKhiLoc(String regex) {
+	
+	public void dsSanPhamCaseSauKhiLocNhaSX(ArrayList<Case> ds, String nhaSX) {
+		ArrayList<Case> dsLoc = new ArrayList<>();
+		for (Case sanPham : ds) {
+			if(sanPham.getNhaSanXuat().equals(nhaSX)) dsLoc.add(sanPham);
+		}
+		ds.clear();
+		ds.addAll(dsLoc);
+	}
+	
+	public ArrayList<Main> dsSanPhamMainSauKhiLoc(ArrayList<Main> ds, String regex) {
 		ArrayList<Main> dsLoc = new ArrayList<>();
-		ArrayList<Main> ds = sp_dao.getAllMain();
 		for (Main sanPham : ds) {
 			if(kiemTraMaHoacTenSanPham(sanPham, regex)) dsLoc.add(sanPham);
 		}
 		return dsLoc;
 	}
-	public ArrayList<Cpu> dsSanPhamCpuSauKhiLoc(String regex) {
+	
+	public void dsSanPhamMainSauKhiLocNhaSX(ArrayList<Main> ds, String nhaSX) {
+		ArrayList<Main> dsLoc = new ArrayList<>();
+		for (Main sanPham : ds) {
+			if(sanPham.getNhaSanXuat().equals(nhaSX)) dsLoc.add(sanPham);
+		}
+		ds.clear();
+		ds.addAll(dsLoc);
+	}
+	
+	public ArrayList<Cpu> dsSanPhamCpuSauKhiLoc(ArrayList<Cpu> ds, String regex) {
 		ArrayList<Cpu> dsLoc = new ArrayList<>();
-		ArrayList<Cpu> ds = sp_dao.getAllCpu();
 		for (Cpu sanPham : ds) {
 			if(kiemTraMaHoacTenSanPham(sanPham, regex)) dsLoc.add(sanPham);
 		}
 		return dsLoc;
 	}
-	public ArrayList<Ram> dsSanPhamRamSauKhiLoc(String regex) {
+	
+	public void dsSanPhamCpuSauKhiLocNhaSX(ArrayList<Cpu> ds, String nhaSX) {
+		ArrayList<Cpu> dsLoc = new ArrayList<>();
+		for (Cpu sanPham : ds) {
+			if(sanPham.getNhaSanXuat().equals(nhaSX)) dsLoc.add(sanPham);
+		}
+		ds.clear();
+		ds.addAll(dsLoc);
+	}
+	
+	public ArrayList<Ram> dsSanPhamRamSauKhiLoc(ArrayList<Ram> ds, String regex) {
 		ArrayList<Ram> dsLoc = new ArrayList<>();
-		ArrayList<Ram> ds = sp_dao.getAllRam();
 		for (Ram sanPham : ds) {
 			if(kiemTraMaHoacTenSanPham(sanPham, regex)) dsLoc.add(sanPham);
 		}
 		return dsLoc;
 	}
-	public ArrayList<Psu> dsSanPhamPsuSauKhiLoc(String regex) {
+	
+	public void dsSanPhamRamSauKhiLocNhaSX(ArrayList<Ram> ds, String nhaSX) {
+		ArrayList<Ram> dsLoc = new ArrayList<>();
+		for (Ram sanPham : ds) {
+			if(sanPham.getNhaSanXuat().equals(nhaSX)) dsLoc.add(sanPham);
+		}
+		ds.clear();
+		ds.addAll(dsLoc);
+	}
+	
+	public ArrayList<Psu> dsSanPhamPsuSauKhiLoc(ArrayList<Psu> ds, String regex) {
 		ArrayList<Psu> dsLoc = new ArrayList<>();
-		ArrayList<Psu> ds = sp_dao.getAllPsu();
 		for (Psu sanPham : ds) {
 			if(kiemTraMaHoacTenSanPham(sanPham, regex)) dsLoc.add(sanPham);
 		}
 		return dsLoc;
 	}
-	public ArrayList<Vga> dsSanPhamVgaSauKhiLoc(String regex) {
+	
+	public void dsSanPhamPsuSauKhiLocNhaSX(ArrayList<Psu> ds, String nhaSX) {
+		ArrayList<Psu> dsLoc = new ArrayList<>();
+		for (Psu sanPham : ds) {
+			if(sanPham.getNhaSanXuat().equals(nhaSX)) dsLoc.add(sanPham);
+		}
+		ds.clear();
+		ds.addAll(dsLoc);
+	}
+	
+	public ArrayList<Vga> dsSanPhamVgaSauKhiLoc(ArrayList<Vga> ds, String regex) {
 		ArrayList<Vga> dsLoc = new ArrayList<>();
-		ArrayList<Vga> ds = sp_dao.getAllVga();
 		for (Vga sanPham : ds) {
 			if(kiemTraMaHoacTenSanPham(sanPham, regex)) dsLoc.add(sanPham);
 		}
 		return dsLoc;
 	}
+	
+	public void dsSanPhamVgaSauKhiLocNhaSX(ArrayList<Vga> ds, String nhaSX) {
+		ArrayList<Vga> dsLoc = new ArrayList<>();
+		for (Vga sanPham : ds) {
+			if(sanPham.getNhaSanXuat().equals(nhaSX)) dsLoc.add(sanPham);
+		}
+		ds.clear();
+		ds.addAll(dsLoc);
+	}
+	
 	
 	public boolean kiemTraMaHoacTenSanPham(SanPham sanPham, String regex) {
 		Pattern pMa = Pattern.compile(regex, Pattern.CASE_INSENSITIVE);

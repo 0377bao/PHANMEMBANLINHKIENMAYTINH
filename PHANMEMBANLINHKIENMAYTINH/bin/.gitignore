@@ -1,5 +1,4 @@
-/BUS/
-/view/
-/controller/
-/connectDB/
 /DAO/
+/controller/
+/view/
+/BUS/

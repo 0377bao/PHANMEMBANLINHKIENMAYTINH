@@ -64,7 +64,7 @@ public class ViewDangNhap extends JFrame implements ActionListener{
 		lblUserName.setBounds(x, y, width, height);
 		lblUserName.setForeground(Color.black);
 		lblUserName.setFont(fontLabel);
-		txtUserName = new JTextField("NV1");
+		txtUserName = new JTextField("NV5");
 		txtUserName.setBorder(BorderFactory.createLineBorder(Color.black, 1));
 		txtUserName.setFont(fontLabel);
 		y += 25;

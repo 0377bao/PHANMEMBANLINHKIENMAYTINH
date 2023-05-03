@@ -8,6 +8,7 @@ import java.sql.Statement;
 import java.util.ArrayList;
 
 import connectDB.ConnectDB;
+import model.HoaDon;
 import model.KhachHang;
 
 public class KhachHang_DAO {
@@ -39,6 +40,32 @@ public class KhachHang_DAO {
 		}
 		return ds;
 	}
+	
+	public KhachHang getKhachHangByMaKhachHang(String maKhachHang) {
+		KhachHang khachhang = null;
+		ConnectDB.getInstance();
+		Connection con = ConnectDB.getConnection();
+		try {
+			String sql = "Select * from KhachHang kh join ConNguoi cn on kh.ma = cn.ma where cn.ma = ?";
+			PreparedStatement statement = con.prepareStatement(sql);
+			statement.setString(1, maKhachHang);
+			ResultSet rs = statement.executeQuery();
+			while(rs.next()) {
+				String ma = rs.getString("ma").trim();
+				String ten = rs.getString("ten").trim();
+				String sdt = rs.getString("sdt").trim();
+				boolean gioiTinh = rs.getBoolean("gioiTinh");
+				String email = rs.getString("email").trim();
+				String diaChi = rs.getString("diaChi").trim();
+				double diemTichLuy = rs.getDouble("diemTichLuy");
+				khachhang = new KhachHang(ma, ten, sdt, gioiTinh, email, diaChi, diemTichLuy);
+			}
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		return khachhang;
+	}
+	
 	public boolean themKhachHang(KhachHang kh) {
 		ConnectDB.getInstance();
 		Connection con = ConnectDB.getConnection();
@@ -99,6 +126,108 @@ public class KhachHang_DAO {
 		return ma;
 	}
 
+	
+	public KhachHang getKhachHangTheoMa(String maKh) {
+		KhachHang kh = null ;
+		int n;
+		ConnectDB.getInstance();
+		Connection con = ConnectDB.getConnection();
+		PreparedStatement statement = null;
+		try {
+			String sql = "Select * from KhachHang kh join ConNguoi cn on kh.ma = cn.ma where kh.ma = ?";
+			statement = con.prepareStatement(sql);
+			statement.setString(1, maKh);
+			ResultSet rs = statement.executeQuery();
+			while(rs.next()) {
+				String ma = rs.getString("ma").trim();
+				String ten = rs.getString("ten").trim();
+				String sdt = rs.getString("sdt").trim();
+				boolean gioiTinh = rs.getBoolean("gioiTinh");
+				String email = rs.getString("email").trim();
+				String diaChi = rs.getString("diaChi").trim();
+				double diemTichLuy = rs.getDouble("diemTichLuy");
+				kh = new KhachHang(ma, ten, sdt, gioiTinh, email, diaChi, diemTichLuy);
+			}
+		}catch (SQLException e) {
+			// TODO: handle exception
+			e.printStackTrace();
+		}finally {
+			try {
+				statement.close();
+			}catch (SQLException e) {
+				// TODO: handle exception
+				e.printStackTrace();
+			}
+		}return kh;
+	}
+	public boolean updateKH(KhachHang kh ) {
+		ConnectDB.getInstance();
+		Connection con = ConnectDB.getConnection();
+		PreparedStatement statementCN = null;
+		PreparedStatement statementKH = null;
+		int n = 0;
+		int m = 0;
+		try {
+			String sqlKH = "Update KhachHang set diemTichLuy = ? where ma = ?";
+			String sqlCN = "Update ConNguoi set ten = ? , sdt = ? , gioiTinh = ? , email = ? , diaChi = ? where ma = ?";
+			
+			statementKH = con.prepareStatement(sqlKH);
+			statementCN = con.prepareStatement(sqlCN);
+			statementCN.setString(1, kh.getTen());
+			statementCN.setString(2, kh.getSDT());
+			statementCN.setBoolean(3, kh.isGioiTinh());
+			statementCN.setString(4, kh.getEmail());
+			statementCN.setString(5, kh.getDiaChi());
+			statementKH.setDouble(1, kh.getDiemTichLuy());
+			statementCN.setString(6, kh.getMa());
+			statementKH.setString(2, kh.getMa());
+			n = statementCN.executeUpdate();
+			m = statementKH.executeUpdate();
+		}catch (SQLException e) {
+			// TODO: handle exception
+			e.printStackTrace();
+		}finally {
+			try {
+				statementCN.close();
+				statementKH.close();
+			}catch (SQLException e) {
+				// TODO: handle exception
+				e.printStackTrace();
+			}
+		}
+		return (n>0&&m>0);	
+	}
+	public boolean deleteKHTheoMa(String maKh) {
+		ConnectDB.getInstance();
+		Connection con = ConnectDB.getConnection();
+		PreparedStatement statementCN = null;
+		PreparedStatement statementKH = null;
+		int n =0;
+		int m =0;
+		try {
+			String sqlKH="Delete from KhachHang where ma = ?";
+			String sqlCN="Delete from ConNguoi where ma = ?";
+			statementCN = con.prepareStatement(sqlCN);
+			statementKH = con.prepareStatement(sqlKH);
+			statementCN.setString(1, maKh);
+			statementKH.setString(1, maKh);
+			n = statementCN.executeUpdate();
+			m = statementKH.executeUpdate();
+		}catch (SQLException e) {
+			// TODO: handle exception
+			e.printStackTrace();
+		}finally {
+			try {
+				statementCN.close();
+				statementKH.close();
+			}catch (SQLException e) {
+				// TODO: handle exception
+				e.printStackTrace();
+			}
+		}
+		return (n>0&&m>0);
+		
+	}
 	
 	public void capNhatDiemTichLuyKhachHang(String ma, double CapNhat) {
     	
