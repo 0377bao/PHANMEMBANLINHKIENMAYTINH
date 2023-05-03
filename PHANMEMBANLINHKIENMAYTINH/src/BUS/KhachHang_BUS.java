@@ -53,4 +53,8 @@ public class KhachHang_BUS {
 	public void capNhatDiemTichLuyKhachHang(HoaDon hoaDon) {
 		kh_DAO.capNhatDiemTichLuyKhachHang(hoaDon.getKhachHang().getMa(), hoaDon.getKhachHang().getDiemTichLuy());
 	}
+	
+	public KhachHang getKhachHangByMaKhachHang(String maKhachHang) {
+		return kh_DAO.getKhachHangByMaKhachHang(maKhachHang);
+	}
 }

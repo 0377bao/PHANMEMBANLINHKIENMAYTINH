@@ -22,4 +22,8 @@ public class NhanVien_BUS {
 		}
 		return null;
 	}
+	
+	public NhanVien getNhanVienByMaNhanVien(String maNhanVien) {
+		return nvdao.getNhanVienByMaNhanVien(maNhanVien);
+	}
 }

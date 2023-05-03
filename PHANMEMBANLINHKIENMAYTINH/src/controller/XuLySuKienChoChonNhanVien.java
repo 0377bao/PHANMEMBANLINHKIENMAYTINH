@@ -5,12 +5,12 @@ import java.awt.event.ActionListener;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
 
-import view.ViewChonKhachHang;
+import view.ViewChonNhanVien;
 
-public class XuLySuKienChonKhachHang implements KeyListener, ActionListener{
-	private ViewChonKhachHang view = null;
+public class XuLySuKienChoChonNhanVien implements KeyListener, ActionListener{
+	private ViewChonNhanVien view = null;
 	
-	public XuLySuKienChonKhachHang(ViewChonKhachHang view) {
+	public XuLySuKienChoChonNhanVien(ViewChonNhanVien view) {
 		this.view = view;
 	}
 
@@ -27,7 +27,8 @@ public class XuLySuKienChonKhachHang implements KeyListener, ActionListener{
 	}
 
 	@Override
-	public void keyReleased(KeyEvent e) {//xử lý khi nhập vào không phải là ký tự không định nghĩa như shilft hay alt...
+	public void keyReleased(KeyEvent e) {
+		//xử lý khi nhập vào không phải là ký tự không định nghĩa như shilft hay alt...
 		if(e.getKeyChar() != KeyEvent.CHAR_UNDEFINED) {
 			view.xuLySuKienNhapTXT();
 		}

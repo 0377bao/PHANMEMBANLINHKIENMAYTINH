@@ -25,6 +25,8 @@ public class XuLySuKienChoTrangMuaHang implements ActionListener, KeyListener{
 			String loaiCbb = ((JComboBox)e.getSource()).getName();
 			if(loaiCbb.equals("Danh mục")) {
 				view.xuLyDanhMucMuaHang();
+			}else if(loaiCbb.equals("Nhà sản xuất")) {
+				view.xuLySuKienLocPhanMuaHang();
 			}else {
 				view.xuLyKhiDoiPhuongThucThanhToan();
 			}
@@ -69,7 +71,7 @@ public class XuLySuKienChoTrangMuaHang implements ActionListener, KeyListener{
 			// phân biệt nhập trên txt nào
 			String thaoTacTrenTextField = e.getComponent().getName();
 			if(thaoTacTrenTextField.equals("Tìm sản phẩm")) {
-				view.xuLyKhiNguoiDungNhapTrenTxtTimSP();
+				view.xuLySuKienLocPhanMuaHang();
 			}else {
 				view.xuLyKhiNhanVienNhapTienKhachTra();
 			}
