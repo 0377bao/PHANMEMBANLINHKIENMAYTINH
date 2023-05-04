@@ -101,8 +101,8 @@ public class SanPham_BUS {
     		 return false;
     	 }
     	 giaBan = giaBan.replaceAll(",", "");
-    	 giaNhap = giaBan.replaceAll(",", "");
-    	 giamGia = giaBan.replaceAll(",", "");
+    	 giaNhap = giaNhap.replaceAll(",", "");
+    	 giamGia = giamGia.replaceAll(",", "");
     	 if(checkSo_SP(giaBan, slt, baoHanh, giaNhap, giamGia)) {
     		 double a = Double.parseDouble(giaBan);
     		 double b = Double.parseDouble(giaNhap);
@@ -114,8 +114,8 @@ public class SanPham_BUS {
     			 message_sp += "Mã sản phẩm bắt đầu bằng SP và theo sau là 3 ký số\n";
     			 n--;
     		 }
-    		 if(!tenSP.matches("^[\\p{L}\\d .-]+$")) {
-    			 message_sp += "Tên sản phẩm không chứa kí tự (/)\n";
+    		 if(!tenSP.matches("^[\\p{L}\\d .-/\\\\]+$")) {
+    			 message_sp += "Tên sản phẩm không chứa kí tự đặc biệt\n";
     			 n--;
     		 }
     		 if(Integer.parseInt(slt) < 0) {

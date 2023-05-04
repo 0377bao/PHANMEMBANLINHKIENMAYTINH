@@ -2509,13 +2509,17 @@ public class ViewTrangChu extends JFrame {
 		pnSouthThongKe.add(scrollPaneChiTietHoaDon, BorderLayout.CENTER);
 		pnThongKe.add(pnSouthThongKe, BorderLayout.CENTER);
 		// thêm dữ liệu 
+		capNhatDuLieuPhanThongKe();
+		// thêm sự kiện cho phần tử trang thống kê
+		cboNamThongKe.addActionListener(new XuLySuKienChoTrangThongKe(this));
+		cboThangThongKe.addActionListener(new XuLySuKienChoTrangThongKe(this));
+	}
+	// cập nhật dữ liệu phần thống kê
+	public void capNhatDuLieuPhanThongKe() {
 		lblsoDoanhThu.setText(dinhDangTien(hdbusThongKe.tinhTongDoanhThu(hdbusThongKe.getAllHoaDon())));
 		lblsoSoHoaDon.setText(hdbusThongKe.soHoaDon(hdbusThongKe.getAllHoaDon())+"");
 		lblsoTongKhachHang.setText(hdbusThongKe.tongSoKhachHang(hdbusThongKe.getAllHoaDon())+"");
 		doDuLieuVaoBangThongKe(cthdbus.getAllChiTietHoaDonBoiDsHoaDon(hdbusThongKe.getAllHoaDon()));
-		// thêm sự kiện cho phần tử trang thống kê
-		cboNamThongKe.addActionListener(new XuLySuKienChoTrangThongKe(this));
-		cboThangThongKe.addActionListener(new XuLySuKienChoTrangThongKe(this));
 	}
 	// đỗ dữ liệu vào bảng thống kê
 	public void doDuLieuVaoBangThongKe(ArrayList<ChiTietHoaDon> ds) {
@@ -2905,6 +2909,7 @@ public class ViewTrangChu extends JFrame {
 			SanPham temp = new SanPham();
 			if(sp_BUS.checkMaTrung(txtSPMa.getText())) {
 				String key = cbbSPDanhMuc.getSelectedItem().toString();
+				sp_BUS.xoaThongBaoLoi();
 				switch(key) {
 				case "CPU": {
 					Boolean check_cpu = sp_BUS.validate_cpu(txtSPSoLoi.getText(), txtSPSoLuongXuLy.getText(), txtSPTanSoCoSo.getText(), txtSPTanSoTurbo.getText(), txtSPBoNhoDem.getText(), txtSPBoNhoToiDa.getText());
