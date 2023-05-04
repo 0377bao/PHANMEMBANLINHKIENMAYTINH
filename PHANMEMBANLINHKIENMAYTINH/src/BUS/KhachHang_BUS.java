@@ -1,5 +1,9 @@
 package BUS;
 
+import java.sql.Connection;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
@@ -7,7 +11,11 @@ import java.util.regex.Pattern;
 import javax.swing.table.DefaultTableModel;
 
 import DAO.KhachHang_DAO;
+
+import connectDB.ConnectDB;
+
 import model.HoaDon;
+
 import model.KhachHang;
 
 
@@ -114,6 +122,7 @@ public class KhachHang_BUS {
 	public void capNhatDiemTichLuyKhachHang(HoaDon hoaDon) {
 		kh_DAO.capNhatDiemTichLuyKhachHang(hoaDon.getKhachHang().getMa(), hoaDon.getKhachHang().getDiemTichLuy());
 	}
+
 	public void layDuLieuBangLSGDTheoMa(String maKH,DefaultTableModel model) {
 		HD_BUS = new HoaDon_BUS(); 
 		for(HoaDon hd : HD_BUS.getAllHoaDon()) {
@@ -123,5 +132,6 @@ public class KhachHang_BUS {
 			}
 		}
 	}
+
 	
 }

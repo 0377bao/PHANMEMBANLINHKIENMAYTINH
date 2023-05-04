@@ -110,18 +110,22 @@ public class KhachHang_DAO {
 		ConnectDB.getInstance();
 		Connection con = ConnectDB.getConnection();
 		try {
-			Statement statement = con.createStatement();
+            Statement statement = con.createStatement();			
+
 			String sql = "Select top 1 * from KhachHang order by ma desc";
 			ResultSet rs = statement.executeQuery(sql);
 			while(rs.next()) {
 				ma = rs.getString("ma");
 			}
+
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block
+
 			e.printStackTrace();
 		}
 		return ma;
 	}
+
 	
 	public KhachHang getKhachHangTheoMa(String maKh) {
 		KhachHang kh = null ;
@@ -226,12 +230,7 @@ public class KhachHang_DAO {
 	}
 	
 	public void capNhatDiemTichLuyKhachHang(String ma, double CapNhat) {
-    	try {
-			ConnectDB.getInstance().connect();
-		} catch (SQLException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
+    	
     	Connection con = ConnectDB.getConnection();
     	String sql = "update KhachHang set diemTichLuy=? where ma = ?";
     	try {
@@ -244,6 +243,5 @@ public class KhachHang_DAO {
     		e.printStackTrace();
     	}
     }
-	
-	
+
 }
