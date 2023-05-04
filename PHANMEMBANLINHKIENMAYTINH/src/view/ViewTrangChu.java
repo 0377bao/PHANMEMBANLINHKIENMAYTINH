@@ -869,11 +869,11 @@ public class ViewTrangChu extends JFrame {
 				txtCMND.setText(nhanVien.getCmnd().trim());
 				txtEmail.setText(nhanVien.getEmail().trim());
 				if(nhanVien.isGioiTinh()) {
-					radNu_NV.setSelected(true);
-					radNam_NV.setSelected(false);
-				} else {
-					radNam_NV.setSelected(true);
 					radNu_NV.setSelected(false);
+					radNam_NV.setSelected(true);
+				} else {
+					radNam_NV.setSelected(false);
+					radNu_NV.setSelected(true);
 				}
 			}
 		}
