@@ -61,6 +61,7 @@ import javax.swing.plaf.basic.BasicComboBoxUI;
 import javax.swing.table.DefaultTableModel;
 import javax.swing.text.TableView.TableCell;
 
+import BUS.ChiTietHoaDon_BUS;
 import BUS.HoaDon_BUS;
 import BUS.KhachHang_BUS;
 import BUS.SanPham_BUS;
@@ -77,7 +78,7 @@ import model.KhachHang;
 import model.Main;
 import controller.XuLySuKien_GUIKhachHang;
 import controller.XuLySuKienChoTrangMuaHang;
-
+import controller.XuLySuKienChoTrangThongKe;
 import model.MauCacDongTrongBang;
 import model.MyButton;
 import model.MyCombobox;
@@ -166,7 +167,6 @@ public class ViewTrangChu extends JFrame {
 	private DefaultTableModel modelHoaDon, modelChiTietHoaDon;
 	private MyTable tableHoaDon, tableChiTietHoaDon;
 	private MyCombobox cbohinhThucThanhToan, cbotongTien, cbongay, cbothang, cbonam;
-	// COMPONENT PHẦN KHUYẾN MÃI
 	// COMPONENT PHẦN NHÂN VIÊN
 	private DefaultTableModel model_NV;
 	private MyTable table_NV;
@@ -228,7 +228,12 @@ public class ViewTrangChu extends JFrame {
 
 	// COMPONENT PHẦN THỐNG KÊ
 	private JPanel pnThongKe;
-
+	private DefaultTableModel modelThongKe;
+	private MyTable tableThongKe;
+	private MyCombobox cboNamThongKe, cboThangThongKe, cboDanhMucThongKe;
+	private JLabel lblsoDoanhThu, lblsoTongKhachHang, lblsoSoHoaDon;
+	private HoaDon_BUS hdbusThongKe = new HoaDon_BUS();
+	private ChiTietHoaDon_BUS cthdbus = new ChiTietHoaDon_BUS();
 
 	// CONSTRUCTER
 
@@ -2053,7 +2058,7 @@ public class ViewTrangChu extends JFrame {
 		pnDoanhThu.setBackground(mauChuDao);
 		JLabel lbldoanhThu = new JLabel("Doanh Thu");
 		lbldoanhThu.setFont(new Font("Arial", Font.BOLD, 20));
-		JLabel lblsoDoanhThu = new JLabel("7200000");
+		lblsoDoanhThu = new JLabel();
 		lblsoDoanhThu.setFont(new Font("Arial", Font.BOLD, 20));
 		GridBagConstraints gbcdoanhThu = new GridBagConstraints();
 		gbcdoanhThu.gridx = 0;
@@ -2071,7 +2076,7 @@ public class ViewTrangChu extends JFrame {
 		pnSoHoaDon.setBackground(mauChuDao);
 		JLabel lblsoHoaDon = new JLabel("Số Hóa Đơn");
 		lblsoHoaDon.setFont(new Font("Arial", Font.BOLD, 20));
-		JLabel lblsoSoHoaDon = new JLabel("2");
+		lblsoSoHoaDon = new JLabel("");
 		lblsoSoHoaDon.setFont(new Font("Arial", Font.BOLD, 20));
 		GridBagConstraints gbcsoHoaDon = new GridBagConstraints();
 		gbcsoHoaDon.gridx = 0;
@@ -2089,7 +2094,7 @@ public class ViewTrangChu extends JFrame {
 		pntongKhachHang.setBackground(mauChuDao);
 		JLabel lbltongKhachHang = new JLabel("Tổng Khách Hàng");
 		lbltongKhachHang.setFont(new Font("Arial", Font.BOLD, 20));
-		JLabel lblsoTongKhachHang = new JLabel("2");
+		lblsoTongKhachHang = new JLabel("");
 		lblsoTongKhachHang.setFont(new Font("Arial", Font.BOLD, 20));
 		GridBagConstraints gbc = new GridBagConstraints();
 		gbc.gridx = 0;
@@ -2102,66 +2107,101 @@ public class ViewTrangChu extends JFrame {
 		pntongKhachHang.add(lblsoTongKhachHang, gbc);
 		pnNorthThongKe.add(pntongKhachHang);
 
-		JPanel pnCenterThongKe = new JPanel(new GridLayout(2, 3, 10, 10));
-		pnCenterThongKe.setPreferredSize(new Dimension(900, 100));
+		JPanel pnCenterThongKe = new JPanel(new GridLayout(1, 4, 10, 10));
+		pnCenterThongKe.setPreferredSize(new Dimension(1000, 45));
 		pnThongKe.add(pnCenterThongKe, BorderLayout.CENTER);
 
 		JPanel pnNam = new JPanel(new BorderLayout());
 		pnNam.setBorder(BorderFactory.createTitledBorder("Năm"));
 		pnNam.setPreferredSize(new Dimension(20, 10));
-		MyCombobox cbonam = new MyCombobox();
-		cbonam.addItem("2021");
-		cbonam.setPreferredSize(new Dimension(10, 5));
-		pnNam.add(cbonam);
-		pnCenterThongKe.add(pnNam, BorderLayout.CENTER);
-
-		JPanel pnQuy = new JPanel(new BorderLayout());
-		pnQuy.setBorder(BorderFactory.createTitledBorder("Quý"));
-		pnQuy.setPreferredSize(new Dimension(20, 10));
-		MyCombobox cboQuy = new MyCombobox();
-		cboQuy.addItem("1");
-		pnQuy.add(cboQuy);
-		pnCenterThongKe.add(pnQuy, BorderLayout.CENTER);
+		cboNamThongKe = new MyCombobox();
+		cboNamThongKe.addItem("Tất cả");
+		for(int i = 2000; i < 2024; i++) {
+			cboNamThongKe.addItem(i);
+		}
+		cboNamThongKe.setPreferredSize(new Dimension(10, 5));
+		pnNam.add(cboNamThongKe);
+		pnCenterThongKe.add(pnNam);
 
 		JPanel pnThang = new JPanel(new BorderLayout());
 		pnThang.setBorder(BorderFactory.createTitledBorder("Tháng"));
 		pnThang.setPreferredSize(new Dimension(20, 10));
-		MyCombobox cboThang = new MyCombobox();
-		cboThang.addItem("1");
-		pnThang.add(cboThang);
-		pnCenterThongKe.add(pnThang, BorderLayout.CENTER);
-
-		MyButton btnTatCa = new MyButton("Tất Cả");
-		pnCenterThongKe.add(btnTatCa);
-
-		JPanel pnDanhMuc = new JPanel(new BorderLayout());
-		pnDanhMuc.setBorder(BorderFactory.createTitledBorder("Danh Mục"));
-		pnDanhMuc.setPreferredSize(new Dimension(20, 10));
-		MyCombobox cboDanhMuc = new MyCombobox();
-		cboDanhMuc.addItem("1");
-		pnDanhMuc.add(cboDanhMuc);
-		pnCenterThongKe.add(pnDanhMuc, BorderLayout.CENTER);
-
-		JPanel pnTimKiem = new JPanel(new BorderLayout());
-		pnTimKiem.setBorder(BorderFactory.createTitledBorder("Tìm Kiếm"));
-		pnTimKiem.setPreferredSize(new Dimension(20, 10));
-		JTextField txtTimKiem = new JTextField();
-		pnTimKiem.add(txtTimKiem);
-		txtTimKiem.setPreferredSize(new Dimension(80, 50));
-		pnCenterThongKe.add(pnTimKiem, BorderLayout.CENTER);
+		cboThangThongKe = new MyCombobox();
+		cboThangThongKe.addItem("Tất cả");
+		for(int i = 1; i < 13; i++) {
+			cboThangThongKe.addItem(i);
+		}
+		pnThang.add(cboThangThongKe);
+		pnCenterThongKe.add(pnThang);
 
 		JPanel pnSouthThongKe = new JPanel(new BorderLayout());
-		pnSouthThongKe.setPreferredSize(new Dimension(1000, 900));
-		String[] clos = { "Sản Phẩm", "Số Lượng", "Doanh Thu" };
-		DefaultTableModel tableModelChiTietHoaDon = new DefaultTableModel(clos, 0);
-		MyTable tabelChiTietHoaDon = new MyTable(tableModelChiTietHoaDon);
-		JScrollPane scrollPaneChiTietHoaDon = new JScrollPane(tabelChiTietHoaDon);
+		pnSouthThongKe.setPreferredSize(new Dimension(1000, 540));
+		String[] clos = {"Mã sản phẩm","Tên sản phẩm", "Số lượng đã bán", "Doanh thu" };
+		modelThongKe = new DefaultTableModel(clos, 0);
+		tableThongKe = new MyTable(modelThongKe);
+		JScrollPane scrollPaneChiTietHoaDon = new JScrollPane(tableThongKe);
 		pnSouthThongKe.add(scrollPaneChiTietHoaDon, BorderLayout.CENTER);
 		pnThongKe.add(pnSouthThongKe, BorderLayout.CENTER);
+		// thêm dữ liệu 
+		lblsoDoanhThu.setText(dinhDangTien(hdbusThongKe.tinhTongDoanhThu(hdbusThongKe.getAllHoaDon())));
+		lblsoSoHoaDon.setText(hdbusThongKe.soHoaDon(hdbusThongKe.getAllHoaDon())+"");
+		lblsoTongKhachHang.setText(hdbusThongKe.tongSoKhachHang(hdbusThongKe.getAllHoaDon())+"");
+		doDuLieuVaoBangThongKe(cthdbus.getAllChiTietHoaDonBoiDsHoaDon(hdbusThongKe.getAllHoaDon()));
+		// thêm sự kiện cho phần tử trang thống kê
+		cboNamThongKe.addActionListener(new XuLySuKienChoTrangThongKe(this));
+		cboThangThongKe.addActionListener(new XuLySuKienChoTrangThongKe(this));
+	}
+	// đỗ dữ liệu vào bảng thống kê
+	public void doDuLieuVaoBangThongKe(ArrayList<ChiTietHoaDon> ds) {
+		modelThongKe.setRowCount(0);;
+		ChiTietHoaDon_BUS cthdbus = new ChiTietHoaDon_BUS();
+		ArrayList<ChiTietHoaDon> dstemp = cthdbus.taoMangChiTietSanPhamKhongTrung(ds);
+		for (ChiTietHoaDon ct : dstemp) {
+			modelThongKe.addRow(new Object[] {
+					ct.getSanPham().getMaSanPham(),
+					ct.getSanPham().getTenSanPham(),
+					cthdbus.tongSoLuongSanPhamDaBan(ct.getSanPham().getMaSanPham()),
+					dinhDangTien(cthdbus.tongDoanhThuSanPhamDaBan(ct.getSanPham().getMaSanPham()))
+			});
+		}
+	}
+	
+	//lọc dữ liệu trang thống kê
+	public void locDuLieuThongKe() {
+		ArrayList<HoaDon> dshd = new HoaDon_BUS().getAllHoaDon();
+		locDuLieuThongKeBangNam(dshd);
+		locDuLieuThongKeBangThang(dshd);
+		lblsoDoanhThu.setText(dinhDangTien(hdbusThongKe.tinhTongDoanhThu(dshd)));
+		lblsoSoHoaDon.setText(hdbusThongKe.soHoaDon(dshd)+"");
+		lblsoTongKhachHang.setText(hdbusThongKe.tongSoKhachHang(dshd)+"");
+		doDuLieuVaoBangThongKe(cthdbus.getAllChiTietHoaDonBoiDsHoaDon(dshd));
+	}
+	
+	public void locDuLieuThongKeBangNam(ArrayList<HoaDon> dshd) {
+		if(!cboNamThongKe.getSelectedItem().equals("Tất cả")) {
+			int nam = Integer.parseInt(cboNamThongKe.getSelectedItem()+"");
+			ArrayList<HoaDon> dstam = new ArrayList<>();
+			for (HoaDon hoaDon : dshd) {
+				if(hoaDon.getNgayLapHoaDon().getYear() == nam) dstam.add(hoaDon);
+			}
+			dshd.clear();
+			dshd.addAll(dstam);
+		}
+	}
+	
+	public void locDuLieuThongKeBangThang(ArrayList<HoaDon> dshd) {
+		if(!cboThangThongKe.getSelectedItem().equals("Tất cả")) {
+			int thang = Integer.parseInt(cboThangThongKe.getSelectedItem()+"");
+			ArrayList<HoaDon> dstam = new ArrayList<>();
+			for (HoaDon hoaDon : dshd) {
+				if(hoaDon.getNgayLapHoaDon().getMonthValue() == thang) dstam.add(hoaDon);
+			}
+			dshd.clear();
+			dshd.addAll(dstam);
+		}
 	}
 
 	// Hàm tạo panel cho JTabbedPane
-
 	public JPanel taoTabPanel(JPanel temp, MyTable model) {
 		JLabel lbl_timKiem;
 		JTextField txt_timKiem;
