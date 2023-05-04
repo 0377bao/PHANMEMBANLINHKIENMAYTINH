@@ -118,7 +118,7 @@ public class KhachHang_BUS {
 		HD_BUS = new HoaDon_BUS(); 
 		for(HoaDon hd : HD_BUS.getAllHoaDon()) {
 			if(maKH.equals(hd.getKhachHang().getMa())) {
-				Object obj[] = {maKH,hd.getKhachHang().getTen(),hd.getNgayLapHoaDon(),hd.getKhachHang().getSDT(),hd.tinhTongTien()};
+				Object obj[] = {hd.getMaHoaDon(),hd.getKhachHang().getTen(),hd.getNgayLapHoaDon(),hd.getKhachHang().getSDT(),hd.tinhTongTien()};
 				model.addRow(obj);
 			}
 		}

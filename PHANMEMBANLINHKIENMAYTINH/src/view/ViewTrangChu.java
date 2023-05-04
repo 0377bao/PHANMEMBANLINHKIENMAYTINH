@@ -62,6 +62,7 @@ import javax.swing.JTextField;
 import javax.swing.border.TitledBorder;
 import javax.swing.plaf.basic.BasicComboBoxUI;
 import javax.swing.table.DefaultTableModel;
+import javax.swing.table.TableRowSorter;
 import javax.swing.text.TableView.TableCell;
 
 import BUS.HoaDon_BUS;
@@ -216,11 +217,11 @@ public class ViewTrangChu extends JFrame {
 	private JPanel pnlSreachContainerNV;
 	private JPanel pnlInfor_6;
 	// COMPONENT PHẦN KHÁCH HÀNG
-	JLabel lbl_maKhach, lbl_tenKhachHang, lbl_GioiTinhKH, lbl_soDienThoaiKH, lbl_emailKH, lbl_diaChiKH, lbl_tempKH,lbl_timKiemKH;
-	JButton btn_ThemKH, btn_SuaKH, btn_LamMoiKH, btn_KhoiTaoMaKH;
-	ButtonGroup groupbtnKH;
-	JTextArea txt_AreaKH;
-	String inputTimKiemKH = "";
+	private JLabel lbl_maKhach, lbl_tenKhachHang, lbl_GioiTinhKH, lbl_soDienThoaiKH, lbl_emailKH, lbl_diaChiKH, lbl_tempKH,lbl_timKiemKH;
+	private JButton btn_ThemKH, btn_SuaKH, btn_LamMoiKH, btn_KhoiTaoMaKH;
+	private ButtonGroup groupbtnKH;
+	private JTextArea txt_AreaKH;
+	private String inputTimKiemKH = "";
 	private JPanel pnlCenter_KhachHang;	
 	private JTextField txt_maKhachHang, txt_tenKhachHang, txt_soDienThoaiKH, txt_emailKH,txt_TimKiemTTKH = new JTextField(),txt_DiaChiTTKH = new JTextField(),txt_DiaChiLSGD = new JTextField(),txt_TimKiemLSGD = new JTextField();
 	private DefaultTableModel model_KHthongTin, model_KHlichSuGD;
@@ -230,6 +231,7 @@ public class ViewTrangChu extends JFrame {
 	private JComboBox<String> combobox_TTKHGioiTinh = new JComboBox<>();
 	private DefaultComboBoxModel<String>  modelcomboTTKHGioiTinh = new DefaultComboBoxModel<>();
 	private JTabbedPane tabbedPane;
+	private TableRowSorter<DefaultTableModel> sorter;
 	// COMPONENT PHẦN THỐNG KÊ
 	private JPanel pnThongKe;
 
@@ -1957,7 +1959,7 @@ public class ViewTrangChu extends JFrame {
 		JPanel pnRight = new JPanel();
 		pnRight.setLayout(null);
 
-		
+
 		pnRight.add(btn_KhoiTaoMaKH = new MyButton("Khởi Tạo Mã"));
 		btn_KhoiTaoMaKH.setBounds(20, 0, 120, 34);
 		btn_KhoiTaoMaKH.setBorder(BorderFactory.createRaisedBevelBorder());
@@ -2006,6 +2008,10 @@ public class ViewTrangChu extends JFrame {
 		JPanel pn_LichSuGiaoDich = new JPanel();
 		tabbedPane.addTab("Thông tin cá nhân", taoTabPanel(pn_ThongTinCaNhan,tb_thongTinCaNhanKH ,txt_TimKiemTTKH,txt_DiaChiTTKH,combobox_TTKHGioiTinh,modelcomboTTKHGioiTinh));
 		tabbedPane.addTab("Lịch sử giao dịch", taoTabPanelLSGD(pn_LichSuGiaoDich,tb_LichSuGiaoDichKH));
+		sorter = new TableRowSorter<>(model_KHthongTin);
+		tb_thongTinCaNhanKH.setRowSorter(sorter);
+		sorter = new TableRowSorter<>(model_KHlichSuGD);
+		tb_LichSuGiaoDichKH.setRowSorter(sorter);
 		
 		pnlBottom.add(tabbedPane);
 		tabbedPane.setBounds(25, 15, 950, 370);
