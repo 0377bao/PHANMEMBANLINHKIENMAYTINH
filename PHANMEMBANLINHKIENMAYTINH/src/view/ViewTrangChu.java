@@ -191,6 +191,7 @@ public class ViewTrangChu extends JFrame {
 	private DefaultTableModel modelHoaDon, modelChiTietHoaDon;
 	private MyTable tableHoaDon, tableChiTietHoaDon;
 	private MyCombobox cbohinhThucThanhToan, cbotongTien, cbongay, cbothang, cbonam;
+	private JTextField txttimKiemHoaDon;
 	// COMPONENT PHẦN NHÂN VIÊN
 	private DefaultTableModel model_NV;
 	private MyTable table_NV;
@@ -1926,7 +1927,7 @@ public class ViewTrangChu extends JFrame {
 		flowLayout.setHgap(25);
 		pntimKiem.setLayout(flowLayout);
 		JLabel lbltimKiemHoaDon = new JLabel("Tìm Kiếm Hóa Đơn :");
-		JTextField txttimKiemHoaDon = new JTextField(70);
+		txttimKiemHoaDon = new JTextField(70);
 		txttimKiemHoaDon.setPreferredSize(new Dimension(70,25));
 		pntimKiem.add(lbltimKiemHoaDon);
 		pntimKiem.add(txttimKiemHoaDon);
@@ -2034,6 +2035,7 @@ public class ViewTrangChu extends JFrame {
 		cbongay.addActionListener(new XuLySuKienChoTrangHoaDon(this));
 		cbothang.addActionListener(new XuLySuKienChoTrangHoaDon(this));
 		cbonam.addActionListener(new XuLySuKienChoTrangHoaDon(this));
+		txttimKiemHoaDon.addKeyListener(new XuLySuKienChoTrangHoaDon(this));
 		ViewTrangChu viewHome = this;
 		btnHoaDonNhanVien.addActionListener(new ActionListener() {
 			@Override
@@ -2050,9 +2052,9 @@ public class ViewTrangChu extends JFrame {
 		});
 	}
 	//PHẦN VIẾT LỌC DỮ LIỆU CHO TRANG HÓA ĐƠN
-
 	public void locDuLieuVaoBangHoaDon() {
 		ArrayList<HoaDon> dsHoaDon = new HoaDon_BUS().getAllHoaDon();
+		locHoaDonBangTxt(dsHoaDon);
 		locHoaDonBangNhanVien(dsHoaDon);
 		locHoaDonBangKhachHang(dsHoaDon);
 		locHoaDonBangHinhThucThanhToan(dsHoaDon);
@@ -2062,6 +2064,18 @@ public class ViewTrangChu extends JFrame {
 		locHoaDonBangNamLapHoaDon(dsHoaDon);
 		modelHoaDon.setRowCount(0);
 		doDuLieuVaoBangHoaDon(dsHoaDon);
+	}
+	
+	public void locHoaDonBangTxt(ArrayList<HoaDon> ds) {
+		String valuetxttext = txttimKiemHoaDon.getText().toString();
+		if(!valuetxttext.equals("")) {
+			ArrayList<HoaDon> dstam = new ArrayList<>();
+			for (HoaDon hoaDon : ds) {
+				if(hoaDon.getMaHoaDon().contains(valuetxttext)) dstam.add(hoaDon);
+			}
+			ds.clear();
+			ds.addAll(dstam);
+		}
 	}
 
 	public void locHoaDonBangNhanVien(ArrayList<HoaDon> ds) {
@@ -2909,7 +2923,6 @@ public class ViewTrangChu extends JFrame {
 			SanPham temp = new SanPham();
 			if(sp_BUS.checkMaTrung(txtSPMa.getText())) {
 				String key = cbbSPDanhMuc.getSelectedItem().toString();
-				sp_BUS.xoaThongBaoLoi();
 				switch(key) {
 				case "CPU": {
 					Boolean check_cpu = sp_BUS.validate_cpu(txtSPSoLoi.getText(), txtSPSoLuongXuLy.getText(), txtSPTanSoCoSo.getText(), txtSPTanSoTurbo.getText(), txtSPBoNhoDem.getText(), txtSPBoNhoToiDa.getText());
