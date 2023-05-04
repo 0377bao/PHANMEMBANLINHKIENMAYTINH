@@ -22,6 +22,8 @@ import javax.swing.table.DefaultTableModel;
 
 import BUS.KhachHang_BUS;
 import controller.XuLySuKienChonKhachHang;
+//import BUS.XuLySuKienGuiKhachHang;
+//import controller.XuLySuKienChonKhachHang;
 import model.HoaDon;
 import model.KhachHang;
 import model.MyButton;

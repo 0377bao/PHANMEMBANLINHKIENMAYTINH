@@ -10,6 +10,7 @@ import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.Calendar;
 
+
 import javax.swing.JComboBox;
 
 import connectDB.ConnectDB;
@@ -20,6 +21,8 @@ import model.Psu;
 import model.Ram;
 import model.SanPham;
 import model.Vga;
+
+import java.lang.String;
 
 public class SanPham_DAO {
    public SanPham_DAO() {};
@@ -52,16 +55,7 @@ public class SanPham_DAO {
     		
     	}catch(SQLException e) {
     		e.printStackTrace();
-    	}finally {
-			if(con != null) {
-				try {
-					con.close();
-				} catch (SQLException e) {
-					// TODO Auto-generated catch block
-					e.printStackTrace();
-				}
-			}
-		}
+    	}
     	return list_sp;
     }
     
@@ -317,32 +311,22 @@ public class SanPham_DAO {
     		stmt_SP.setInt(7, them.getBaoHanh());
     		stmt_SP.setDouble(8, them.getGiaNhap());
     		stmt_SP.setInt(9, them.getGiamGia());
-    		stmt_SP.setString(10, them.getClass().getSimpleName());
+    		stmt_SP.setString(10, them.getClass().getSimpleName().toUpperCase());
     		
+    		stmt_Cpu.setString(1, them.getMaSanPham());
     		stmt_Cpu.setInt(2, them.getSoLoi());
     		stmt_Cpu.setInt(3, them.getSoLuong());
     		stmt_Cpu.setDouble(4, them.getTanSoCoSo());
     		stmt_Cpu.setDouble(5, them.getTanSoTurbo());
     		stmt_Cpu.setInt(6, them.getBoNhoDem());
     		stmt_Cpu.setInt(7, them.getBoNhoToiDa());
-    		stmt_Cpu.setString(1, them.getMaSanPham());
     		
     		n = stmt_SP.executeUpdate();
     		m = stmt_Cpu.executeUpdate();
     		
     	}catch(SQLException e) {
     		e.printStackTrace();
-    	}finally {
-			if(stmt_Cpu != null && stmt_SP != null) {
-				try {
-					stmt_Cpu.close();
-					stmt_SP.close();
-				} catch (SQLException e) {
-					// TODO Auto-generated catch block
-					e.printStackTrace();
-				}
-			}
-		}
+    	}
     	return n > 0 && m > 0 ? true : false;
     }
     
@@ -368,7 +352,7 @@ public class SanPham_DAO {
     		stmt_SP.setInt(7, them.getBaoHanh());
     		stmt_SP.setDouble(8, them.getGiaNhap());
     		stmt_SP.setInt(9, them.getGiamGia());
-    		stmt_SP.setString(10, them.getClass().getSimpleName());
+    		stmt_SP.setString(10, them.getClass().getSimpleName().toUpperCase());
     		
     		stmt_Vga.setInt(1, them.getTienTrinh());
     		stmt_Vga.setInt(2, them.getTDP());
@@ -380,17 +364,7 @@ public class SanPham_DAO {
     		
     	}catch(SQLException e) {
     		e.printStackTrace();
-    	}finally {
-			if(stmt_Vga != null && stmt_SP != null) {
-				try {
-					stmt_Vga.close();
-					stmt_SP.close();
-				} catch (SQLException e) {
-					// TODO Auto-generated catch block
-					e.printStackTrace();
-				}
-			}
-		}
+    	}
     	return n > 0 && m > 0 ? true : false;
     }
     
@@ -416,7 +390,7 @@ public class SanPham_DAO {
     		stmt_SP.setInt(7, them.getBaoHanh());
     		stmt_SP.setDouble(8, them.getGiaNhap());
     		stmt_SP.setInt(9, them.getGiamGia());
-    		stmt_SP.setString(10, them.getClass().getSimpleName());
+    		stmt_SP.setString(10, them.getClass().getSimpleName().toUpperCase());
     		
     		stmt_Psu.setInt(1, them.getCongSuat());
     		stmt_Psu.setInt(2, them.getHieuSuat());
@@ -428,17 +402,7 @@ public class SanPham_DAO {
     		
     	}catch(SQLException e) {
     		e.printStackTrace();
-    	}finally {
-			if(stmt_Psu != null && stmt_SP != null) {
-				try {
-					stmt_Psu.close();
-					stmt_SP.close();
-				} catch (SQLException e) {
-					// TODO Auto-generated catch block
-					e.printStackTrace();
-				}
-			}
-		}
+    	}
     	return n > 0 && m > 0 ? true : false;
     }
     
@@ -464,7 +428,7 @@ public class SanPham_DAO {
     		stmt_SP.setInt(7, them.getBaoHanh());
     		stmt_SP.setDouble(8, them.getGiaNhap());
     		stmt_SP.setInt(9, them.getGiamGia());
-    		stmt_SP.setString(10, them.getClass().getSimpleName());
+    		stmt_SP.setString(10, them.getClass().getSimpleName().toUpperCase());
     		
     		stmt_Ram.setInt(1, them.getDungLuong());
     		stmt_Ram.setInt(2, them.getTocDo());
@@ -476,17 +440,7 @@ public class SanPham_DAO {
     		
     	}catch(SQLException e) {
     		e.printStackTrace();
-    	}finally {
-			if(stmt_Ram != null && stmt_SP != null) {
-				try {
-					stmt_Ram.close();
-					stmt_SP.close();
-				} catch (SQLException e) {
-					// TODO Auto-generated catch block
-					e.printStackTrace();
-				}
-			}
-		}
+    	}
     	return n > 0 && m > 0 ? true : false;
     }
     
@@ -498,10 +452,9 @@ public class SanPham_DAO {
     	PreparedStatement stmt_SP = null;
     	PreparedStatement stmt_Case = null;
     	String sql_sp = "Insert into SanPham values(?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
-    	String sql_Case = "Insert into CASE values (?, ?, ?, ?)";
+    	String sql_Case = "Insert into CASES values (?, ?, ?, ?)";
     	try {
     		stmt_SP = con.prepareStatement(sql_sp);
-    		stmt_Case = con.prepareStatement(sql_Case);
     		stmt_SP.setString(1, them.getMaSanPham());
     		stmt_SP.setString(2, them.getTenSanPham());
     		stmt_SP.setDouble(3, them.getGiaBan());
@@ -512,30 +465,21 @@ public class SanPham_DAO {
     		stmt_SP.setInt(7, them.getBaoHanh());
     		stmt_SP.setDouble(8, them.getGiaNhap());
     		stmt_SP.setInt(9, them.getGiamGia());
-    		stmt_SP.setString(10, them.getClass().getSimpleName());
+    		stmt_SP.setString(10, them.getClass().getSimpleName().toUpperCase());
     		
-    		stmt_Case.setString(1, them.getChatLieu());
-    		stmt_Case.setString(2, them.getMau());
-    		stmt_Case.setString(3, them.getTuongThich());
+    		stmt_Case = con.prepareStatement(sql_Case);
+    		stmt_Case.setString(1, them.getMaSanPham());
+    		stmt_Case.setString(2, them.getChatLieu());
+    		stmt_Case.setString(3, them.getMau());
+    		stmt_Case.setString(4, them.getTuongThich());
     		
-    		stmt_Case.setString(4, them.getMaSanPham());
     		
     		n = stmt_SP.executeUpdate();
     		m = stmt_Case.executeUpdate();
     		
     	}catch(SQLException e) {
     		e.printStackTrace();
-    	}finally {
-			if(stmt_Case != null && stmt_SP != null) {
-				try {
-					stmt_Case.close();
-					stmt_SP.close();
-				} catch (SQLException e) {
-					// TODO Auto-generated catch block
-					e.printStackTrace();
-				}
-			}
-		}
+    	}
     	return n > 0 && m > 0 ? true : false;
     }
     
@@ -561,8 +505,7 @@ public class SanPham_DAO {
     		stmt_SP.setInt(7, them.getBaoHanh());
     		stmt_SP.setDouble(8, them.getGiaNhap());
     		stmt_SP.setInt(9, them.getGiamGia());
-    		stmt_SP.setString(10, them.getClass().getSimpleName());
-    		
+    		stmt_SP.setString(10, them.getClass().getSimpleName().toUpperCase());	
     		stmt_Main.setString(2, them.getChipSet());
     		stmt_Main.setString(3, them.getRamHoTro());
     		stmt_Main.setString(4, them.getCpuHoTro());
@@ -575,27 +518,27 @@ public class SanPham_DAO {
     		
     	}catch(SQLException e) {
     		e.printStackTrace();
-    	}finally {
-			if(stmt_Main != null && stmt_SP != null) {
-				try {
-					stmt_Main.close();
-					stmt_SP.close();
-				} catch (SQLException e) {
-					// TODO Auto-generated catch block
-					e.printStackTrace();
-				}
-			}
-		}
+    	}
     	return n > 0 && m > 0 ? true : false;
     }
     
     // xóa sản phẩm
-    public boolean xoaSanPham(String masp) {
+    public boolean xoaSanPham_Cpu(String masp) {
         ConnectDB.getInstance();
         Connection con = ConnectDB.getConnection();
         int n = 0;
-        String sql = "delete * from SanPham where ma = ?";
+        int m = 0;
+        String sql = "delete from SanPham where MaSanPham = ?";
+        String sql_cpu = "delete from Cpu where MaSanPham = ?";
         PreparedStatement stmt = null;
+        PreparedStatement stmt_cpu = null;
+        try {
+    		stmt_cpu = con.prepareStatement(sql_cpu);
+    		stmt_cpu.setString(1, masp);
+    		m = stmt_cpu.executeUpdate();
+        }catch(SQLException e) {
+        	e.printStackTrace();
+        }
         try {
 			stmt = con.prepareStatement(sql);
 			stmt.setString(1, masp);
@@ -603,24 +546,37 @@ public class SanPham_DAO {
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
-		}finally {
-			if(stmt != null) {
-				try {
-					stmt.close();
-				} catch (SQLException e) {
-					// TODO Auto-generated catch block
-					e.printStackTrace();
-				}
-			}
 		}
-        return n > 0;
+        
+        return n > 0 && m > 0 ? true : false;
     }
     
-    public boolean updateSanPham(SanPham c) {
+    public boolean xoaSanPham_Vga(String masp) {
         ConnectDB.getInstance();
         Connection con = ConnectDB.getConnection();
         int n = 0;
-        return n > 0;
+        int m = 0;
+        String sql = "delete from SanPham where MaSanPham = ?";
+        String sql_vga = "delete from Vga where MaSanPham = ?";
+        PreparedStatement stmt = null;
+        PreparedStatement stmt_vga = null;
+        try {
+    		stmt_vga = con.prepareStatement(sql_vga);
+    		stmt_vga.setString(1, masp);
+    		m = stmt_vga.executeUpdate();
+        }catch(SQLException e) {
+        	e.printStackTrace();
+        }
+        try {
+			stmt = con.prepareStatement(sql);
+			stmt.setString(1, masp);
+		    n = stmt.executeUpdate();
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+        
+        return n > 0 && m > 0 ? true : false;
     }
   
     public SanPham timSanPhamTheoMa(String matim) {
@@ -653,24 +609,421 @@ public class SanPham_DAO {
     	}
     	return tim;
     }
-    
-    public void capNhatSoLuongSanPham(String ma, int CapNhat) {
-    	try {
-			ConnectDB.getInstance().connect();
+
+    public boolean xoaSanPham_Psu(String masp) {
+        ConnectDB.getInstance();
+        Connection con = ConnectDB.getConnection();
+        int n = 0;
+        int m = 0;
+        String sql = "delete from SanPham where MaSanPham = ?";
+        String sql_psu = "delete from Psu where MaSanPham = ?";
+        PreparedStatement stmt = null;
+        PreparedStatement stmt_psu = null;
+        try {
+    		stmt_psu = con.prepareStatement(sql_psu);
+    		stmt_psu.setString(1, masp);
+    		m = stmt_psu.executeUpdate();
+        }catch(SQLException e) {
+        	e.printStackTrace();
+        }
+        try {
+			stmt = con.prepareStatement(sql);
+			stmt.setString(1, masp);
+		    n = stmt.executeUpdate();
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
+        
+        return n > 0 && m > 0 ? true : false;
+    }
+    
+    public boolean xoaSanPham_Main(String masp) {
+        ConnectDB.getInstance();
+        Connection con = ConnectDB.getConnection();
+        int n = 0;
+        int m = 0;
+        String sql = "delete from SanPham where MaSanPham = ?";
+        String sql_main = "delete from Main where MaSanPham = ?";
+        PreparedStatement stmt = null;
+        PreparedStatement stmt_main = null;
+        try {
+    		stmt_main = con.prepareStatement(sql_main);
+    		stmt_main.setString(1, masp);
+    		m = stmt_main.executeUpdate();
+        }catch(SQLException e) {
+        	e.printStackTrace();
+        }
+        try {
+			stmt = con.prepareStatement(sql);
+			stmt.setString(1, masp);
+		    n = stmt.executeUpdate();
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+        
+        return n > 0 && m > 0 ? true : false;
+    }
+    
+    public boolean xoaSanPham_Case(String masp) {
+        ConnectDB.getInstance();
+        Connection con = ConnectDB.getConnection();
+        int n = 0;
+        int m = 0;
+        String sql = "delete from SanPham where MaSanPham = ?";
+        String sql_case = "delete from Cases where MaSanPham = ?";
+        PreparedStatement stmt = null;
+        PreparedStatement stmt_case = null;
+        try {
+    		stmt_case = con.prepareStatement(sql_case);
+    		stmt_case.setString(1, masp);
+    		m = stmt_case.executeUpdate();
+        }catch(SQLException e) {
+        	e.printStackTrace();
+        }
+        try {
+			stmt = con.prepareStatement(sql);
+			stmt.setString(1, masp);
+		    n = stmt.executeUpdate();
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+        
+        return n > 0 && m > 0 ? true : false;
+    }
+    
+    public boolean xoaSanPham_Ram(String masp) {
+        ConnectDB.getInstance();
+        Connection con = ConnectDB.getConnection();
+        int n = 0;
+        int m = 0;
+        String sql = "delete from SanPham where MaSanPham = ?";
+        String sql_ram = "delete from Ram where MaSanPham = ?";
+        PreparedStatement stmt = null;
+        PreparedStatement stmt_ram = null;
+        try {
+    		stmt_ram = con.prepareStatement(sql_ram);
+    		stmt_ram.setString(1, masp);
+    		m = stmt_ram.executeUpdate();
+        }catch(SQLException e) {
+        	e.printStackTrace();
+        }
+        try {
+			stmt = con.prepareStatement(sql);
+			stmt.setString(1, masp);
+		    n = stmt.executeUpdate();
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+        
+        return n > 0 && m > 0 ? true : false;
+    }
+    
+    public ArrayList<SanPham> getALLSanPhamTheoLoai(String loai) {
+    	ConnectDB.getInstance();
+    	Connection con = ConnectDB.getConnection();
+    	ArrayList<SanPham> temp = new ArrayList<SanPham>();
+    	String sql = "select * from SanPham where LoaiSanPham = ?";
+    	
+    	try {
+    		PreparedStatement stmt = con.prepareStatement(sql);
+    		stmt.setString(1, loai);
+    		ResultSet rs = stmt.executeQuery();
+    		while(rs.next()) {
+    			String ma = rs.getString("MaSanPham").trim();
+    			String ten = rs.getString("TenSanPham").trim();
+    			Double giaBan = rs.getDouble("GiaBan");
+    			int slt = rs.getInt("SoLuongTonKho");
+    			String nhasx = rs.getString("NhaSanXuat").trim();
+    			Date ngayTam = rs.getDate("NgaySanXuat");
+    			Calendar cl = Calendar.getInstance();
+    			cl.setTime(ngayTam);
+    			LocalDate ngaysx = LocalDate.of(cl.get(Calendar.YEAR), cl.get(Calendar.MONTH) + 1, cl.get(Calendar.DAY_OF_MONTH));
+    			int baoHanh = rs.getInt("BaoHanh");
+    			Double giaNhap = rs.getDouble("GiaNhap");
+    			int giamGia = rs.getInt("GiamGia");
+    			SanPham sp = new SanPham(ma, ten, giaBan, slt, nhasx, ngaysx, baoHanh, giaNhap, giamGia);
+    			temp.add(sp);
+    		}
+    	}catch(SQLException e) {
+    		e.printStackTrace();
+    	}
+    	return temp;
+    }
+    
+
+    
+    public boolean updateSanPham_cpu(SanPham s, Cpu c) {
+    	 ConnectDB.getInstance();
+         Connection con = ConnectDB.getConnection();
+         int n = 0;
+         int m = 0;
+         PreparedStatement stmt_sp = null;
+         PreparedStatement stmt_loai = null;
+         String sql_cpu = "update Cpu set soLoi=?, soLuong=?, tanSoCoSo=?, tanSoTurbo=?, boNhoDem=?, boNhoToiDa=? where MaSanPham=?";
+         String sql_update = "update SanPham set TenSanPham=?, GiaBan=?, SoLuongTonKho=?, NhaSanXuat=?, NgaySanXuat=?, BaoHanh=?, GiaNhap=?, GiamGia=?, LoaiSanPham=? where MaSanPham=?";
+         try {
+         	stmt_sp = con.prepareStatement(sql_update);	
+         	stmt_sp.setString(1,s.getTenSanPham());
+         	stmt_sp.setDouble(2, s.getGiaBan());
+         	stmt_sp.setInt(3, s.getSoLuongTonKho());
+         	stmt_sp.setString(4, s.getNhaSanXuat());
+         	Date t = Date.valueOf(s.getNgaySanXuat());
+         	stmt_sp.setDate(5,t);
+         	stmt_sp.setInt(6, s.getBaoHanh());
+         	stmt_sp.setDouble(7, s.getGiaNhap());
+         	stmt_sp.setInt(8, s.getGiamGia());
+         	stmt_sp.setString(9, c.getClass().getSimpleName().toUpperCase());
+         	stmt_sp.setString(10,s.getMaSanPham());
+         	
+         	stmt_loai = con.prepareStatement(sql_cpu);	
+    		stmt_loai.setInt(1, c.getSoLoi());
+    		stmt_loai.setInt(2, c.getSoLuong());
+    		stmt_loai.setDouble(3, c.getTanSoCoSo());
+    		stmt_loai.setDouble(4, c.getTanSoTurbo());
+    		stmt_loai.setInt(5, c.getBoNhoDem());
+    		stmt_loai.setInt(6, c.getBoNhoToiDa());
+    		stmt_loai.setString(7, c.getMaSanPham());
+         	n = stmt_sp.executeUpdate();
+         	m = stmt_loai.executeUpdate();
+         }catch(SQLException e) {
+         	e.printStackTrace();
+         }
+         return n > 0 && m > 0 ? true : false;
+    }
+    
+    public boolean updateSanPham_vga(SanPham s, Vga v) {
+    	ConnectDB.getInstance();
+    	Connection con = ConnectDB.getConnection();
+    	int n = 0;
+    	int m = 0;
+    	String sql_vga = "update VGA set tienTrinh = ?, tdp = ?, cudaCores = ? where maSanPham = ?";
+    	String sql_update = "update SanPham set TenSanPham=?, GiaBan=?, SoLuongTonKho=?, NhaSanXuat=?, NgaySanXuat=?, BaoHanh=?, GiaNhap=?, GiamGia=?, LoaiSanPham=? where maSanPham=?";
+    	try {
+			PreparedStatement stmt_sp = con.prepareStatement(sql_update);
+
+         	stmt_sp.setString(1,s.getTenSanPham());
+         	stmt_sp.setDouble(2, s.getGiaBan());
+         	stmt_sp.setInt(3, s.getSoLuongTonKho());
+         	stmt_sp.setString(4, s.getNhaSanXuat());
+         	Date t = Date.valueOf(s.getNgaySanXuat());
+         	stmt_sp.setDate(5,t);
+         	stmt_sp.setInt(6, s.getBaoHanh());
+         	stmt_sp.setDouble(7, s.getGiaNhap());
+         	stmt_sp.setInt(8, s.getGiamGia());
+         	stmt_sp.setString(9, v.getClass().getSimpleName().toUpperCase());
+         	stmt_sp.setString(10,s.getMaSanPham());
+			
+         	PreparedStatement stmt_loai = con.prepareStatement(sql_vga);
+    		stmt_loai.setInt(1, v.getTienTrinh());
+    		stmt_loai.setInt(2, v.getTDP());
+    		stmt_loai.setInt(3, v.getCudaCores());
+    		stmt_loai.setString(4, v.getMaSanPham());
+    		n = stmt_sp.executeUpdate();
+    		m = stmt_loai.executeUpdate();
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+    	return n > 0 && m > 0 ? true: false;
+    }
+    
+    public boolean updateSanPham_Main(SanPham s, Main l) {
+    	ConnectDB.getInstance();
+    	Connection con = ConnectDB.getConnection();
+    	int n = 0, m = 0;
+    	String sql_main = "update Main set chipSet=?, ramHoTro=?, cpuHoTro=?, doHoa=?, oCungHoTro=? where maSanPham=?";
+    	String sql_update = "update SanPham set TenSanPham=?, GiaBan=?, SoLuongTonKho=?, NhaSanXuat=?, NgaySanXuat=?, BaoHanh=?, GiaNhap=?, GiamGia=?, LoaiSanPham=? where maSanPham=?";
+    	try {
+			PreparedStatement stmt_sp = con.prepareStatement(sql_update);
+
+         	stmt_sp.setString(1,s.getTenSanPham());
+         	stmt_sp.setDouble(2, s.getGiaBan());
+         	stmt_sp.setInt(3, s.getSoLuongTonKho());
+         	stmt_sp.setString(4, s.getNhaSanXuat());
+         	Date t = Date.valueOf(s.getNgaySanXuat());
+         	stmt_sp.setDate(5,t);
+         	stmt_sp.setInt(6, s.getBaoHanh());
+         	stmt_sp.setDouble(7, s.getGiaNhap());
+         	stmt_sp.setInt(8, s.getGiamGia());
+         	stmt_sp.setString(9, l.getClass().getSimpleName().toUpperCase());
+         	stmt_sp.setString(10,s.getMaSanPham());
+			
+         	PreparedStatement stmt_loai = con.prepareStatement(sql_main);
+    		stmt_loai.setString(1, l.getChipSet());
+    		stmt_loai.setString(2, l.getRamHoTro());
+    		stmt_loai.setString(3, l.getCpuHoTro());
+    		stmt_loai.setString(4, l.getDoHoa());
+    		stmt_loai.setString(5, l.getoCungHoTro());
+    		stmt_loai.setString(6, l.getMaSanPham());
+    		
+    		n = stmt_sp.executeUpdate();
+    		m = stmt_loai.executeUpdate();
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+    	return n > 0 && m > 0 ? true: false;
+    }
+    
+    public boolean updateSanPham_Ram(SanPham s, Ram r) {
+    	ConnectDB.getInstance();
+    	Connection con = ConnectDB.getConnection();
+    	int n = 0, m = 0;
+    	String sql_ram = "update RAM set dungLuong = ?, tocDo = ? where maSanPham=?";
+    	String sql_update = "update SanPham set TenSanPham=?, GiaBan=?, SoLuongTonKho=?, NhaSanXuat=?, NgaySanXuat=?, BaoHanh=?, GiaNhap=?, GiamGia=?, LoaiSanPham=? where maSanPham=?";
+    	try {
+			PreparedStatement stmt_sp = con.prepareStatement(sql_update);
+         	stmt_sp.setString(1,s.getTenSanPham());
+         	stmt_sp.setDouble(2, s.getGiaBan());
+         	stmt_sp.setInt(3, s.getSoLuongTonKho());
+         	stmt_sp.setString(4, s.getNhaSanXuat());
+         	Date t = Date.valueOf(s.getNgaySanXuat());
+         	stmt_sp.setDate(5,t);
+         	stmt_sp.setInt(6, s.getBaoHanh());
+         	stmt_sp.setDouble(7, s.getGiaNhap());
+         	stmt_sp.setInt(8, s.getGiamGia());
+         	stmt_sp.setString(9, r.getClass().getSimpleName().toUpperCase());
+         	stmt_sp.setString(10,s.getMaSanPham());
+			
+         	PreparedStatement stmt_loai = con.prepareStatement(sql_ram);
+    		stmt_loai.setInt(1, r.getDungLuong());
+    		stmt_loai.setInt(2, r.getTocDo());
+    		stmt_loai.setString(3, r.getMaSanPham());
+    		n = stmt_sp.executeUpdate();
+    		m = stmt_loai.executeUpdate();
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+    	return n > 0 && m > 0 ? true: false;
+    }
+    
+    public boolean updateSanPham_Case(SanPham s, Case ca) {
+    	ConnectDB.getInstance();
+    	Connection con = ConnectDB.getConnection();
+    	int n = 0;
+    	int m = 0;
+    	String sql_case = "update CASES set chatLieu = ?, mau = ?, tuongThich = ? where maSanPham=?";
+    	String sql_update = "update SanPham set TenSanPham=?, GiaBan=?, SoLuongTonKho=?, NhaSanXuat=?, NgaySanXuat=?, BaoHanh=?, GiaNhap=?, GiamGia=?, LoaiSanPham=? where maSanPham=?";
+    	try {
+			PreparedStatement stmt_sp = con.prepareStatement(sql_update);
+         	stmt_sp.setString(1,s.getTenSanPham());
+         	stmt_sp.setDouble(2, s.getGiaBan());
+         	stmt_sp.setInt(3, s.getSoLuongTonKho());
+         	stmt_sp.setString(4, s.getNhaSanXuat());
+         	Date t = Date.valueOf(s.getNgaySanXuat());
+         	stmt_sp.setDate(5,t);
+         	stmt_sp.setInt(6, s.getBaoHanh());
+         	stmt_sp.setDouble(7, s.getGiaNhap());
+         	stmt_sp.setInt(8, s.getGiamGia());
+         	stmt_sp.setString(9, ca.getClass().getSimpleName().toUpperCase());
+         	stmt_sp.setString(10,s.getMaSanPham());
+         	
+         	PreparedStatement stmt_loai = con.prepareStatement(sql_case);
+         	stmt_loai.setString(1, ca.getChatLieu());
+         	stmt_loai.setString(2, ca.getMau());
+         	stmt_loai.setString(3, ca.getTuongThich());
+         	stmt_loai.setString(4, ca.getMaSanPham());
+			
+    		
+    		n = stmt_sp.executeUpdate();
+    		m = stmt_loai.executeUpdate();
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+    	return n > 0 && m > 0 ? true: false;
+    }
+    
+    public boolean updateSanPham_Psu(SanPham s, Psu p) {
+    	ConnectDB.getInstance();
+    	Connection con = ConnectDB.getConnection();
+    	int n = 0, m = 0;
+    	String sql_Psu = "Update PSU set congSuat=?, hieuSuat=?, tuoiTho=? where MaSanPham=?";
+    	String sql_update = "update SanPham set TenSanPham=?, GiaBan=?, SoLuongTonKho=?, NhaSanXuat=?, NgaySanXuat=?, BaoHanh=?, GiaNhap=?, GiamGia=?, LoaiSanPham=? where maSanPham=?";
+    	try {
+			PreparedStatement stmt_sp = con.prepareStatement(sql_update);
+         	stmt_sp.setString(1,s.getTenSanPham());
+         	stmt_sp.setDouble(2, s.getGiaBan());
+         	stmt_sp.setInt(3, s.getSoLuongTonKho());
+         	stmt_sp.setString(4, s.getNhaSanXuat());
+         	Date t = Date.valueOf(s.getNgaySanXuat());
+         	stmt_sp.setDate(5,t);
+         	stmt_sp.setInt(6, s.getBaoHanh());
+         	stmt_sp.setDouble(7, s.getGiaNhap());
+         	stmt_sp.setInt(8, s.getGiamGia());
+         	stmt_sp.setString(9, p.getClass().getSimpleName().toUpperCase());
+         	stmt_sp.setString(10,s.getMaSanPham());
+         	
+         	PreparedStatement stmt_loai = con.prepareStatement(sql_Psu);
+    		stmt_loai.setInt(1,p.getCongSuat());
+    		stmt_loai.setInt(2, p.getHieuSuat());
+    		stmt_loai.setInt(3, p.getTuoiTho());
+    		stmt_loai.setString(4, p.getMaSanPham());
+			
+    		
+    		n = stmt_sp.executeUpdate();
+    		m = stmt_loai.executeUpdate();
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+    	return n > 0 && m > 0 ? true: false;
+    }
+    public void capNhatSoLuongSanPham(String ma, int CapNhat) {
     	Connection con = ConnectDB.getConnection();
     	String sql = "update SanPham set soLuongTonKho=? where maSanPham = ?";
     	try {
     		PreparedStatement stmt = con.prepareStatement(sql);
     		stmt.setInt(1, CapNhat);
     		stmt.setString(2, ma);
-    		stmt.executeUpdate();
-    		
+    		stmt.executeUpdate();	
     	}catch(SQLException e) {
     		e.printStackTrace();
     	}
     }
-}
+    
+    
+    
+    public String timLoaiSanPhamTheoMa(String matim) {
+    	String loai = "";
+    	ConnectDB.getInstance();
+    	Connection con = ConnectDB.getConnection();
+    	try {
+    		String sql = "Select * from SanPham where maSanPham = ?";
+    		PreparedStatement stmt = con.prepareStatement(sql);
+    		stmt.setString(1, matim);
+    		ResultSet rs = stmt.executeQuery();
+    		while(rs.next()) {
+    			loai = rs.getString(10).trim();
+    		}
+    	}catch(SQLException e) {
+    		e.printStackTrace();
+    	}
+    	return loai;
+    }
+    
+    public int getMaSanPhamMax() {
+		int ma = 0;
+		ConnectDB.getInstance();
+		Connection con = ConnectDB.getConnection();
+		try {
+			Statement statement = con.createStatement();
+			String sql = "SELECT top 1 CAST(SUBSTRING(maSanPham, 3, LEN(maSanPham) - 2) as int) AS maSanPham "
+					+ "FROM SanPham order by maSanPham desc";
+			ResultSet rs = statement.executeQuery(sql);
+			while(rs.next()) {
+				ma = rs.getInt("maSanPham");
+			}
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		return ma;
+	}
+}   
+

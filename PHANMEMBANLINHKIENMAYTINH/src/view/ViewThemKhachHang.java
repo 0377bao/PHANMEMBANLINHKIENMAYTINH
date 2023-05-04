@@ -92,7 +92,7 @@ public class ViewThemKhachHang extends JFrame implements ActionListener{
 		txtMa.setBounds(x, y, width, height);
 		txtMa.setEditable(false);
 		txtMa.setBorder(BorderFactory.createLoweredBevelBorder());
-		txtMa.setText(khachhangbus.ranDomMaKhachHang());
+		txtMa.setText(khachhangbus.getMaKhachHangMax());
 		y += 45;
 		txtTen = new JTextField();
 		txtTen.setBounds(x, y, width, height);

@@ -10,8 +10,6 @@ import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.Calendar;
 
-import javax.xml.crypto.Data;
-
 import BUS.ChiTietHoaDon_BUS;
 import BUS.KhachHang_BUS;
 import BUS.NhanVien_BUS;
@@ -90,6 +88,7 @@ public class HoaDon_DAO {
 		}
 		return (n>0&&m>0);
 	}
+
 	
 	public ArrayList<HoaDon> getAllHoaDon() {
 		ArrayList<HoaDon> ds = new ArrayList<>();
@@ -111,7 +110,7 @@ public class HoaDon_DAO {
 				double thueVAT = rs.getDouble("thueVAT");
 				String maKH = rs.getString("maKhachHang");
 				String maNV = rs.getString("maNhanVien");
-				KhachHang kh = new KhachHang_BUS().getKhachHangByMaKhachHang(maKH);
+				KhachHang kh = new KhachHang_BUS().getkhachHangTheoMa(maKH);
 				NhanVien nv = new NhanVien_BUS().getNhanVienByMaNhanVien(maNV);
 				ArrayList<ChiTietHoaDon> cthd = new ChiTietHoaDon_BUS().getChiTietHoaDonOfHoaDon(maHoaDon);
 				double giamgia = rs.getDouble("giamGia");
@@ -147,7 +146,7 @@ public class HoaDon_DAO {
 				double thueVAT = rs.getDouble("thueVAT");
 				String maKH = rs.getString("maKhachHang");
 				String maNV = rs.getString("maNhanVien");
-				KhachHang kh = new KhachHang_BUS().getKhachHangByMaKhachHang(maKH);
+				KhachHang kh = new KhachHang_BUS().getkhachHangTheoMa(maKH);
 				NhanVien nv = new NhanVien_BUS().getNhanVienByMaNhanVien(maNV);
 				ArrayList<ChiTietHoaDon> cthd = new ChiTietHoaDon_BUS().getChiTietHoaDonOfHoaDon(maHoaDon);
 				double giamgia = rs.getDouble("giamGia");
