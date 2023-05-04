@@ -42,9 +42,7 @@ public class NhanVien_BUS {
 	
 	public boolean themNhanVien(NhanVien nv) {
 		boolean success = nv_dao.themNhanVien(nv);
-		System.out.println(success);
 		return success;
-		
 	}
 	
 	public ArrayList<NhanVien> timTheoMaNhanVien(String ma){

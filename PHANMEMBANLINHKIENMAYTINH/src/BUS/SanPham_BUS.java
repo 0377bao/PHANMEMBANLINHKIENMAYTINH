@@ -46,7 +46,7 @@ public class SanPham_BUS {
 	public void DocDuLieuVaoTableSanPhams(DefaultTableModel model, ArrayList<SanPham> ds) {
 		for (SanPham sp : ds) {
 			if(sp != null) {
-				model.addRow(new Object[] {sp.getMaSanPham(), sp.getTenSanPham(), sp.getGiaBan(), sp.getSoLuongTonKho(), sp.getNhaSanXuat(), sp.getNgaySanXuat(), sp.getBaoHanh(), sp.getGiaNhap(), sp.getGiamGia()});
+				model.addRow(new Object[] {sp.getMaSanPham(), sp.getTenSanPham(), String.format("%,.0f", sp.getGiaBan()), sp.getSoLuongTonKho(), sp.getNhaSanXuat(), sp.getNgaySanXuat(), sp.getBaoHanh(), String.format("%,.0f", sp.getGiaNhap()), String.format("%,.0f", Double.parseDouble(sp.getGiamGia()+""))});
 			}
 		}
      }
@@ -100,29 +100,66 @@ public class SanPham_BUS {
     		 message_sp += "Vui lòng điền đầy đủ các field của sản phẩm\n";
     		 return false;
     	 }
-    	 double a = Double.parseDouble(giaBan);
-    	 double b = Double.parseDouble(giaNhap);
-    	 if((Integer.parseInt(giamGia) < 0) || a < 0 || b < 0) {
-    		 message_sp += "Giảm giá, giá nhập và giá bán không được là số âm\n";
-    		 n--;
-    	 }
-    	 if(!maSP.matches("^(SP)\\d{1,}$")) {
-    		 message_sp += "Mã sản phẩm bắt đầu bằng SP và theo sau là 3 ký số\n";
-             n--;
-    	 }
-    	 if(!tenSP.matches("^[a-zA-Z0-9 .-][^/]+$")) {
-    		 message_sp += "Tên sản phẩm không chứa kí tự (/)\n";
-             n--;
-    	 }
-    	 if(Integer.parseInt(slt) < 0) {
-    		 message_sp += "Số lượng tồn phải là một số dương\n";
-             n--;
-    	 }
-    	 if(Integer.parseInt(baoHanh) < 0) {
-    		 message_sp += "Thời gian bảo hành phải là một số dương\n";
+    	 giaBan = giaBan.replaceAll(",", "");
+    	 giaNhap = giaBan.replaceAll(",", "");
+    	 giamGia = giaBan.replaceAll(",", "");
+    	 if(checkSo_SP(giaBan, slt, baoHanh, giaNhap, giamGia)) {
+    		 double a = Double.parseDouble(giaBan);
+    		 double b = Double.parseDouble(giaNhap);
+    		 if((Integer.parseInt(giamGia) < 0) || a < 0 || b < 0) {
+    			 message_sp += "Giảm giá, giá nhập và giá bán không được là số âm\n";
+    			 n--;
+    		 }
+    		 if(!maSP.matches("^(SP)\\d{1,}$")) {
+    			 message_sp += "Mã sản phẩm bắt đầu bằng SP và theo sau là 3 ký số\n";
+    			 n--;
+    		 }
+    		 if(!tenSP.matches("^[\\p{L}\\d .-]+$")) {
+    			 message_sp += "Tên sản phẩm không chứa kí tự (/)\n";
+    			 n--;
+    		 }
+    		 if(Integer.parseInt(slt) < 0) {
+    			 message_sp += "Số lượng tồn phải là một số dương\n";
+    			 n--;
+    		 }
+    		 if(Integer.parseInt(baoHanh) < 0) {
+    			 message_sp += "Thời gian bảo hành phải là một số dương\n";
+    			 n--;
+    		 }
+    	 }else {
+    		 message_sp += "giá bán, số lượng tồn, giảm giá, giá nhập, bảo hành phải là kí tự số\n";
     		 n--;
     	 }
     	 return n >= 0;
+     }
+     
+     public boolean checkSo(String soLoi, String soLuong, String tanSoCoSo, String tanSoTurbo, String boNhoDem, String boNhoToiDa) {
+    	 try {
+    		 int a = Integer.parseInt(soLoi);
+    		 int b = Integer.parseInt(soLuong);
+    		 int c = Integer.parseInt(boNhoDem);
+    		 int d = Integer.parseInt(boNhoToiDa);
+    		 double e = Double.parseDouble(tanSoCoSo);
+    		 double f = Double.parseDouble(tanSoTurbo);
+    		 return true;
+    	 }catch(Exception e) {
+    		 
+    	 }
+    	 return false;
+     }
+     
+     public boolean checkSo_SP(String giaBan, String slt, String baoHanh, String giaNhap, String giamGia) {
+    	 try {
+    		  double giab = Double.parseDouble(giaBan);
+    		  double gian = Double.parseDouble(giaNhap);
+    		  int sluong = Integer.parseInt(slt);
+    		  int baoH = Integer.parseInt(baoHanh);
+    		  int giamG = Integer.parseInt(giamGia);
+    		  return true;
+    	 }catch(Exception e) {
+    		 
+    	 }
+    	 return false;
      }
      
      // validate cpu
@@ -133,13 +170,19 @@ public class SanPham_BUS {
     		 message_loai += "Vui lòng điền đầy đủ chi tiết cpu\n";
     		 return false;
     	 }else {
-    		 double a = Double.parseDouble(tanSoCoSo); 
-    		 double b = Double.parseDouble(tanSoTurbo);
-    		 if(Integer.parseInt(soLoi) < 0 || Integer.parseInt(soLuong) < 0 || Integer.parseInt(boNhoDem) < 0 || Integer.parseInt(boNhoToiDa) < 0
-    				 || a < 0 || b < 0) {
-    			 message_loai += "Số lõi, số luồng, tần số cơ sở, tần số turbo, bộ nhớ đệm và bộ nhớ tối đa đều không được là số âm\n";	 
-                  n--;    			 
+    		 if(checkSo(soLoi, soLuong, tanSoCoSo, tanSoTurbo, boNhoDem, boNhoToiDa)) {
+    			 double a = Double.parseDouble(tanSoCoSo); 
+        		 double b = Double.parseDouble(tanSoTurbo);
+        		 if(Integer.parseInt(soLoi) < 0 || Integer.parseInt(soLuong) < 0 || Integer.parseInt(boNhoDem) < 0 || Integer.parseInt(boNhoToiDa) < 0
+        				 || a < 0 || b < 0) {
+        			 message_loai += "Số lõi, số luồng, tần số cơ sở, tần số turbo, bộ nhớ đệm và bộ nhớ tối đa đều không được là số âm\n";	 
+                      n--;    			 
+        		 }
+    		 }else {
+    			 message_loai += "Số lõi, số luồng, tần số cơ sở, tần số turbo, bộ nhớ đệm và bộ nhớ tối đa phải là kí tự số";
+    			 n--;
     		 }
+    		
     	 }
     	 return n >= 0;
      }
@@ -151,10 +194,17 @@ public class SanPham_BUS {
     		 message_loai += "Vui lòng điền đầy đủ thông tin chi tiết của Vga\n";
     		 return false;
     	 }
-    	 if(Integer.parseInt(cudaCore) < 0 || Integer.parseInt(tienTrinh) < 0 || Integer.parseInt(tdp) < 0) {
-    		 message_loai += "Tiến trình, tdf và cudaCore đều không được là số âm\n";
+    	 if(tienTrinh.matches("^[\\d]+$") || tdp.matches("^[\\d]+$") || cudaCore.matches("^[\\d]+$")) {
+    		 if(Integer.parseInt(cudaCore) < 0 || Integer.parseInt(tienTrinh) < 0 || Integer.parseInt(tdp) < 0) {
+    			 message_loai += "Tiến trình, tdp và cudaCore đều không được là số âm\n";
+    			 n--;
+    		 }
+    	 }else {
+    		 message_loai += "Tiến trình, tdp và cudaCore phải là số\n";
     		 n--;
     	 }
+    	
+    	
     	 return n >= 0;
      }
      
@@ -165,8 +215,13 @@ public class SanPham_BUS {
     		 message_loai += "Vui lòng điền đầy đủ thông tin chi tiết của Psu(cục nguồn)\n";
     		 return false;
     	 }
-    	 if(Integer.parseInt(hieuSuat) < 0 || Integer.parseInt(congSuat) < 0 || Integer.parseInt(tuoiTho) < 0) {
-    		 message_loai += "Công suất, hiệu suất và tuổi thọ đều không được là số âm\n";
+    	 if(hieuSuat.matches("^[\\d]+$") || congSuat.matches("^[\\d]+$") || tuoiTho.matches("^[\\d]+$") ){
+    		 if(Integer.parseInt(hieuSuat) < 0 || Integer.parseInt(congSuat) < 0 || Integer.parseInt(tuoiTho) < 0) {
+    			 message_loai += "Công suất, hiệu suất và tuổi thọ đều không được là số âm\n";
+    			 n--;
+    		 } 
+    	 }else {
+    		 message_loai += "Công suất, hiệu suất và tuổi thọ phải là kí tự số\n";
     		 n--;
     	 }
     	 return n >= 0;
@@ -175,6 +230,7 @@ public class SanPham_BUS {
      public boolean validate_main(String chipSet, String ramHoTro, String cpuHoTro, String doHoa, String oCungHoTro) {
 
     	 int n = 0;
+    	 System.out.println(doHoa);
     	 if(chipSet.equals("") || ramHoTro.equals("") || cpuHoTro.equals("") ||
     			 doHoa.equals("") || oCungHoTro.equals("")) {
     		 message_loai += "Vui lòng điền đầy đủ thông tin chi tiết của Main";
@@ -211,7 +267,7 @@ public class SanPham_BUS {
     		 message_loai += "Vui lòng điền đẩy đủ thông tin chi tiết của Case\n";
     		 return false;
     	 }
-    	 if(!mauSac.matches("^[\\p{L}]+$")) {
+    	 if(!mauSac.matches("^[\\p{L} ]+$")) {
     		 message_loai += "Màu sắc chỉ gồm kí tự chữ\n";
     		 n--;
     	 }
@@ -229,19 +285,24 @@ public class SanPham_BUS {
     		 message_loai += "Vui lòng điền đầy đủ thông tin chi tiết của Ram\n";
     		 return false;
     	 }
-    	 if(Integer.parseInt(tocDo) < 0) {
-    		 message_loai += "Tốc độ không được là số âm\n";
-    		 n--;
-    	 }
-    	 if(Integer.parseInt(dungLuong) < 0) {
-    		 message_loai += "Dung lượng không được là số âm\n";
+    	 if(tocDo.matches("^[\\d]+$") || dungLuong.matches("^[\\d]+$")) {
+    		 if(Integer.parseInt(tocDo) < 0) {
+    			 message_loai += "Tốc độ không được là số âm\n";
+    			 n--;
+    		 }
+    		 if(Integer.parseInt(dungLuong) < 0) {
+    			 message_loai += "Dung lượng không được là số âm\n";
+    			 n--;
+    		 
+    		 }
+    	 }else {
+    		 message_loai += "Dung Lượng và Tốc độ phải là kí tự số\n";
     		 n--;
     	 }
     	 return n >= 0;
      }
      
-     
-     
+
      // xóa sản phẩm
      public boolean xoaSanPhamTheoMa(String ma, String key) {
     	 switch(key) {
@@ -503,7 +564,13 @@ public class SanPham_BUS {
 		}
 	}
 	
-	
-	
-	
+	public boolean checkMaTrung(String ma) {
+   	 ArrayList<SanPham> ds = sp_dao.getAllSanPham();
+   	 for (SanPham sp : ds) {
+			if(sp.getMaSanPham().equals(ma)) {
+				return false;
+			}
+		}
+   	 return true;
+    }
 }

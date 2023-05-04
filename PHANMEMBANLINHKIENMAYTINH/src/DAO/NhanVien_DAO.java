@@ -94,9 +94,8 @@ public class NhanVien_DAO {
 			n = statementCN.executeUpdate();
 			m = statementNV.executeUpdate();
 		} catch (SQLException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-					}finally {
+			return false;
+		}finally {
 			try {
 				statementCN.close();
 				statementNV.close();

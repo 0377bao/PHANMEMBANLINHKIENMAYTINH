@@ -42,7 +42,6 @@ public class XuLySuKien_GUISanPham implements ActionListener, KeyListener{
 		if(e.getKeyChar() != KeyEvent.CHAR_UNDEFINED) {
 			trangChu.xuLySuKienTXTtimKiem();
 		}
-		
 	}
 	
 	

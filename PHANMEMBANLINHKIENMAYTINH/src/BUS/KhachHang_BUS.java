@@ -48,18 +48,11 @@ public class KhachHang_BUS {
 		}else if(email.equals("")||!email.matches("[a-zA-Z0-9._]+@[a-zA-Z0-9.-]+\\.[a-zA-Z]{2,}")) {
 			mes = "Lỗi email không đúng định dạng";
 			return false;
-		}else if(diachi.equals("")||!diachi.matches("[\\p{L}\\d\\s,-.?]+")) {
+		}else if(diachi.equals("")||!diachi.matches("[\\p{L}\\d\\s,-.?/]+")) {
 			mes = "Lỗi địa chỉ không đúng định dạng";
 			return false;
 		}else return true;
 	}
-	
-//	public String ranDomMaKhachHang() {
-//		String maold = kh_DAO.getMaKhachHangMax();
-//		int so = Integer.parseInt(maold.replace("KH", "").trim());
-//		so++;
-//		return "KH" + so;
-//	}
 
 	public boolean themKhachHang (KhachHang kh) {
 		if(kh_DAO.getKhachHangTheoMa(kh.getMa()) != null) return false;

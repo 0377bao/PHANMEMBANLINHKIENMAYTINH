@@ -354,10 +354,10 @@ public class SanPham_DAO {
     		stmt_SP.setInt(9, them.getGiamGia());
     		stmt_SP.setString(10, them.getClass().getSimpleName().toUpperCase());
     		
-    		stmt_Vga.setInt(1, them.getTienTrinh());
-    		stmt_Vga.setInt(2, them.getTDP());
-    		stmt_Vga.setDouble(3, them.getCudaCores());
-    		stmt_Vga.setString(4, them.getMaSanPham());
+    		stmt_Vga.setInt(2, them.getTienTrinh());
+    		stmt_Vga.setInt(3, them.getTDP());
+    		stmt_Vga.setInt(4, them.getCudaCores());
+    		stmt_Vga.setString(1, them.getMaSanPham());
     		
     		n = stmt_SP.executeUpdate();
     		m = stmt_Vga.executeUpdate();
@@ -392,10 +392,10 @@ public class SanPham_DAO {
     		stmt_SP.setInt(9, them.getGiamGia());
     		stmt_SP.setString(10, them.getClass().getSimpleName().toUpperCase());
     		
-    		stmt_Psu.setInt(1, them.getCongSuat());
-    		stmt_Psu.setInt(2, them.getHieuSuat());
-    		stmt_Psu.setDouble(3, them.getTuoiTho());
-    		stmt_Psu.setString(4, them.getMaSanPham());
+    		stmt_Psu.setInt(2, them.getCongSuat());
+    		stmt_Psu.setInt(3, them.getHieuSuat());
+    		stmt_Psu.setInt(4, them.getTuoiTho());
+    		stmt_Psu.setString(1, them.getMaSanPham());
     		
     		n = stmt_SP.executeUpdate();
     		m = stmt_Psu.executeUpdate();
@@ -430,10 +430,9 @@ public class SanPham_DAO {
     		stmt_SP.setInt(9, them.getGiamGia());
     		stmt_SP.setString(10, them.getClass().getSimpleName().toUpperCase());
     		
-    		stmt_Ram.setInt(1, them.getDungLuong());
-    		stmt_Ram.setInt(2, them.getTocDo());
-    	
-    		stmt_Ram.setString(3, them.getMaSanPham());
+    		stmt_Ram.setInt(2, them.getDungLuong());
+    		stmt_Ram.setInt(3, them.getTocDo());
+    		stmt_Ram.setString(1, them.getMaSanPham());
     		
     		n = stmt_SP.executeUpdate();
     		m = stmt_Ram.executeUpdate();
@@ -452,7 +451,7 @@ public class SanPham_DAO {
     	PreparedStatement stmt_SP = null;
     	PreparedStatement stmt_Case = null;
     	String sql_sp = "Insert into SanPham values(?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
-    	String sql_Case = "Insert into CASES values (?, ?, ?, ?)";
+    	String sql_Case = "Insert into [CASE] values (?, ?, ?, ?)";
     	try {
     		stmt_SP = con.prepareStatement(sql_sp);
     		stmt_SP.setString(1, them.getMaSanPham());
@@ -478,7 +477,7 @@ public class SanPham_DAO {
     		m = stmt_Case.executeUpdate();
     		
     	}catch(SQLException e) {
-    		e.printStackTrace();
+    		return false;
     	}
     	return n > 0 && m > 0 ? true : false;
     }
@@ -672,7 +671,7 @@ public class SanPham_DAO {
         int n = 0;
         int m = 0;
         String sql = "delete from SanPham where MaSanPham = ?";
-        String sql_case = "delete from Cases where MaSanPham = ?";
+        String sql_case = "delete from [CASE] where MaSanPham = ?";
         PreparedStatement stmt = null;
         PreparedStatement stmt_case = null;
         try {
@@ -907,7 +906,7 @@ public class SanPham_DAO {
     	Connection con = ConnectDB.getConnection();
     	int n = 0;
     	int m = 0;
-    	String sql_case = "update CASES set chatLieu = ?, mau = ?, tuongThich = ? where maSanPham=?";
+    	String sql_case = "update [CASE] set chatLieu = ?, mau = ?, tuongThich = ? where maSanPham=?";
     	String sql_update = "update SanPham set TenSanPham=?, GiaBan=?, SoLuongTonKho=?, NhaSanXuat=?, NgaySanXuat=?, BaoHanh=?, GiaNhap=?, GiamGia=?, LoaiSanPham=? where maSanPham=?";
     	try {
 			PreparedStatement stmt_sp = con.prepareStatement(sql_update);

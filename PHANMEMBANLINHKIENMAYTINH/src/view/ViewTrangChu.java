@@ -667,7 +667,7 @@ public class ViewTrangChu extends JFrame {
 		Pattern patterncmnd = Pattern.compile("^\\d{9}(\\d{3})?$");
 		Pattern patternmk = Pattern.compile(".*");
 		Pattern patternemail = Pattern.compile("^\\w+([.-]?\\w+)*@\\w+([.-]?\\w+)*(\\.\\w{2,3})+$");
-		Pattern patterndiachi = Pattern.compile("[\\p{L}\\d\\s,-.?]+");
+		Pattern patterndiachi = Pattern.compile("[\\p{L}\\d\\s,-.?/]+");
 		Matcher matcherten = patternten.matcher(txtTen.getText());
 		if (!matcherten.matches()) {
 			JOptionPane.showMessageDialog(this, "Lỗi tên khách hàng phải là chữ", "Lỗi", JOptionPane.ERROR_MESSAGE);
@@ -754,7 +754,7 @@ public class ViewTrangChu extends JFrame {
 		Pattern patterncmnd = Pattern.compile("^\\d{9}(\\d{3})?$");
 		Pattern patternmk = Pattern.compile(".*");
 		Pattern patternemail = Pattern.compile("^\\w+([.-]?\\w+)*@\\w+([.-]?\\w+)*(\\.\\w{2,3})+$");
-		Pattern patterndiachi = Pattern.compile("[\\p{L}\\d\\s,-.?]+");
+		Pattern patterndiachi = Pattern.compile("[\\p{L}\\d\\s,-.?/]+");
 		Matcher matcherten = patternten.matcher(txtTen.getText());
 		if (!matcherten.matches()) {
 			JOptionPane.showMessageDialog(this, "Lỗi tên khách hàng phải là chữ", "Lỗi", JOptionPane.ERROR_MESSAGE);
@@ -2788,7 +2788,11 @@ public class ViewTrangChu extends JFrame {
 	public void themKhachHang() {
 		String mes = "";
 		if(kh_BUS.valiData(txt_tenKhachHang.getText(), txt_soDienThoaiKH.getText(), txt_emailKH.getText(), txt_AreaKH.getText(), radNamKH.isSelected(), radNuKH.isSelected())) {
-			kh_BUS.themKhachHang(new KhachHang(txt_maKhachHang.getText(), txt_tenKhachHang.getText(), txt_soDienThoaiKH.getText(), radNamKH.isSelected(), txt_emailKH.getText(), txt_AreaKH.getText(), 0));
+			if(kh_BUS.themKhachHang(new KhachHang(txt_maKhachHang.getText(), txt_tenKhachHang.getText(), txt_soDienThoaiKH.getText(), radNamKH.isSelected(), txt_emailKH.getText(), txt_AreaKH.getText(), 0))) {
+				JOptionPane.showMessageDialog(this, "Thêm thành công khách hàng");
+			}else {
+				JOptionPane.showMessageDialog(this, "Mã khách hàng đã tồn tại");
+			}
 		}else {
 			JOptionPane.showMessageDialog(this, kh_BUS.mes);
 		}
@@ -2861,14 +2865,13 @@ public class ViewTrangChu extends JFrame {
 	}
 
 	public SanPham revert_SanPham() {
-
 		String ma = txtSPMa.getText();
 		String ten = txtSPTen.getText();
-		double giaBan = Double.parseDouble(txtSPGiaBan.getText());
+		double giaBan = Double.parseDouble(txtSPGiaBan.getText().replaceAll(",", ""));
 		int slt = Integer.parseInt(txtSPSoLuongTon.getText());
 		int baoHanh = Integer.parseInt(txtSPBaoHanh.getText());
-		int giamGia = Integer.parseInt(txtSPGiamGia.getText());
-		double giaNhap = Double.parseDouble(txtSPGiaNhap.getText());
+		int giamGia = Integer.parseInt(txtSPGiamGia.getText().replaceAll(",", ""));
+		double giaNhap = Double.parseDouble(txtSPGiaNhap.getText().replaceAll(",", ""));
 		String nhasx = cbbSPNhaSX.getSelectedItem().toString();
 		int ngay = Integer.parseInt(cbbSPNgay.getSelectedItem().toString());
 		int thang = Integer.parseInt(cbbSPThang.getSelectedItem().toString());
@@ -2900,165 +2903,169 @@ public class ViewTrangChu extends JFrame {
 		if(o.equals(btnSPThem)) {
 			Boolean check = sp_BUS.Validate_sanpham(txtSPMa.getText(), txtSPTen.getText(), txtSPGiaBan.getText(), txtSPSoLuongTon.getText(), txtSPBaoHanh.getText(), txtSPGiaNhap.getText(), txtSPGiamGia.getText());
 			SanPham temp = new SanPham();
-			String key = cbbSPDanhMuc.getSelectedItem().toString();
-			switch(key) {
-			case "CPU": {
-				Boolean check_cpu = sp_BUS.validate_cpu(txtSPSoLoi.getText(), txtSPSoLuongXuLy.getText(), txtSPTanSoCoSo.getText(), txtSPTanSoTurbo.getText(), txtSPBoNhoDem.getText(), txtSPBoNhoToiDa.getText());
+			if(sp_BUS.checkMaTrung(txtSPMa.getText())) {
+				String key = cbbSPDanhMuc.getSelectedItem().toString();
+				switch(key) {
+				case "CPU": {
+					Boolean check_cpu = sp_BUS.validate_cpu(txtSPSoLoi.getText(), txtSPSoLuongXuLy.getText(), txtSPTanSoCoSo.getText(), txtSPTanSoTurbo.getText(), txtSPBoNhoDem.getText(), txtSPBoNhoToiDa.getText());
 
-				if( check == false || check_cpu == false) {
-					JOptionPane.showMessageDialog(this, check == false ? sp_BUS.message_sp + sp_BUS.message_loai : sp_BUS.message_loai);
-					sp_BUS.xoaThongBaoLoi();
-				}else {
-					temp = revert_SanPham();
-					int soLoi = Integer.parseInt(txtSPSoLoi.getText());
-					int soLuongXuLy = Integer.parseInt(txtSPSoLuongXuLy.getText());
-					double tanSoCoSo = Double.parseDouble(txtSPTanSoCoSo.getText());
-					double tanSoTurbo = Double.parseDouble(txtSPTanSoTurbo.getText());
-					int boNhoDem = Integer.parseInt(txtSPBoNhoDem.getText());
-					int boNhoToiDa = Integer.parseInt(txtSPBoNhoToiDa.getText());
-					Cpu p = new Cpu(temp.getMaSanPham(), temp.getTenSanPham(), temp.getGiaBan(),
-							temp.getSoLuongTonKho(), temp.getNhaSanXuat(), temp.getNgaySanXuat(),
-							temp.getBaoHanh(), temp.getGiaNhap(), temp.getGiamGia(),
-							soLoi, soLuongXuLy, tanSoCoSo, tanSoTurbo, boNhoDem, boNhoToiDa);
-					try {
-						sp_BUS.themSanPham_Cpu(p);
-						JOptionPane.showMessageDialog(this, "Thêm sản phẩm thành công");
-						remove_text();
-					}catch(Exception e) {
-						e.printStackTrace();
+					if( check == false || check_cpu == false) {
+						JOptionPane.showMessageDialog(this, check == false ? sp_BUS.message_sp + sp_BUS.message_loai : sp_BUS.message_loai);
+						sp_BUS.xoaThongBaoLoi();
+					}else {
+						temp = revert_SanPham();
+						int soLoi = Integer.parseInt(txtSPSoLoi.getText());
+						int soLuongXuLy = Integer.parseInt(txtSPSoLuongXuLy.getText());
+						double tanSoCoSo = Double.parseDouble(txtSPTanSoCoSo.getText());
+						double tanSoTurbo = Double.parseDouble(txtSPTanSoTurbo.getText());
+						int boNhoDem = Integer.parseInt(txtSPBoNhoDem.getText());
+						int boNhoToiDa = Integer.parseInt(txtSPBoNhoToiDa.getText());
+						Cpu p = new Cpu(temp.getMaSanPham(), temp.getTenSanPham(), temp.getGiaBan(),
+								temp.getSoLuongTonKho(), temp.getNhaSanXuat(), temp.getNgaySanXuat(),
+								temp.getBaoHanh(), temp.getGiaNhap(), temp.getGiamGia(),
+								soLoi, soLuongXuLy, tanSoCoSo, tanSoTurbo, boNhoDem, boNhoToiDa);
+						try {
+							sp_BUS.themSanPham_Cpu(p);
+							JOptionPane.showMessageDialog(this, "Thêm sản phẩm thành công");
+							remove_text();
+						}catch(Exception e) {
+							e.printStackTrace();
+						}
+
 					}
 
+					break;
+				}
+				case "VGA": {
+					Boolean check_vga = sp_BUS.validate_vga(txtSPTienTrinh.getText(), txtSPTDP.getText(), txtSPCudaCores.getText());
+
+					if( check == false || check_vga == false) {
+						JOptionPane.showMessageDialog(this, check == false ? sp_BUS.message_sp + sp_BUS.message_loai : sp_BUS.message_loai);
+						sp_BUS.xoaThongBaoLoi();
+					}else {
+						temp = revert_SanPham();
+						int tienTrinh = Integer.parseInt(txtSPTienTrinh.getText());
+						int TDP = Integer.parseInt(txtSPTDP.getText());
+						int cudaCores = Integer.parseInt(txtSPCudaCores.getText());
+						Vga v = new Vga(temp.getMaSanPham(), temp.getTenSanPham(), temp.getGiaBan(),
+								temp.getSoLuongTonKho(), temp.getNhaSanXuat(), temp.getNgaySanXuat(),
+								temp.getBaoHanh(), temp.getGiaNhap(), temp.getGiamGia(),
+								tienTrinh, TDP, cudaCores);
+						try {
+							sp_BUS.themSanPham_Vga(v);
+							JOptionPane.showMessageDialog(this, "Thêm sản phẩm thành công");
+							remove_text();
+						}catch(Exception e) {
+							e.printStackTrace();
+						}
+					}
+					break;
+				}
+				case "MAIN": {
+					//				String chipSet, String ramHoTro, String cpuHoTro, String doHoa, String oCungHoTro
+					Boolean check_main = sp_BUS.validate_main(txtSPMauChipset.getText(), txtSPRamHoTro.getText(), txtSPCpuHoTro.getText(), txtSPDoHoa.getText(), txtSPOCungHoTro.getText());
+					if( check == false || check_main == false) {
+						JOptionPane.showMessageDialog(this, check == false ? sp_BUS.message_sp + sp_BUS.message_loai : sp_BUS.message_loai);
+						sp_BUS.xoaThongBaoLoi();					
+					}else {
+						temp = revert_SanPham();
+						String mau = txtSPMauChipset.getText();
+						String oCung = txtSPOCungHoTro.getText();
+						String cpuHoTro = txtSPCpuHoTro.getText();
+						String ramHoTro = txtSPRamHoTro.getText();
+						String doHoa = txtSPDoHoa.getText();
+						Main m = new Main(temp.getMaSanPham(), temp.getTenSanPham(), temp.getGiaBan(),
+								temp.getSoLuongTonKho(), temp.getNhaSanXuat(), temp.getNgaySanXuat(),
+								temp.getBaoHanh(), temp.getGiaNhap(), temp.getGiamGia(),
+								mau, ramHoTro, cpuHoTro, doHoa, oCung);
+						try {
+							sp_BUS.themSanPham_Main(m);
+							JOptionPane.showMessageDialog(this, "Thêm sản phẩm thành công");
+							remove_text();
+						}catch(Exception e) {
+							e.printStackTrace();
+						}
+					}
+					break;
+				}
+				case "PSU": {
+					Boolean check_psu = sp_BUS.validate_psu(txtSPCongSuat.getText(), txtSPHieuSuat.getText(), txtSPTuoiTho.getText());
+					if(check == false || check_psu == false) {
+						JOptionPane.showMessageDialog(this, check == false ? sp_BUS.message_sp + sp_BUS.message_loai : sp_BUS.message_loai);
+						sp_BUS.xoaThongBaoLoi();					
+					}else {
+						temp = revert_SanPham();
+						int congSuat = Integer.parseInt(txtSPCongSuat.getText());
+						int hieuSuat = Integer.parseInt(txtSPHieuSuat.getText());
+						int tuoiTho = Integer.parseInt(txtSPTuoiTho.getText());
+						Psu ps = new Psu(temp.getMaSanPham(), temp.getTenSanPham(), temp.getGiaBan(),
+								temp.getSoLuongTonKho(), temp.getNhaSanXuat(), temp.getNgaySanXuat(),
+								temp.getBaoHanh(), temp.getGiaNhap(), temp.getGiamGia(),
+								congSuat, hieuSuat, tuoiTho);
+						try {
+							sp_BUS.themSanPham_Psu(ps);
+							JOptionPane.showMessageDialog(this, "Thêm sản phẩm thành công");
+							remove_text();
+						}catch(Exception e) {
+							e.printStackTrace();
+						}
+					}
+					break;
+				}
+				case "RAM": {
+					Boolean check_ram = sp_BUS.validate_ram(txtSPDungLuong.getText(), txtSPTocDo.getText());
+					if( check == false || check_ram == false) {
+						JOptionPane.showMessageDialog(this, check == false ? sp_BUS.message_sp + sp_BUS.message_loai : sp_BUS.message_loai);
+						sp_BUS.xoaThongBaoLoi();					
+					}else {
+						temp = revert_SanPham();
+						int dungLuong = Integer.parseInt(txtSPDungLuong.getText());
+						int tocDo = Integer.parseInt(txtSPTocDo.getText());
+						Ram r = new Ram(temp.getMaSanPham(), temp.getTenSanPham(), temp.getGiaBan(),
+								temp.getSoLuongTonKho(), temp.getNhaSanXuat(), temp.getNgaySanXuat(),
+								temp.getBaoHanh(), temp.getGiaNhap(), temp.getGiamGia(),
+								dungLuong, tocDo);
+						try {
+							sp_BUS.themSanPham_Ram(r);
+							JOptionPane.showMessageDialog(this, "Thêm sản phẩm thành công");
+							remove_text();
+						}catch(Exception e) {
+							e.printStackTrace();
+						}
+
+					}
+					break;
+				}
+				case "CASE": {
+					Boolean check_case = sp_BUS.validate_case(txtSPMau.getText(), txtSPTuongThich.getText());
+					if( check == false || check_case == false) {
+						JOptionPane.showMessageDialog(this, check == false ? sp_BUS.message_sp + sp_BUS.message_loai : sp_BUS.message_loai);
+						sp_BUS.xoaThongBaoLoi();					
+					}else {
+						temp = revert_SanPham();
+						String mauSac = txtSPMau.getText();
+						String tuongThich = txtSPTuongThich.getText();
+						String chatLieu = cbbSPChatLieu.getSelectedItem().toString();
+						Case ca = new Case( temp.getMaSanPham(), temp.getTenSanPham(), temp.getGiaBan(),
+								temp.getSoLuongTonKho(), temp.getNhaSanXuat(), temp.getNgaySanXuat(),
+								temp.getBaoHanh(), temp.getGiaNhap(), temp.getGiamGia(),
+								chatLieu, mauSac, tuongThich);
+						try {
+							sp_BUS.themSanPham_Case(ca);
+							JOptionPane.showMessageDialog(this, "Thêm sản phẩm thành công");
+							remove_text();
+						}catch(Exception e) {
+							e.printStackTrace();
+						}
+					}
+					break;
 				}
 
-				break;
-			}
-			case "VGA": {
-				Boolean check_vga = sp_BUS.validate_vga(txtSPTienTrinh.getText(), txtSPTDP.getText(), txtSPCudaCores.getText());
-
-				if( check == false || check_vga == false) {
-					JOptionPane.showMessageDialog(this, check == false ? sp_BUS.message_sp + sp_BUS.message_loai : sp_BUS.message_loai);
-					sp_BUS.xoaThongBaoLoi();
-				}else {
-					temp = revert_SanPham();
-					int tienTrinh = Integer.parseInt(txtSPTienTrinh.getText());
-					int TDP = Integer.parseInt(txtSPTDP.getText());
-					int cudaCores = Integer.parseInt(txtSPCudaCores.getText());
-					Vga v = new Vga(temp.getMaSanPham(), temp.getTenSanPham(), temp.getGiaBan(),
-							temp.getSoLuongTonKho(), temp.getNhaSanXuat(), temp.getNgaySanXuat(),
-							temp.getBaoHanh(), temp.getGiaNhap(), temp.getGiamGia(),
-							tienTrinh, TDP, cudaCores);
-					try {
-						sp_BUS.themSanPham_Vga(v);
-						JOptionPane.showMessageDialog(this, "Thêm sản phẩm thành công");
-						remove_text();
-					}catch(Exception e) {
-						e.printStackTrace();
-					}
 				}
-				break;
+				reloadTable();
+			}else {
+				JOptionPane.showMessageDialog(this, "Mã sản phẩm đã tồn tại");
 			}
-			case "MAIN": {
-				//				String chipSet, String ramHoTro, String cpuHoTro, String doHoa, String oCungHoTro
-				Boolean check_main = sp_BUS.validate_main(txtSPMauChipset.getText(), txtSPRamHoTro.getText(), txtSPCpuHoTro.getText(), txtSPDoHoa.getName(), txtSPOCungHoTro.getText());
-				if( check == false || check_main == false) {
-					JOptionPane.showMessageDialog(this, check == false ? sp_BUS.message_sp + sp_BUS.message_loai : sp_BUS.message_loai);
-					sp_BUS.xoaThongBaoLoi();					
-				}else {
-					temp = revert_SanPham();
-					String mau = txtSPMauChipset.getText();
-					String oCung = txtSPOCungHoTro.getText();
-					String cpuHoTro = txtSPCpuHoTro.getText();
-					String ramHoTro = txtSPRamHoTro.getText();
-					String doHoa = txtSPDoHoa.getText();
-					Main m = new Main(temp.getMaSanPham(), temp.getTenSanPham(), temp.getGiaBan(),
-							temp.getSoLuongTonKho(), temp.getNhaSanXuat(), temp.getNgaySanXuat(),
-							temp.getBaoHanh(), temp.getGiaNhap(), temp.getGiamGia(),
-							mau, ramHoTro, cpuHoTro, doHoa, oCung);
-					try {
-						sp_BUS.themSanPham_Main(m);
-						JOptionPane.showMessageDialog(this, "Thêm sản phẩm thành công");
-						remove_text();
-					}catch(Exception e) {
-						e.printStackTrace();
-					}
-				}
-				break;
-			}
-			case "PSU": {
-				Boolean check_psu = sp_BUS.validate_psu(txtSPCongSuat.getText(), txtSPHieuSuat.getText(), txtSPTuoiTho.getText());
-				if(check == false || check_psu == false) {
-					JOptionPane.showMessageDialog(this, check == false ? sp_BUS.message_sp + sp_BUS.message_loai : sp_BUS.message_loai);
-					sp_BUS.xoaThongBaoLoi();					
-				}else {
-					temp = revert_SanPham();
-					int congSuat = Integer.parseInt(txtSPCongSuat.getText());
-					int hieuSuat = Integer.parseInt(txtSPHieuSuat.getText());
-					int tuoiTho = Integer.parseInt(txtSPTuoiTho.getText());
-					Psu ps = new Psu(temp.getMaSanPham(), temp.getTenSanPham(), temp.getGiaBan(),
-							temp.getSoLuongTonKho(), temp.getNhaSanXuat(), temp.getNgaySanXuat(),
-							temp.getBaoHanh(), temp.getGiaNhap(), temp.getGiamGia(),
-							congSuat, hieuSuat, tuoiTho);
-					try {
-						sp_BUS.themSanPham_Psu(ps);
-						JOptionPane.showMessageDialog(this, "Thêm sản phẩm thành công");
-						remove_text();
-					}catch(Exception e) {
-						e.printStackTrace();
-					}
-				}
-				break;
-			}
-			case "RAM": {
-				Boolean check_ram = sp_BUS.validate_ram(txtSPDungLuong.getText(), txtSPTocDo.getText());
-				if( check == false || check_ram == false) {
-					JOptionPane.showMessageDialog(this, check == false ? sp_BUS.message_sp + sp_BUS.message_loai : sp_BUS.message_loai);
-					sp_BUS.xoaThongBaoLoi();					
-				}else {
-					temp = revert_SanPham();
-					int dungLuong = Integer.parseInt(txtSPDungLuong.getText());
-					int tocDo = Integer.parseInt(txtSPTocDo.getText());
-					Ram r = new Ram(temp.getMaSanPham(), temp.getTenSanPham(), temp.getGiaBan(),
-							temp.getSoLuongTonKho(), temp.getNhaSanXuat(), temp.getNgaySanXuat(),
-							temp.getBaoHanh(), temp.getGiaNhap(), temp.getGiamGia(),
-							dungLuong, tocDo);
-					try {
-						sp_BUS.themSanPham_Ram(r);
-						JOptionPane.showMessageDialog(this, "Thêm sản phẩm thành công");
-						remove_text();
-					}catch(Exception e) {
-						e.printStackTrace();
-					}
-
-				}
-				break;
-			}
-			case "CASE": {
-				Boolean check_case = sp_BUS.validate_case(txtSPMau.getText(), txtSPTuongThich.getText());
-				if( check == false || check_case == false) {
-					JOptionPane.showMessageDialog(this, check == false ? sp_BUS.message_sp + sp_BUS.message_loai : sp_BUS.message_loai);
-					sp_BUS.xoaThongBaoLoi();					
-				}else {
-					temp = revert_SanPham();
-					String mauSac = txtSPMau.getText();
-					String tuongThich = txtSPTuongThich.getText();
-					String chatLieu = cbbSPChatLieu.getSelectedItem().toString();
-					Case ca = new Case( temp.getMaSanPham(), temp.getTenSanPham(), temp.getGiaBan(),
-							temp.getSoLuongTonKho(), temp.getNhaSanXuat(), temp.getNgaySanXuat(),
-							temp.getBaoHanh(), temp.getGiaNhap(), temp.getGiamGia(),
-							chatLieu, mauSac, tuongThich);
-					try {
-						sp_BUS.themSanPham_Case(ca);
-						JOptionPane.showMessageDialog(this, "Thêm sản phẩm thành công");
-						remove_text();
-					}catch(Exception e) {
-						e.printStackTrace();
-					}
-				}
-				break;
-			}
-
-			}
-			reloadTable();
 		}
 		if(o.equals(btnSPXoa)) {
 			int row = tableSP.getSelectedRow();
@@ -3068,6 +3075,7 @@ public class ViewTrangChu extends JFrame {
 					modelSP.removeRow(row);
 					remove_text();
 					JOptionPane.showMessageDialog(this, "Xóa thành công sản phẩm");
+					txtSPMa.setEditable(true);
 				}
 			}else {
 				JOptionPane.showMessageDialog(this, "Vui lòng chọn dòng cần xóa");
@@ -3243,7 +3251,7 @@ public class ViewTrangChu extends JFrame {
 					break;
 				}
 				}
-
+				txtSPMa.setEditable(true);
 			}else {
 				JOptionPane.showMessageDialog(this, "Vui lòng chọn dòng cần sửa");
 			}
@@ -3255,14 +3263,17 @@ public class ViewTrangChu extends JFrame {
 
 	public void uploadTbSanPham() {
 		int row = tableSP.getSelectedRow();
+		double giaBan = Double.parseDouble(modelSP.getValueAt(row, 2).toString().replaceAll(",", ""));
+		double giaNhap = Double.parseDouble(modelSP.getValueAt(row, 7).toString().replaceAll(",", ""));
+		double giamGia = Double.parseDouble(modelSP.getValueAt(row, 8).toString().replaceAll(",", ""));
 		txtSPMa.setText(modelSP.getValueAt(row, 0).toString());
 		txtSPMa.setEditable(false);
 		txtSPTen.setText(modelSP.getValueAt(row, 1).toString());
-		txtSPGiaBan.setText(modelSP.getValueAt(row, 2).toString());
+		txtSPGiaBan.setText(dinhDangTien(giaBan));
 		txtSPSoLuongTon.setText(modelSP.getValueAt(row, 3).toString());
 		txtSPBaoHanh.setText(modelSP.getValueAt(row, 6).toString());
-		txtSPGiaNhap.setText(modelSP.getValueAt(row, 7).toString());
-		txtSPGiamGia.setText(modelSP.getValueAt(row, 8).toString());
+		txtSPGiaNhap.setText(dinhDangTien(giaNhap));
+		txtSPGiamGia.setText(dinhDangTien(giamGia));
 		cbbSPNhaSX.setSelectedItem(modelSP.getValueAt(row, 4).toString());
 		if(modelSP.getValueAt(row, 5).toString().trim().substring(8, 9).equals("0")) {
 			cbbSPNgay.setSelectedItem(modelSP.getValueAt(row, 5).toString().trim().substring(9, 10));
@@ -3372,7 +3383,6 @@ public class ViewTrangChu extends JFrame {
 
 	public void xuLyDuLieuLocTrenCombobox() {
 		ArrayList<SanPham> ds = sp_BUS.getDSanPhams();
-
 		locTheoLoaiSanPham(ds);	
 		locTheoNhaSanXuat(ds);
 		locTheoGia(ds);

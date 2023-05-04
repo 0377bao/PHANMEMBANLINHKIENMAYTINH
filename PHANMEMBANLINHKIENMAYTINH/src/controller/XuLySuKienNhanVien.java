@@ -50,12 +50,7 @@ public class XuLySuKienNhanVien implements ActionListener,KeyListener,MouseListe
 	@Override
 	public void keyReleased(KeyEvent e) {
 		
-		String tim = view.getTimKiem();  
-//		if(tim.equals("")) {
-//			this.view.DocDuLieuDatabaseVaoTable();
-//		}else {
-//			this.view.timKiem();
-//		}
+		String tim = view.getTimKiem();
 		this.view.timKiem();
 		
 		
